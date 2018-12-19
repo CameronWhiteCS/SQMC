@@ -33,7 +33,7 @@ import squeeze.theorem.skill.Skill;
 import squeeze.theorem.skill.witchcraft.Spellbook;
 
 public class DataManager implements Listener, Runnable {
-	/*Test comment*/
+	/*Test commentt*/
 	/*Static fields*/
 	private static Map<UUID, PlayerData> players = new ConcurrentHashMap<UUID, PlayerData>();
 	private static Map<UUID, PlayerData> prelogin = new ConcurrentHashMap<UUID, PlayerData>();
