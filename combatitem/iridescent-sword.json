@@ -1,0 +1,12 @@
+{
+	"name":"Iridescent sword",
+	"material":"DIAMOND_SWORD",
+	"melee-strength":"7",
+	"melee-accuracy":"46",
+	"requirements":{
+		"strength":"60"
+	},
+	"enchantments":{
+		"FLAME":"1"
+	}
+}

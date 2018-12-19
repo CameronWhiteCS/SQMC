@@ -1,0 +1,9 @@
+Quests: Embargo
+flags:
+quest.embargo.start
+quest.embargo.receive_embargo_letter
+quest.embargo.deliver_embargo_letter
+quest.embargo.receive_layoff_notice
+quest.embargo.deliver_layoff_notice
+
+quest.embargo.end

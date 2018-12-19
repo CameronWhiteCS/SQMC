@@ -1,0 +1,24 @@
+main: squeeze.theorem.main.SQMC
+author: SqueezeTheorem
+name: SQMC
+version: 0.10
+depend: [dynmap, NoteBlockAPI]
+api-version: 1.13
+commands:
+  skills:
+    usage: /skills <name>
+    aliases: stats
+  itemgen:
+    usage: /itemgen <id> <amount>
+  dialogue:
+    usage: /dialogue <int>
+  quest:
+    usage: /quest
+    aliases: quests
+  spellbook:
+    usage: /spellbook
+    aliases: spell
+  sqmcxp:
+    usage: /sqmcxp <skill> <double>
+  settings:
+    usage: /settings
