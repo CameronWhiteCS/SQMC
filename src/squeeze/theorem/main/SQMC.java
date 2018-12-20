@@ -33,7 +33,7 @@ import squeeze.theorem.ui.InterfaceMechanics;
 public class SQMC extends JavaPlugin {
 	
 	/*Static fields*/
-	public static final String VERSION = "Indev 0.14";
+	public static final String VERSION = "Indev 0.16d";
 	
 	@Override
 	public void onEnable() {

@@ -35,7 +35,8 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 	private Map<Skill, Integer> requirements = new HashMap<Skill, Integer>();
 
 	private double health;
-	private boolean wand;
+	private boolean wand = false;
+	private boolean twoHanded = false;
 
 	/* Constructors */
 	public CombatItem(int ID, String name, Material material, String... lore) {
@@ -61,6 +62,14 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 
 	public void setWand(boolean wand) {
 		this.wand = wand;
+	}
+	
+	public boolean isTwoHanded() {
+		return twoHanded;
+	}
+
+	public void setTwoHanded(boolean twoHanded) {
+		this.twoHanded = twoHanded;
 	}
 	
 	@Override
@@ -154,7 +163,7 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		return this;
 	}
 
-	public static CustomItem fromJSON(int ID, JSONObject obj) {
+	public static CombatItem fromJSON(int ID, JSONObject obj) {
 		
 		/*Initialize the variables*/
 		String name = "";
@@ -167,6 +176,7 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		double meleeAccuracy = 0, rangedAccuracy = 0, magicAccuracy = 0;
 		double meleeDefense = 0, rangedDefense = 0, magicDefense = 0;
 		boolean wand = false;
+		boolean twoHanded = false;
 		
 		
 		/*Assign values to the variables*/
@@ -182,6 +192,7 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		if(obj.has("health")) health = obj.getDouble("health");
 		if(obj.has("name")) name = obj.getString("name");
 		if(obj.has("wand")) wand = obj.getBoolean("wand");
+		if(obj.has("two-handed")) twoHanded = (obj.getBoolean("two-handed"));
 		
 		if(obj.has("material")){
 			String materialString = obj.getString("material");
@@ -235,6 +246,7 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		ci.setHealth(health);
 		ci.setWand(wand);
 		ci.setRequirements(requirements);
+		ci.setTwoHanded(twoHanded);
 		ci.setEnchantments(enchantments);
 		
 		return ci;

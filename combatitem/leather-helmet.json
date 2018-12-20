@@ -1,9 +1,9 @@
 {
 	"name":"Leather helmet",
 	"material":"LEATHER_HELMET",
-	"melee-defense":"2",
-	"ranged-defense":"4",
-	"magic-defense":"1",
+	"melee-defense":"10",
+	"ranged-defense":"15",
+	"magic-defense":"5",
 	"ranged-strength":"-2",
 	"magic-strength":"-2",
 	"requirements":{

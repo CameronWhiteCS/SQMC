@@ -6,5 +6,3 @@ In order to build SQMC successfully, you'll need to add the following dedendenci
 - Bukkit (1.13)
 - NoteBlockAPI
 - MySQL Connector/J
-
-.

@@ -2,7 +2,7 @@
 	"name":"Wooden sword",
 	"material":"WOODEN_SWORD",
 	"melee-strength":"1",
-	"melee-accuracy":"2",
+	"melee-accuracy":"1",
 	"lore":[
 		"The splinters make it impractical"
 	],

@@ -2,7 +2,7 @@
 	"name":"Steel sword",
 	"material":"IRON_SWORD",
 	"melee-strength":"5",
-	"melee-accuracy":"21",
+	"melee-accuracy":"10.5",
 	"requirements":{
 		"strength":"40"
 	},

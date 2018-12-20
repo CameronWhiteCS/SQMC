@@ -2,7 +2,7 @@
 	"name":"Cobblestone sword",
 	"material":"STONE_SWORD",
 	"melee-strength":"2",
-	"melee-accuracy":"4",
+	"melee-accuracy":"2",
 	"requirements":{
 		"strength":"10"
 	}
