@@ -64,8 +64,9 @@ public class CombatManager implements Listener, Runnable {
 		double defense = getDefense(style, damagee);
 		
 		/* Make people abusing entity mechanics miss */
+		
 		SQMCEntity ce = SQMCEntity.getSQMCEntity(damagee);
-		if (ce != null) {
+		/*if (ce != null) {
 			if (ce instanceof Boundable) {
 				Boundable boundable = (Boundable) ce;
 				Location loc = SQMCEntity.getLocation(damagee);
@@ -87,7 +88,7 @@ public class CombatManager implements Listener, Runnable {
 				}
 
 			}
-		}
+		}*/
 		
 		
 		//Defense calculations
@@ -162,7 +163,7 @@ public class CombatManager implements Listener, Runnable {
 		/*Let the victim fight back*/
 		if(damagee instanceof Mob) {
 			Mob mob = (Mob) damagee;
-			if(mob.getTarget() == null) mob.setTarget(damager);
+			mob.setTarget(damager);
 		}
 
 	}

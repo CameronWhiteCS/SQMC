@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -413,16 +414,16 @@ public class PlayerData implements CombatStats {
 		if(style == AttackStyle.MAGIC) skill = Skill.witchcraft;
 		if(style == AttackStyle.MELEE) skill = Skill.strength;
 		
-		awardXP(Skill.hitpoints, damage * 1.5);
+		awardXP(Skill.hitpoints, damage * 1);
 		
 		if (getCombatMode() == CombatMode.AGGRESSIVE) {
-			awardXP(skill, damage * 3);
+			awardXP(skill, damage * 2);
 		} else if (getCombatMode() == CombatMode.DEFENSIVE) {
-			awardXP(Skill.defense, damage * 3);
+			awardXP(Skill.defense, damage * 2);
 			
 		} else {
-			awardXP(Skill.defense, damage * 1.5);
-			awardXP(skill, damage * 1.5);
+			awardXP(Skill.defense, damage * 1);
+			awardXP(skill, damage * 1);
 		}
 	
 	}
@@ -454,7 +455,7 @@ public class PlayerData implements CombatStats {
 
 			getPlayer().setScoreboard(board);
 		} catch(Exception exc) {
-			System.out.println("Error initializing player scoreboard");
+			Bukkit.getLogger().log(Level.SEVERE, String.format("[SQMC] Error initializing scoreboard for player %s (uuid='%s').", getPlayer().getName(), getPlayer().getUniqueId()));
 			exc.printStackTrace();
 		}
 
@@ -564,7 +565,7 @@ public class PlayerData implements CombatStats {
 		for (CombatItem ci : getCombatItems()) {
 			if(ci.meetsRequirements(getPlayer())) total += ci.getDefense(style);
 		}
-		total += 0.1 * getLevel(Skill.defense);
+		total += getLevel(Skill.defense);
 		return total;
 	}
 

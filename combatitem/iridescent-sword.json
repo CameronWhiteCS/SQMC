@@ -2,7 +2,7 @@
 	"name":"Iridescent sword",
 	"material":"DIAMOND_SWORD",
 	"melee-strength":"7",
-	"melee-accuracy":"23",
+	"melee-accuracy":"146",
 	"requirements":{
 		"strength":"60"
 	},

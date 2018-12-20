@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,11 +19,13 @@ import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -75,6 +78,7 @@ public class SQMCEntity implements Listener, Runnable {
 	private static Map<Entity, Location> spawnpoints = new HashMap<Entity, Location>();
 	private static Map<Entity, Location> previousLocation = new HashMap<Entity, Location>();
 	private static Map<Entity, Location> currentLocation = new HashMap<Entity, Location>();
+	private static Map<Entity, Long> lastStruck = new ConcurrentHashMap<Entity, Long>();
 	protected static DialogueType NPC = DialogueType.NPC;
 	protected static DialogueType PLAYER = DialogueType.PLAYER;
 	public static List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
@@ -99,6 +103,7 @@ public class SQMCEntity implements Listener, Runnable {
 	public static GenericMob uppkomstBat = GenericMob.fromFileName("uppkomst-bat");
 	public static GenericMob uppkomstCaveSpider = GenericMob.fromFileName("uppkomst-cavespider");
 	public static GenericMob uppkomstFiend = GenericMob.fromFileName("uppkomst-fiend");
+	public static GenericMob uppkomstUndeadMiner = GenericMob.fromFileName("uppkomst-undead-miner");
 	
 	//Fires	
 	public static SQMCEntityFire fireSpruce = new SQMCEntityFire("Spruce fire", CustomItem.SPRUCE_LOG, 1, 11.0, 30 * 20L, 1, 1);
@@ -542,6 +547,63 @@ public class SQMCEntity implements Listener, Runnable {
 		condtionallyVisible();
 	}
 	
+	@EventHandler
+	public void onStrike(EntityDamageByEntityEvent evt) {
+		
+		if(evt.getDamager() instanceof Player == false || evt.getEntity() instanceof Player) return;
+		
+		if(evt.isCancelled()) return;
+		
+		lastStruck.put(evt.getEntity(), System.currentTimeMillis());
+		
+	}
+	
+	
+	
+	private static void boundEntities() {
+		
+		for(Entity e: lastStruck.keySet()) {
+			long diff = System.currentTimeMillis() - lastStruck.get(e);
+			if(diff > 60000) lastStruck.remove(e);
+		}
+		
+		for(World w: Bukkit.getWorlds()){
+			for(Entity e: w.getEntities()) {
+						
+				SQMCEntity ce = getSQMCEntity(e);
+				if(ce == null) continue;	
+				
+				if(ce instanceof Boundable == false) continue;
+				Boundable boundable = (Boundable) ce;
+					
+				if(e instanceof Mob == false) return;
+				Mob m = (Mob) e;
+				
+				if(lastStruck.containsKey(e) || m.getTarget() instanceof Player) continue;
+				
+				Location origin = getLocation(e);
+				if(origin == null) continue;
+				
+				double x = e.getLocation().getX();
+				double y = e.getLocation().getY();
+				double z = e.getLocation().getZ();
+				
+				Vector v = new Vector(x, y, z).subtract(new Vector(origin.getX(), origin.getY(), origin.getZ()));
+				if(v.length() > boundable.getWanderRadius()) {
+					
+					e.teleport(previousLocation.get(e));
+					currentLocation.put(e, e.getLocation());
+					
+				} else {
+					
+					previousLocation.put(e, currentLocation.get(e));
+					currentLocation.put(e, e.getLocation());
+					
+				}
+			}
+		}
+	}
+	
 	private static void condtionallyVisible() {
 		
 		
@@ -573,40 +635,6 @@ public class SQMCEntity implements Listener, Runnable {
 			}
 		}
 		
-	}
-	
-	private static void boundEntities() {
-		for(World w: Bukkit.getWorlds()){
-			for(Entity e: w.getEntities()) {
-						
-				SQMCEntity ce = getSQMCEntity(e);
-				if(ce == null) continue;
-
-				if(ce instanceof Boundable == false) continue;
-				Boundable boundable = (Boundable) ce;
-				
-				Location origin = getLocation(e);
-				if(origin == null) continue;
-
-				
-				double x = e.getLocation().getX();
-				double y = e.getLocation().getY();
-				double z = e.getLocation().getZ();
-				
-				Vector v = new Vector(x, y, z).subtract(new Vector(origin.getX(), origin.getY(), origin.getZ()));
-				if(v.length() > boundable.getWanderRadius()) {
-					
-					e.teleport(previousLocation.get(e));
-					currentLocation.put(e, e.getLocation());
-					
-				} else {
-					
-					previousLocation.put(e, currentLocation.get(e));
-					currentLocation.put(e, e.getLocation());
-					
-				}
-			}
-		}
 	}
 	
 	/* Death of custom entities */	

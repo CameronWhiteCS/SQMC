@@ -2,7 +2,7 @@
 	"name":"Radiant sword",
 	"material":"DIAMOND_SWORD",
 	"melee-strength":"8",
-	"melee-accuracy":"31",
+	"melee-accuracy":"196",
 	"requirements":{
 		"strength":"70"
 	},

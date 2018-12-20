@@ -2,7 +2,7 @@
 	"name":"Stone sword",
 	"material":"STONE_SWORD",
 	"melee-strength":"3",
-	"melee-accuracy":"3.5",
+	"melee-accuracy":"49.5",
 	"requirements":{
 		"strength":"20"
 	},

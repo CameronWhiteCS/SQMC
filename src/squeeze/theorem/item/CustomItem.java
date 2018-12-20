@@ -222,8 +222,9 @@ public class CustomItem implements Listener {
 	public static final CustomItem BRIGHTBRIAR_LETTER = new CustomItem(603, "Brightbriar letter", Material.PAPER, "I should take this to Brightbriar");
 	public static final CustomItem LAYOFF_NOTICE = new CustomItem(603, "Layoff notice", Material.PAPER, "I have a bad feeling about", "delivering this...");
 	
-	/*Chemistry*/
+	/*Alchemy/Witchcraft*/
 	public static final CustomItem SPIDER_EYE = new CustomItem(701, "Spider eye", Material.SPIDER_EYE, "");
+	public static final CustomItem ROTTEN_FLESH = new CustomItem(702, "Rotten flesh", Material.ROTTEN_FLESH, "Could use some salt");
 	
 	/* Constructors */
 
