@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import squeeze.theorem.data.DataManager;
+import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.data.SessionData;
 import squeeze.theorem.event.SQMCRecipeEvent;
 import squeeze.theorem.item.CustomItem;
@@ -892,14 +893,6 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 			return false;
 		}
 		
-		if (player.getInventory().firstEmpty() == -1) {
-			if(notify) player.sendMessage(ChatColor.RED + "Your inventory is full.");
-			player.closeInventory();
-			return false;
-		}
-		
-		
-		
 		return true;
 	}
 	
@@ -969,7 +962,8 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 	
 		}
 	
-		player.getInventory().addItem(getOutput().getItemStack(getAmount()));
+		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		dat.giveItem(getOutput().getItemStack(getAmount()));
 		player.getWorld().playSound(player.getLocation(), getRecipeType().getSound(), getRecipeType().getVolume(), 0);
 	
 	}//END OF METHOD

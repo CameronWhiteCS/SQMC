@@ -1,0 +1,18 @@
+{
+    "name":"Hard leather leggings",
+    "material":"LEATHER_LEGGINGS",
+    "melee-defense":"20",
+    "ranged-defense":"30",
+    "magic-defense":"10",
+    "ranged-accuracy":"-10",
+    "magic-accuracy":"-30",
+    "requirements":{
+        "defense":"10"
+    },
+    "enchantments":{
+    	"FLAME":"1"
+    },
+	"lore":[
+		"Is this vegan?"
+	]
+}

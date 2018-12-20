@@ -131,16 +131,16 @@ public class CustomItem implements Listener {
 	public static final CustomItem COOKED_TURTLE_EGG = new CustomItemFood(227, "Cooked turtle egg", Material.TURTLE_EGG, 2, "");
 	
 	/*Melee: Armor, Swords, Shields*/
-	public static final CustomItem LEATHER_BOOTS = new CombatItem(301, "Leather boots", Material.LEATHER_BOOTS, "Is this vegan?");
-	public static final CustomItem LEATHER_HELMET = CombatItem.fromFileName(302, "leather-helmet");
-	public static final CustomItem LEATHER_LEGGINGS = new CombatItem(303, "Leather leggings", Material.LEATHER_LEGGINGS, "Is this vegan?");
-	public static final CustomItem LEATHER_CHESTPLATE = new CombatItem(304, "Leather chestplate", Material.LEATHER_CHESTPLATE, "Is this vegan?");
+	public static final CustomItem LEATHER_HELMET = CombatItem.fromFileName(301, "leather-helmet");
+	public static final CustomItem LEATHER_CHESTPLATE = CombatItem.fromFileName(302, "leather-chestplate");
+	public static final CustomItem LEATHER_LEGGINGS = CombatItem.fromFileName(303, "leather-leggings");
+	public static final CustomItem LEATHER_BOOTS = CombatItem.fromFileName(304, "leather-boots");
 	public static final CustomItem WOODEN_SWORD = CombatItem.fromFileName(305, "wooden-sword");
 	
-	public static final CustomItem HARD_LEATHER_BOOTS = new CombatItem(306, "Hard leather boots", Material.LEATHER_BOOTS, "Is this vegan?").addEnchantment(Enchantment.ARROW_FIRE);
-	public static final CustomItem HARD_LEATHER_HELMET = new CombatItem(307, "Hard leather helmet", Material.LEATHER_HELMET, "Is this vegan?").addEnchantment(Enchantment.ARROW_FIRE);
-	public static final CustomItem HARD_LEATHER_LEGGINGS = new CombatItem(308, "Hard leather leggings", Material.LEATHER_LEGGINGS, "Is this vegan?").addEnchantment(Enchantment.ARROW_FIRE);
-	public static final CustomItem HARD_LEATHER_CHESTPLATE = new CombatItem(309, "Hard leather chestplate", Material.LEATHER_CHESTPLATE, "Is this vegan?").addEnchantment(Enchantment.ARROW_FIRE);
+	public static final CustomItem HARD_LEATHER_HELMET = CombatItem.fromFileName(306, "hardleather-helmet");
+	public static final CustomItem HARD_LEATHER_CHESTPLATE = CombatItem.fromFileName(307, "hardleather-chestplate");
+	public static final CustomItem HARD_LEATHER_LEGGINGS = CombatItem.fromFileName(308, "hardleather-leggings");
+	public static final CustomItem HARD_LEATHER_BOOTS = CombatItem.fromFileName(309, "hardleather-boots");
 	public static final CustomItem COBBLESTONE_SWORD = CombatItem.fromFileName(310, "cobblestone-sword");
 	
 	public static final CustomItem CHAINMAIL_BOOTS = new CombatItem(311, "Chainmail boots", Material.CHAINMAIL_BOOTS, "");

@@ -413,16 +413,16 @@ public class PlayerData implements CombatStats {
 		if(style == AttackStyle.MAGIC) skill = Skill.witchcraft;
 		if(style == AttackStyle.MELEE) skill = Skill.strength;
 		
-		awardXP(Skill.hitpoints, damage * 0.625);
+		awardXP(Skill.hitpoints, damage * 1.5);
 		
 		if (getCombatMode() == CombatMode.AGGRESSIVE) {
-			awardXP(skill, damage * 1.25);
+			awardXP(skill, damage * 3);
 		} else if (getCombatMode() == CombatMode.DEFENSIVE) {
-			awardXP(Skill.defense, damage * 1.25);
+			awardXP(Skill.defense, damage * 3);
 			
 		} else {
-			awardXP(Skill.defense, damage * 0.625);
-			awardXP(skill, damage * 0.625);
+			awardXP(Skill.defense, damage * 1.5);
+			awardXP(skill, damage * 1.5);
 		}
 	
 	}

@@ -8,5 +8,8 @@
 	"magic-accuracy":"-15",
 	"requirements":{
 		"defense":"1"
-	}
+	},
+	"lore":[
+		"Is this vegan?"
+	]
 }
