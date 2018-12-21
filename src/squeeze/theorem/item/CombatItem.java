@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -18,6 +19,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -37,6 +39,18 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 	private double health;
 	private boolean wand = false;
 	private boolean twoHanded = false;
+	private Color color = null;
+	
+	private List<Material> leathers = new ArrayList<Material>() {
+		private static final long serialVersionUID = -219940061017358432L;
+		{
+			add(Material.LEATHER_HELMET);
+			add(Material.LEATHER_CHESTPLATE);
+			add(Material.LEATHER_LEGGINGS);
+			add(Material.LEATHER_BOOTS);
+		}
+		
+	}; 
 
 	/* Constructors */
 	public CombatItem(int ID, String name, Material material, String... lore) {
@@ -51,11 +65,27 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("generic.armor", 0.0, Operation.MULTIPLY_SCALAR_1));
 		meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("generic.armorToughness", 0.0, Operation.MULTIPLY_SCALAR_1));
 		output.setItemMeta(meta);
+		
+		if(leathers.contains(output.getType()) && getColor() != null) {
+			LeatherArmorMeta lam = (LeatherArmorMeta) meta;
+			lam.setColor(getColor());
+			output.setItemMeta(lam);
+		}
+	
 		return output;
+		
 	}
 
 	/* Setters and getters */
 
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
 	public boolean isWand() {
 		return wand;
 	}
@@ -125,6 +155,8 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 	@Override
 	public void run() {
 		
+	
+		
 		for(Player player: Bukkit.getOnlinePlayers()) {
 			
 			ArrayList<ItemStack> armor = new ArrayList<ItemStack>();
@@ -147,11 +179,11 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 				}
 				
 			}
-			
-			
+				
 		}
 		
 	}
+
 
 	@Override
 	public double getHealth() {
@@ -177,6 +209,7 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		double meleeDefense = 0, rangedDefense = 0, magicDefense = 0;
 		boolean wand = false;
 		boolean twoHanded = false;
+		Color color = null;
 		
 		
 		/*Assign values to the variables*/
@@ -193,6 +226,15 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		if(obj.has("name")) name = obj.getString("name");
 		if(obj.has("wand")) wand = obj.getBoolean("wand");
 		if(obj.has("two-handed")) twoHanded = (obj.getBoolean("two-handed"));
+		
+		if(obj.has("color")) {
+			JSONArray colorArr = obj.getJSONArray("color");
+			int r = colorArr.getInt(0);
+			int g = colorArr.getInt(1);
+			int b = colorArr.getInt(2);
+			color = Color.fromRGB(r, g, b);
+		}
+		
 		
 		if(obj.has("material")){
 			String materialString = obj.getString("material");
@@ -248,6 +290,8 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		ci.setRequirements(requirements);
 		ci.setTwoHanded(twoHanded);
 		ci.setEnchantments(enchantments);
+		ci.setColor(color);
+		
 		
 		return ci;
 		

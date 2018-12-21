@@ -149,11 +149,11 @@ public class SQMC extends JavaPlugin {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RecipeMechanics(), 0, 100);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Cooldown.food, 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeMechanics(), 0, 20);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new InterfaceMechanics(), 0, 1L);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, (CombatItem) CustomItem.LEATHER_BOOTS, 0, 1L);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, SQMCEntityFire.fireSpruce, 0, 1);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new InterfaceMechanics(), 0, 1);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, SQMCEntityFire.fireSpruce, 0, 5);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new CombatManager(), 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new NoStack(), 0, 1);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, (CombatItem) CustomItem.LEATHER_BOOTS, 0, 1);
 	}
 	
 	private void despawnMobs() {
