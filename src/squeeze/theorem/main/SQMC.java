@@ -26,8 +26,8 @@ import squeeze.theorem.quest.Quest;
 import squeeze.theorem.recipe.RecipeMechanics;
 import squeeze.theorem.recipe.SQMCRecipe;
 import squeeze.theorem.region.Region;
+import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
-import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 import squeeze.theorem.ui.InterfaceMechanics;
 
 public class SQMC extends JavaPlugin {
@@ -141,7 +141,7 @@ public class SQMC extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new InterfaceMechanics(), this);
 		Bukkit.getPluginManager().registerEvents(new CombatManager(), this);
 		Bukkit.getPluginManager().registerEvents(new DeathMechanics(), this);
-		Bukkit.getPluginManager().registerEvents(Region.getRegionByName("Uppkomst"), this);
+		Bukkit.getPluginManager().registerEvents(Region.uppkomst, this);
 		Bukkit.getPluginManager().registerEvents(new RecipeMechanics(), this);
 		Bukkit.getPluginManager().registerEvents(new NoStack(), this);
 		

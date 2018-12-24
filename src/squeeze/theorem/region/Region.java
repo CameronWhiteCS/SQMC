@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import squeeze.theorem.audio.SQMCSong;
+import squeeze.theorem.bank.BankDistrict;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 
@@ -28,6 +28,7 @@ public class Region implements Listener {
 	private static DynmapAPI dynmapAPI = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
 	private static MarkerSet markerSet = dynmapAPI.getMarkerAPI().createMarkerSet("sqmc.markerset", "regions", dynmapAPI.getMarkerAPI().getMarkerIcons(), false);
 	private static ArrayList<Region> regions = new ArrayList<Region>();
+	public static Region uppkomst = parse("uppkomst");
 		
 	
 	/*Fields*/
@@ -36,6 +37,7 @@ public class Region implements Listener {
 	private String description;
 	private int Color;
 	private SQMCSong song;
+	private BankDistrict bankDistrict;
 	
 	/*Constructors*/
 	public Region(String name, String description) {
@@ -49,6 +51,15 @@ public class Region implements Listener {
 	}
 
 	/*Setters and getters*/
+	
+	public BankDistrict getBankDistrict() {
+		return bankDistrict;
+	}
+
+	public void setBankDistrict(BankDistrict bankDistrict) {
+		this.bankDistrict = bankDistrict;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -117,45 +128,20 @@ public class Region implements Listener {
 	
 	/*Dynmap markers*/
 	public static void onEnable() {
-		try {
-			initializeRegions();	
-		} catch(Exception exc) {
-			Bukkit.getLogger().log(Level.SEVERE, "[SQMC] Failed to load region data, Server is now shutting down.", exc);
-			Bukkit.shutdown();
-			System.exit(0);
-		}
-		
-		
-		addMarkers();
-	
+		addMarkers();	
 	}
 	
-	
-	
-	private static void initializeRegions() throws Exception {
+	public static Region fromJSON(JSONObject o) {
+		JSONObject jsonRegion = (JSONObject) o;
 		
-		InputStream stream = Region.class.getResourceAsStream("/regions.json");
-		Scanner sc;
-		String s = "";
+		String name = jsonRegion.getString("name");
+		String desc = jsonRegion.getString("desc");
+		Region region = new Region(name, desc);
 		
-		sc = new Scanner(stream);
-		while(sc.hasNextLine()) {
-			s += sc.nextLine();
-		}
-		sc.close();
+		if(jsonRegion.has("color")) region.setColor((int) Long.parseLong(jsonRegion.getString("color"), 16));
+		if(jsonRegion.has("song")) region.setSong(SQMCSong.getSongByName(jsonRegion.getString("song")));
 		
-		JSONArray jsonRegions = new JSONArray(s);
-		
-		for(Object o: jsonRegions) {
-			JSONObject jsonRegion = (JSONObject) o;
-			
-			String name = jsonRegion.getString("name");
-			String desc = jsonRegion.getString("desc");
-			Region region = new Region(name, desc);
-			
-			if(jsonRegion.has("color")) region.setColor((int) Long.parseLong(jsonRegion.getString("color"), 16));
-			if(jsonRegion.has("song")) region.setSong(SQMCSong.getSongByName(jsonRegion.getString("song")));
-			
+		if(jsonRegion.has("cuboids")) {
 			JSONArray jsonCuboids = jsonRegion.getJSONArray("cuboids");
 			for(Object o2: jsonCuboids) {
 				JSONObject jsonCuboid = (JSONObject) o2;
@@ -170,10 +156,30 @@ public class Region implements Listener {
 				if(jsonCuboid.has("song")) boid.setSong(SQMCSong.getSongByName(jsonCuboid.getString("song")));
 				region.addCuboid(boid);
 			}
-			
 		}
 		
-		
+		if(jsonRegion.has("banking-district")) {
+			String districtString = jsonRegion.getString("banking-district");
+			for(BankDistrict d: BankDistrict.values()) {
+				if(d.toString().equalsIgnoreCase(districtString)) {
+					region.setBankDistrict(d);
+					break;
+				}
+			}
+		}
+
+		return region;
+	}
+	
+	public static Region parse(String filename) {
+		InputStream stream = Region.class.getResourceAsStream("/region/" + filename + ".json");
+		Scanner sc = new Scanner(stream);
+		String s = "";
+		while(sc.hasNext()) {
+			s += sc.nextLine();
+		}
+		sc.close();
+		return fromJSON(new JSONObject(s));
 	}
 
 	private static void addMarkers() {
@@ -215,14 +221,6 @@ public class Region implements Listener {
 			}
 		}
 		
-	}
-	
-	public static Region getRegionByName(String name) {
-		for(Region r: regions) {
-			if(r.getName().equalsIgnoreCase(name)) return r;
-		}
-		
-		return null;
 	}
 	
 }

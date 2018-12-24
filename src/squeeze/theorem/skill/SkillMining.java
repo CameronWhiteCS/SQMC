@@ -1,6 +1,5 @@
-package squeeze.theorem.skill.woodcutting;
+package squeeze.theorem.skill;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,8 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,14 +17,13 @@ import org.bukkit.inventory.ItemStack;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
-import squeeze.theorem.event.TreeChopEvent;
+import squeeze.theorem.event.OreMineEvent;
 import squeeze.theorem.item.CustomItem;
-import squeeze.theorem.item.CustomItemAxe;
+import squeeze.theorem.item.CustomItemPickaxe;
 import squeeze.theorem.main.SQMC;
-import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.UserInterface;
 
-public class SkillWoodcutting extends Skill implements Listener {
+public class SkillMining extends Skill implements Listener {
 
 	/* Fields */
 
@@ -35,127 +31,126 @@ public class SkillWoodcutting extends Skill implements Listener {
 	
 	/* Constructors */
 
-	public SkillWoodcutting() {
-		this.setMaterial(Material.STONE_AXE);
-		setName("Woodcutting");
+	public SkillMining() {
+		this.setMaterial(Material.STONE_PICKAXE);
+		setName("Mining");
 	}
 
 	@Override
 	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideWoodcutting;
+		return UserInterface.skillguideMining;
 	}
 
 	@EventHandler(priority=EventPriority.LOW)
 	public void onBreak(BlockBreakEvent evt) {
+		if (evt.isCancelled() || evt.getPlayer().getGameMode() == GameMode.CREATIVE) return; 
+			for (Ore o : Ore.getOres()) {
+				if (evt.getBlock().getType().equals(o.getMaterial())) {
 		
-		//Cancel if creative
-		if(evt.isCancelled() || evt.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		
-		Block block = evt.getBlock();
-		World world = block.getWorld();
-		
-		//Cancel if redstone block
-		if(world.getBlockAt(block.getLocation().getBlockX(), 0, block.getLocation().getBlockZ()).getType() == Material.REDSTONE_BLOCK) return;
-		
-			for (Tree t : Tree.getTrees()) {
-				if (!t.getMaterials().contains(evt.getBlock().getType())) continue;
-				if (t.isTree(evt)) {
 
-					Player player = evt.getPlayer();
+						Player player = evt.getPlayer();
 
-
-					// Axe check
-					String noAxe = ChatColor.RED + "You need an axe to cut trees!";
-					CustomItem axe = CustomItem.getCustomItem(player.getInventory().getItemInMainHand());
-					if (axe == null) {
-						player.sendMessage(noAxe);
-						evt.setCancelled(true);
-						return;
-					}
-						
-					if (axe instanceof CustomItemAxe == false) {
-						player.sendMessage(noAxe);
-						evt.setCancelled(true);
-						return;
-					}
-
-					// Level checks
-					if (!t.meetsRequirements(player)){
-						t.sendInsufficientLevelNotice(player, "chop " + t.getName() + "s");
-						evt.setCancelled(true);
-						return;
-					}
-
-					//Axe level check
-					if (axe instanceof CustomItemAxe) {
-						CustomItemAxe cia = (CustomItemAxe) axe;
-						if (!cia.meetsRequirements(player)){
-							cia.sendInsufficientLevelNotice(player, "use " + cia.getName());
+						// Pickaxe check
+						String noPickaxe = ChatColor.RED + "You need an pickaxe to mine ores!";
+						CustomItem pickaxe = CustomItem.getCustomItem(player.getInventory().getItemInMainHand());
+						if (pickaxe == null) {
+							player.sendMessage(noPickaxe);
 							evt.setCancelled(true);
 							return;
 						}
-					}
+						
+						if (pickaxe instanceof CustomItemPickaxe == false) {
+							player.sendMessage(noPickaxe);
+							evt.setCancelled(true);
+							return;
+						}
+						
+						//Tier check
+						if (pickaxe instanceof CustomItemPickaxe) {
+							CustomItemPickaxe cip = (CustomItemPickaxe) pickaxe;
+							
+							if(cip.getTier() < o.getTier()) {
+								player.sendMessage(ChatColor.RED + "You'll need a higher tier pickaxe to harvest this.");
+								evt.setCancelled(true);
+								return;
+							}
+							
+						}
 
-					//Calling of custom event
+						// Level checks
+						if (!o.meetsRequirements(player)){
+							o.sendInsufficientLevelNotice(player, "mine " + o.getName());
+							evt.setCancelled(true);
+							return;
+						}
+
+						//Axe level check
+						if (pickaxe instanceof CustomItemPickaxe) {
+							CustomItemPickaxe cip = (CustomItemPickaxe) pickaxe;
+							if (!cip.meetsRequirements(player)){
+								cip.sendInsufficientLevelNotice(player, "use " + cip.getName());
+								evt.setCancelled(true);
+								return;
+							}
+						}
+
+						//Calling of custom event
 						
-					ConcurrentHashMap<Location, Material> blocks = new ConcurrentHashMap<Location, Material>();
-					blocks.put(evt.getBlock().getLocation(), evt.getBlock().getType());
-					blocks = getTree(blocks, t);
+						ConcurrentHashMap<Location, Material> blocks = new ConcurrentHashMap<Location, Material>();
+						blocks.put(evt.getBlock().getLocation(), evt.getBlock().getType());
+						blocks = getVein(blocks, o);
 						
-					//Call custom event
-						
-					SQMC.getPlugin(SQMC.class).getServer().getPluginManager().callEvent(new TreeChopEvent(player, t, blocks, (CustomItemAxe) axe));
+						//Call custom event
+						SQMC.getPlugin(SQMC.class).getServer().getPluginManager().callEvent(new OreMineEvent(player, o, blocks, (CustomItemPickaxe) pickaxe));
+						evt.setCancelled(true);
+
 					
-					evt.setCancelled(true);
-					
-					}
-				
+				}
 			}
 		
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onChop(TreeChopEvent evt) {
+	public void onMine(OreMineEvent evt) {
 		if(!evt.isCancelled()) {
 			
 			ConcurrentHashMap<Location, Material> blocks = evt.getBlocks();
-			Tree tree = evt.getTree();
+			Ore ore = evt.getOre();
 			Player player = evt.getPlayer();
 			PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
-			CustomItemAxe axe = evt.getAxe();
-			ItemStack drop = new ItemStack(tree.getDrop());
+			CustomItemPickaxe pickaxe = evt.getPickaxe();
+			ItemStack drop = new ItemStack(ore.getDrop());
 			
-			regrowTreeInFuture(blocks, tree);
+			respawnVeinInFuture(blocks, ore);
 			destroyTree(blocks);
 
 			// Fail check (for xp and drop)
-			if (didFail(dat, tree, (CustomItemAxe) axe)) {
+			if (didFail(dat, ore, (CustomItemPickaxe) pickaxe)) {
 				player.sendMessage(
 						ChatColor.RED + "You fail to properly cut the tree, damaging the logs in the process.");
 				return;
 			}
-			
+
 			//Luck check for double drop
-			double luck = axe.getLuck();
+			double luck = pickaxe.getLuck();
 			double luckRoll = new Random().nextDouble() * 100;
 			if(luck > luckRoll) {
 				drop.setAmount(drop.getAmount() * 2);
 				evt.getPlayer().sendMessage(ChatColor.GREEN + "You find yourself particularly lucky, and manage to harvest twice as many resources.");
 			}
 			
-
 			// Award XP and items
 			player.getInventory().addItem(drop);
-			dat.awardXP(Skill.woodcutting, evt.getXP());
+			dat.awardXP(Skill.mining, evt.getXP());
 			
 		}
 	}
 
 	/* Logic methods */
 
-	private boolean didFail(PlayerData dat, Tree t, CustomItemAxe axe) {
+	private boolean didFail(PlayerData dat, Ore o, CustomItemPickaxe pickaxe) {
 
-		double successChance = t.getSuccessRate() + dat.getLevel(Skill.woodcutting) * 0.1 + axe.getSuccessRate();
+		double successChance = o.getSuccessRate() + dat.getLevel(Skill.mining) * 0.1 + pickaxe.getSuccessRate();
 
 		double roll = RNG.nextDouble() * 100;
 		if (roll > successChance) {
@@ -174,8 +169,11 @@ public class SkillWoodcutting extends Skill implements Listener {
 	 * tree blocks. The output is a HashMap<Location, Material> representing a tree
 	 * prior to it being destroyed.
 	 */
-	public ConcurrentHashMap<Location, Material> getTree(ConcurrentHashMap<Location, Material> locs, Tree tree) {
+	public ConcurrentHashMap<Location, Material> getVein(ConcurrentHashMap<Location, Material> locs, Ore ore) {
 
+		if(!ore.isVein())
+			return locs;
+		
 		int size = locs.size();
 
 		for (Location loc : locs.keySet()) {
@@ -185,13 +183,13 @@ public class SkillWoodcutting extends Skill implements Listener {
 						
 						
 						Location newLoc = new Location(loc.getWorld(), loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
-						ArrayList<Material> treeMaterials = tree.getMaterials();
+						Material oreMaterial = ore.getMaterial();
 						Material material = newLoc.getBlock().getType();
 						
-						if (treeMaterials.contains(material) && !locs.contains(newLoc)) {
+						if (oreMaterial.equals(material)) {
 							locs.put(newLoc, newLoc.getBlock().getType());
 						}
-
+						
 					}
 				}
 			}
@@ -200,12 +198,12 @@ public class SkillWoodcutting extends Skill implements Listener {
 		if (locs.size() == size) {
 			return locs;
 		} else {
-			return getTree(locs, tree);
+			return getVein(locs, ore);
 		}
 
 	}
 
-	public void regrowTreeInFuture(ConcurrentHashMap<Location, Material> tree, Tree t) {
+	public void respawnVeinInFuture(ConcurrentHashMap<Location, Material> tree, Ore o) {
 
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SQMC.getPlugin(SQMC.class), new Runnable() {
 
@@ -218,7 +216,7 @@ public class SkillWoodcutting extends Skill implements Listener {
 
 			}
 
-		}, t.getRespawnDelay());
+		}, o.getRespawnDelay());
 
 	}
 

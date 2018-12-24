@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -50,7 +51,6 @@ import squeeze.theorem.entity.uppkomst.BotchedExperiment;
 import squeeze.theorem.entity.uppkomst.BrightbriarMininingExecutive;
 import squeeze.theorem.entity.uppkomst.CaptainFishy;
 import squeeze.theorem.entity.uppkomst.Child;
-import squeeze.theorem.entity.uppkomst.Cow;
 import squeeze.theorem.entity.uppkomst.ElevatorOperatorDescend;
 import squeeze.theorem.entity.uppkomst.Florist;
 import squeeze.theorem.entity.uppkomst.GrandMageTyrus;
@@ -65,8 +65,8 @@ import squeeze.theorem.event.PlayerKillSQMCEntityEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.main.SQMC;
 import squeeze.theorem.mechanics.Cooldown;
+import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
-import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 
 public class SQMCEntity implements Listener, Runnable {
 	
@@ -98,7 +98,7 @@ public class SQMCEntity implements Listener, Runnable {
 	public static NPC child = new Child();
 	public static GrandMageTyrus grandMageTyrus = new GrandMageTyrus();
 	public static Blacksmith blacksmith = new Blacksmith();
-	public static Cow cow = new Cow();
+	public static GenericMob uppkomstCow = GenericMob.fromFileName("uppkomst-cow");
 	public static ElevatorOperatorDescend elevatorOperatorDescend = new ElevatorOperatorDescend();
 	public static GenericMob uppkomstBat = GenericMob.fromFileName("uppkomst-bat");
 	public static GenericMob uppkomstCaveSpider = GenericMob.fromFileName("uppkomst-cavespider");
@@ -547,7 +547,7 @@ public class SQMCEntity implements Listener, Runnable {
 		condtionallyVisible();
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onStrike(EntityDamageByEntityEvent evt) {
 		
 		if(evt.getDamager() instanceof Player == false || evt.getEntity() instanceof Player) return;

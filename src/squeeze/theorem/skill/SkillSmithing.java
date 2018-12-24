@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.smithing;
+package squeeze.theorem.skill;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.UserInterface;
 
 public class SkillSmithing extends Skill implements Listener {

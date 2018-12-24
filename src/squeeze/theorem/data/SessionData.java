@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 import mkremins.fanciful.FancyMessage;
@@ -21,6 +22,7 @@ public class SessionData {
 	private HashMap<Integer, Spell> spells = new HashMap<Integer, Spell>();
 	private int UIpage;
 	private SQMCRecipe recipe;
+	private Location craftingLocation;
 
 	public SessionData(PlayerData dat) {
 		setPlayerData(dat);
@@ -138,6 +140,15 @@ public class SessionData {
 
 	public void setRecipe(SQMCRecipe recipe) {
 		this.recipe = recipe;
+	}
+
+	public Location getCraftingLocation() {
+		return this.craftingLocation;
+	}
+
+	public void setCraftingLocation(Location craftingLocation) {
+		this.craftingLocation = craftingLocation;
+		
 	}
 
 }

@@ -1,5 +1,7 @@
 package squeeze.theorem.data;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -23,7 +28,10 @@ import com.xxmicloxx.NoteBlockAPI.model.Song;
 import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
 import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 
+
 import squeeze.theorem.audio.SQMCSong;
+import squeeze.theorem.bank.BankDistrict;
+import squeeze.theorem.bank.BankEntry;
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatMode;
 import squeeze.theorem.combat.CombatStats;
@@ -32,12 +40,16 @@ import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.main.SQMC;
 import squeeze.theorem.quest.Quest;
+import squeeze.theorem.region.Region;
+import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
-import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 import squeeze.theorem.skill.witchcraft.Spellbook;
 
 public class PlayerData implements CombatStats {
 
+	/*Static fields*/
+	private static NumberFormat formatter = new DecimalFormat("#0.0");
+	
 	/* Fields */
 	private UUID id;
 	private int balance = 25;
@@ -59,13 +71,53 @@ public class PlayerData implements CombatStats {
 	private boolean music = true;
 	private VanillaData vanillaData = new VanillaData();
 	private Map<Integer, ItemStack> items = new ConcurrentHashMap<Integer, ItemStack>();
-
+	private HashMap<Skill, BossBar> xpBars;
+	private HashMap<Skill, Long> xpBarTimers;
+	private boolean showXPBars = true;
+	private Map<BankDistrict, BankEntry[]> banks = new HashMap<BankDistrict, BankEntry[]>(){
+		private static final long serialVersionUID = -612157451553598255L;
+		{
+			for(BankDistrict d: BankDistrict.values()) {
+				put(d, new BankEntry[450]);
+			}
+		}
+	};
+	
 	/* Constructors */
 	public PlayerData(UUID id) {
 		setUUID(id);
+		this.xpBars = new HashMap<Skill, BossBar>();
+		for(Skill s: Skill.getSkills()) {
+			BossBar bar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SEGMENTED_6);
+			xpBars.put(s, bar);
+		}
+		
+		this.xpBarTimers = new HashMap<Skill, Long>();
+		for(Skill s: Skill.getSkills()) {
+			xpBarTimers.put(s, System.currentTimeMillis());
+		}
+		
+
 	}
 	
 	/* Setters and getters */
+	
+	public boolean showXPBars() {
+		return this.showXPBars;
+	}
+
+	public void setShowXPBars(boolean showXPBars) {
+		this.showXPBars = showXPBars;
+	}
+	
+	public Map<Skill, BossBar> getXpBars() {
+		return xpBars;
+	}
+
+	public Map<Skill, Long> getXpBarTimers() {
+		return xpBarTimers;
+	}
+	
 	private void setUUID(UUID id) {
 		this.id = id;
 	}
@@ -167,212 +219,128 @@ public class PlayerData implements CombatStats {
 		}
 	}
 	
-	/*Methods*/
-	//Levels & XP
+	public Player getPlayer() {
+		return Bukkit.getPlayer(getUUID());
+	}
+	
+	/*METHODS*/
+	/*XP & Level Methods*/
+	HashMap<Integer, Integer> xpMap = new HashMap<Integer, Integer>(){
+		private static final long serialVersionUID = -612157451553598255L;
+		{
+			put(1, 0);
+			put(2, 83);
+			put(3, 174);
+			put(4, 276);
+			put(5, 388);
+			put(6, 512);
+			put(7, 650);
+			put(8, 801);
+			put(9, 969);
+			put(10, 1154);
+			put(11, 1358);
+			put(12, 1584);
+			put(13, 1833);	
+			put(14, 2107);
+			put(15, 2411);
+			put(16, 2746);
+			put(17, 3115);
+			put(18,  3523);
+			put(19, 3973);
+			put(20, 4470);
+			put(21, 5018);
+			put(22, 5624);
+			put(23, 6291);
+			put(24, 7028);
+			put(25, 7842);
+			put(26, 8740);
+			put(27, 9730);
+			put(28, 10824);
+			put(29, 12031);
+			put(30, 13363);
+			put(31, 14833);
+			put(32, 16456);
+			put(33, 18247);
+			put(34, 20224);
+			put(35, 22406);
+			put(36, 24815);
+			put(37, 27473);
+			put(38, 30408);
+			put(39, 33648);
+			put(40, 37224);
+			put(41, 41171);
+			put(42, 45529);
+			put(43, 50339);
+			put(44, 55649);
+			put(45, 61512);
+			put(46, 67983);
+			put(47, 75127);
+			put(48, 83014);
+			put(49, 91721);
+			put(50, 101333);
+			put(51, 111945);
+			put(52, 123660);
+			put(53, 136594);
+			put(54, 150872);
+			put(55, 166636);
+			put(56, 184040);
+			put(57, 203254);
+			put(58, 224466);
+			put(59, 247886);
+			put(60, 273742);
+			put(61, 302288);
+			put(62, 333804);
+			put(63, 368599);
+			put(64, 407015);
+			put(65, 449428);
+			put(66, 496254);
+			put(67, 547953);
+			put(68, 605032);
+			put(69, 668051);
+			put(70, 737627);
+			put(71, 814445);
+			put(72, 899257);
+			put(73, 992895);
+			put(74, 1096278);
+			put(75, 1210421);
+			put(76, 1336443);
+			put(77, 1475581);
+			put(78, 1629200);
+			put(79, 1798808);
+			put(80, 1986068);
+			put(81, 2192818);
+			put(82, 2421087);
+			put(83, 2673114);
+			put(84, 2951373);
+			put(85, 3258594);
+			put(86, 3597792);
+			put(87, 3972294);
+			put(88, 4385776);
+			put(89, 4842295);
+			put(90, 5346332);
+			put(91, 5902831);
+			put(92, 6517253);
+			put(93, 7195629);
+			put(94, 7944614);
+			put(95, 8771558);
+			put(96, 9684577);
+			put(97, 10692629);
+			put(98, 11805606);
+			put(99, 13034431);
+			put(100, 13034432);
+		}
+	};
+	
 	public int getLevel(Skill s) {
-		double xp = getXP(s);
-		int output = 1;
+		
+		double xp = skills.get(s);
+		int level = 1;
+		
+		for(int i = 1; i <= 99; i++) {
+			if(xpMap.get(i) <= xp) level = i;
+		}
 	
-		if (xp >= 0)
-			output = 1;
-		if (xp >= 83)
-			output = 2;
-		if (xp >= 174)
-			output = 3;
-		if (xp >= 276)
-			output = 4;
-		if (xp >= 388)
-			output = 5;
-		if (xp >= 512)
-			output = 6;
-		if (xp >= 650)
-			output = 7;
-		if (xp >= 801)
-			output = 8;
-		if (xp >= 969)
-			output = 9;
-		if (xp >= 1154)
-			output = 10;
-		if (xp >= 1358)
-			output = 11;
-		if (xp >= 1584)
-			output = 12;
-		if (xp >= 1833)
-			output = 13;
-		if (xp >= 2107)
-			output = 14;
-		if (xp >= 2411)
-			output = 15;
-		if (xp >= 2746)
-			output = 16;
-		if (xp >= 3115)
-			output = 17;
-		if (xp >= 3523)
-			output = 18;
-		if (xp >= 3973)
-			output = 19;
-		if (xp >= 4470)
-			output = 20;
-		if (xp >= 5018)
-			output = 21;
-		if (xp >= 5624)
-			output = 22;
-		if (xp >= 6291)
-			output = 23;
-		if (xp >= 7028)
-			output = 24;
-		if (xp >= 7842)
-			output = 25;
-		if (xp >= 8740)
-			output = 26;
-		if (xp >= 9730)
-			output = 27;
-		if (xp >= 10824)
-			output = 28;
-		if (xp >= 12031)
-			output = 29;
-		if (xp >= 13363)
-			output = 30;
-		if (xp >= 14833)
-			output = 31;
-		if (xp >= 16456)
-			output = 32;
-		if (xp >= 18247)
-			output = 33;
-		if (xp >= 20224)
-			output = 34;
-		if (xp >= 22406)
-			output = 35;
-		if (xp >= 24815)
-			output = 36;
-		if (xp >= 27473)
-			output = 37;
-		if (xp >= 30408)
-			output = 38;
-		if (xp >= 33648)
-			output = 39;
-		if (xp >= 37224)
-			output = 40;
-		if (xp >= 41171)
-			output = 41;
-		if (xp >= 45529)
-			output = 42;
-		if (xp >= 50339)
-			output = 43;
-		if (xp >= 55649)
-			output = 44;
-		if (xp >= 61512)
-			output = 45;
-		if (xp >= 67983)
-			output = 46;
-		if (xp >= 75127)
-			output = 47;
-		if (xp >= 83014)
-			output = 48;
-		if (xp >= 91721)
-			output = 49;
-		if (xp >= 101333)
-			output = 50;
-		if (xp >= 111945)
-			output = 51;
-		if (xp >= 123660)
-			output = 52;
-		if (xp >= 136594)
-			output = 53;
-		if (xp >= 150872)
-			output = 54;
-		if (xp >= 166636)
-			output = 55;
-		if (xp >= 184040)
-			output = 56;
-		if (xp >= 203254)
-			output = 57;
-		if (xp >= 224466)
-			output = 58;
-		if (xp >= 247886)
-			output = 59;
-		if (xp >= 273742)
-			output = 60;
-		if (xp >= 302288)
-			output = 61;
-		if (xp >= 333804)
-			output = 62;
-		if (xp >= 368599)
-			output = 63;
-		if (xp >= 407015)
-			output = 64;
-		if (xp >= 449428)
-			output = 65;
-		if (xp >= 496254)
-			output = 66;
-		if (xp >= 547953)
-			output = 67;
-		if (xp >= 605032)
-			output = 68;
-		if (xp >= 668051)
-			output = 69;
-		if (xp >= 737627)
-			output = 70;
-		if (xp >= 814445)
-			output = 71;
-		if (xp >= 899257)
-			output = 72;
-		if (xp >= 992895)
-			output = 73;
-		if (xp >= 1096278)
-			output = 74;
-		if (xp >= 1210421)
-			output = 75;
-		if (xp >= 1336443)
-			output = 76;
-		if (xp >= 1475581)
-			output = 77;
-		if (xp >= 1629200)
-			output = 78;
-		if (xp >= 1798808)
-			output = 79;
-		if (xp >= 1986068)
-			output = 80;
-		if (xp >= 2192818)
-			output = 81;
-		if (xp >= 2421087)
-			output = 82;
-		if (xp >= 2673114)
-			output = 83;
-		if (xp >= 2951373)
-			output = 84;
-		if (xp >= 3258594)
-			output = 85;
-		if (xp >= 3597792)
-			output = 86;
-		if (xp >= 3972294)
-			output = 87;
-		if (xp >= 4385776)
-			output = 88;
-		if (xp >= 4842295)
-			output = 89;
-		if (xp >= 5346332)
-			output = 90;
-		if (xp >= 5902831)
-			output = 91;
-		if (xp >= 6517253)
-			output = 92;
-		if (xp >= 7195629)
-			output = 93;
-		if (xp >= 7944614)
-			output = 94;
-		if (xp >= 8771558)
-			output = 95;
-		if (xp >= 9684577)
-			output = 96;
-		if (xp >= 10692629)
-			output = 97;
-		if (xp >= 11805606)
-			output = 98;
-		if (xp >= 13034431)
-			output = 99;
-	
-		return output;
+		return level;
 	
 	}
 	
@@ -386,26 +354,57 @@ public class PlayerData implements CombatStats {
 	
 	public void awardXP(Skill s, double amount) {
 		
-		int initial = getLevel(s);
-	
+		//Variable creation
+		int initialLevel = getLevel(s);
+		double initialXP = getXP(s);
+		
 		setXP(s, getXP(s) + amount);
 	
-		int fnl = getLevel(s);
+		double finalXP = getXP(s);
+		int finalLevel = getLevel(s);
 	
-		int difference = fnl - initial;
-	
-		if (difference == 1) {
+		int levelDifference = finalLevel - initialLevel;
+		double xpDifference = finalXP - initialXP;
+		
+		//Notify level up
+		if (levelDifference == 1) {
 			getPlayer().sendMessage(ChatColor.GREEN + "Congraulations! You've just advanced a level in the " + s.getProperName()
-					+ " skill! You are now level " + fnl + ".");
+					+ " skill! You are now level " + finalLevel + ".");
+				
+		}
+		
+		if (levelDifference > 1) {
+			getPlayer().sendMessage(ChatColor.GREEN + "Congraulations! You've just advanced " + levelDifference + " levels in the "
+					+ s.getProperName() + " skill! You are now level " + finalLevel + ".");
 		}
 	
-		if (difference > 1) {
-			getPlayer().sendMessage(ChatColor.GREEN + "Congraulations! You've just advanced " + difference + " levels in the "
-					+ s.getProperName() + " skill! You are now level " + fnl + ".");
+
+		//Update progress bars
+		if(showXPBars) {
+		
+			double denom = xpMap.get(finalLevel + 1) - xpMap.get(finalLevel);
+			double num = (xpMap.get(finalLevel + 1) - getXP(s));
+			double prog = 1 - (num / denom);
+			
+			xpBars.get(s).setProgress(prog);
+			xpBars.get(s).addPlayer(getPlayer());
+			xpBars.get(s).setTitle(String.format("%s+%s %s %s XP (%s%s)", ChatColor.RED, formatter.format(xpDifference), ChatColor.GREEN, s.getProperName(), formatter.format(prog * 100), "%"));
+			xpBarTimers.put(s, System.currentTimeMillis());
+			
 		}
 		
 	}
+	
 
+
+	public void updateXPBars() {
+		for(Skill s: Skill.getSkills()) {
+			if(System.currentTimeMillis() - xpBarTimers.get(s) > 5000) {
+				xpBars.get(s).removePlayer(getPlayer());
+			}
+		}
+	}
+	
 	public void awardCombatXP(AttackStyle style, double damage) {
 		
 		Skill skill = null;
@@ -414,23 +413,22 @@ public class PlayerData implements CombatStats {
 		if(style == AttackStyle.MAGIC) skill = Skill.witchcraft;
 		if(style == AttackStyle.MELEE) skill = Skill.strength;
 		
-		awardXP(Skill.hitpoints, damage * 1);
+		double k = 1;
+		
+		awardXP(Skill.hitpoints, damage * k / 4);
 		
 		if (getCombatMode() == CombatMode.AGGRESSIVE) {
-			awardXP(skill, damage * 2);
+			awardXP(skill, damage * k);
 		} else if (getCombatMode() == CombatMode.DEFENSIVE) {
-			awardXP(Skill.defense, damage * 2);
+			awardXP(Skill.defense, damage * k);
 			
 		} else {
-			awardXP(Skill.defense, damage * 1);
-			awardXP(skill, damage * 1);
+			awardXP(Skill.defense, damage * k / 2);
+			awardXP(skill, damage * k / 2);
 		}
 	
 	}
 	
-	public Player getPlayer() {
-		return Bukkit.getPlayer(getUUID());
-	}
 
 	//HUD and scoreboard
 	public void initializeScoreboard() {
@@ -747,6 +745,78 @@ public class PlayerData implements CombatStats {
 		if(getCurrentSong() == song.getSong()) return;
 		playSong(song.getSong());
 		getPlayer().sendTitle("", ChatColor.GOLD + song.getName(), 0, 100, 0);
+	}
+
+	/*Banking system*/
+	public void depositItem(BankDistrict district, ItemStack stack, int slot){
+		BankEntry[] bank = this.banks.get(district);
+		CustomItem ci = CustomItem.getCustomItem(stack);
+		if(ci == null) return;
+		for(BankEntry b: bank) {
+			if(b == null) continue;
+			if(b.getDistrict() != district) continue;
+			if(b.getCustomItem() == ci) {
+				b.setAmount(b.getAmount() + stack.getAmount());
+				stack.setAmount(0);
+				return;
+			}
+		}
+
+			bank[slot] = new BankEntry(district, ci, stack.getAmount(), slot);
+			stack.setAmount(0);
+	}
+	
+	public void depositItem(BankDistrict district, ItemStack stack){
+		BankEntry[] bank = this.banks.get(district);
+		CustomItem ci = CustomItem.getCustomItem(stack);
+		if(ci == null) return;
+		for(BankEntry b: bank) {
+			if(b == null) continue;
+			if(b.getDistrict() != district) continue;
+			if(b.getCustomItem() == ci) {
+				b.setAmount(b.getAmount() + stack.getAmount());
+				stack.setAmount(0);
+				return;
+			}
+		}
+
+			for(int i = 0; i <= bank.length; i++) {
+				if(bank[i] == null) bank[i] = new BankEntry(district, ci, stack.getAmount(), i);
+				stack.setAmount(0);
+			}
+	}
+	
+	public BankEntry getBankEntry(BankDistrict district, int slot) {
+		BankEntry[] bank = this.banks.get(district);
+		if(bank.length - 1 < slot) return null;
+		return bank[slot];
+	}
+	
+	public void withdrawItem(BankDistrict district, int slot, int amount) {
+		BankEntry[] bank = banks.get(district);
+		BankEntry entry = bank[slot];
+		if(entry == null) return;
+		CustomItem ci = entry.getCustomItem();
+		if(entry.getAmount() >= amount) {
+			entry.setAmount(entry.getAmount() - amount);
+			this.giveItem(ci, amount);
+		} else {
+			this.giveItem(ci, entry.getAmount());
+			entry.setAmount(0);
+		}
+		
+		if(entry.getAmount() <= 0) {
+			bank[slot] = null;
+			banks.put(district, bank);
+		}
+		
+	}
+	
+	public BankDistrict getBankDistrict() {
+		for(Region r: Region.getRegions()) {
+			if(r.contains(getPlayer().getLocation())) return r.getBankDistrict();
+		}
+		return BankDistrict.UPPKOMST;
 	}
 	
 }

@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import squeeze.theorem.item.CustomItemPickaxe;
-import squeeze.theorem.skill.mining.Ore;
+import squeeze.theorem.skill.Ore;
 
 public class OreMineEvent extends Event implements Cancellable {
 

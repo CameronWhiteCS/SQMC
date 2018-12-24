@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.cooking;
+package squeeze.theorem.skill;
 
 import java.util.HashMap;
 
@@ -15,8 +15,6 @@ import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.recipe.RecipeType;
-import squeeze.theorem.skill.Skill;
-import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 import squeeze.theorem.ui.UserInterface;
 
 public class SkillCooking extends Skill implements Listener, Runnable {

@@ -26,6 +26,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import squeeze.theorem.bank.BankDistrict;
+import squeeze.theorem.bank.BankEntry;
 import squeeze.theorem.combat.CombatMode;
 import squeeze.theorem.config.ConfigManager;
 import squeeze.theorem.item.CustomItem;
@@ -142,7 +144,7 @@ public class DataManager implements Listener, Runnable {
 			return;
 		}
 		
-		evt.setJoinMessage(ChatColor.GREEN + "+" + evt.getPlayer().getName());
+		evt.setJoinMessage(ChatColor.GREEN + "+" + ChatColor.GRAY + evt.getPlayer().getName());
 
 		
 		/*Location*/
@@ -246,6 +248,9 @@ public class DataManager implements Listener, Runnable {
 			query = String.format("DELETE FROM playerdata WHERE uuid='%s';", id.toString());
 			statement.executeUpdate(query);
 			
+			query = String.format("DELETE FROM bank WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
 			/*REWRITE*/
 			
 			/*Flags*/
@@ -281,12 +286,13 @@ public class DataManager implements Listener, Runnable {
 			
 			/*Settings*/
 			
-			query = "INSERT IGNORE INTO settings(uuid, spellbook, combatmode, hud, music) VALUES('$UUID', '$SPELLBOOK', '$COMBATMODE', $HUD, $MUSIC);";
+			query = "INSERT IGNORE INTO settings(uuid, spellbook, combatmode, hud, music, xpbars) VALUES('$UUID', '$SPELLBOOK', '$COMBATMODE', $HUD, $MUSIC, $XPBARS);";
 					query = query.replace("$UUID", dat.getUUID().toString());
 					query = query.replace("$SPELLBOOK", dat.getSpellbook().getIdentifier());
 					query = query.replace("$COMBATMODE", dat.getCombatMode().toString().toLowerCase());
 					query = query.replace("$HUD", (dat.getHud() ? 1 : 0) + "");
 					query = query.replace("$MUSIC", (dat.getMusic() ? 1 : 0) + "");
+					query = query.replace("$XPBARS", (dat.showXPBars() ? 1 : 0) + "");
 					
 			statement.executeUpdate(query);
 			
@@ -322,6 +328,25 @@ public class DataManager implements Listener, Runnable {
 			query = String.format("INSERT IGNORE INTO playerdata(uuid, balance) VALUES('%s', '%s');", dat.getUUID().toString(), dat.getBalance());
 			statement.executeUpdate(query);
 			
+			/*Bank*/
+			query = "INSERT INTO bank(uuid, district, id, amount, slot) VALUES";
+			String appended = "";
+			
+			for(BankDistrict dist: BankDistrict.values()) {
+				for(int i = 0; i <= 449; i++) {
+					BankEntry entry = dat.getBankEntry(dist, i);
+					if(entry == null) continue;
+					appended += String.format("('%s', '%s', '%s', '%s', '%s'),", dat.getUUID().toString(), dist.toString().toLowerCase(), entry.getCustomItem().getID(), entry.getAmount(), entry.getSlot());
+				}
+			}
+			
+			if(appended != "") {
+				query += appended;
+				query = query.substring(0, query.length() - 1);
+				query += ";";
+				statement.executeUpdate(query);
+			}
+			
 		
 		
 	}
@@ -334,6 +359,7 @@ public class DataManager implements Listener, Runnable {
 	public void run() {
 		for(PlayerData dat: getOnlinePlayers()) {
 			dat.updateScoreboard();
+			dat.updateXPBars();
 		}
 	}
 	
@@ -378,6 +404,7 @@ public class DataManager implements Listener, Runnable {
 				dat.setHud(set.getBoolean("hud"));
 				dat.setMusic(set.getBoolean("music"));
 				dat.setCombatMode(CombatMode.fromString(set.getString("combatmode")));
+				dat.setShowXPBars(set.getBoolean("xpbars"));
 				Spellbook book = Spellbook.fromString(set.getString("spellbook"));
 				if(book != null) dat.setSpellbook(book);
 				break;
@@ -418,6 +445,21 @@ public class DataManager implements Listener, Runnable {
 			set = statement.executeQuery(query);
 			while(set.next()) {
 				dat.setBalance(set.getInt("balance"));
+			}
+		
+			
+			/*Bank*/
+			query = String.format("SELECT * FROM bank WHERE uuid='%s';", id.toString());
+			set = statement.executeQuery(query);
+			while(set.next()) {
+				
+				String districtString = set.getString("district");
+				for(BankDistrict d: BankDistrict.values()) {
+					if(d.toString().equalsIgnoreCase(districtString)) {
+						dat.depositItem(d, CustomItem.getCustomItem(set.getInt("id")).getItemStack(set.getInt("amount")), set.getInt("slot"));
+					}
+				}
+				
 			}
 			
 			return dat;

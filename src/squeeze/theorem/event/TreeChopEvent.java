@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import squeeze.theorem.item.CustomItemAxe;
-import squeeze.theorem.skill.woodcutting.Tree;
+import squeeze.theorem.skill.Tree;
 
 public class TreeChopEvent extends Event implements Cancellable {
 

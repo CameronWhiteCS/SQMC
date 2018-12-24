@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemPickaxe;
-import squeeze.theorem.skill.mining.Ore;
+import squeeze.theorem.skill.Ore;
 
 public class UserInterfaceSkillguideMining extends MultiPageInterface {
 

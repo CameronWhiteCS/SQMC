@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.ranged;
+package squeeze.theorem.skill;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -17,7 +17,6 @@ import squeeze.theorem.combat.CombatStats;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.SQMCEntity;
-import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.UserInterface;
 
 public class SkillRanged extends Skill implements Listener {

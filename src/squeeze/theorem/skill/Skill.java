@@ -15,18 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
-import squeeze.theorem.skill.cooking.SkillCooking;
-import squeeze.theorem.skill.defense.SkillDefense;
-import squeeze.theorem.skill.firemaking.SkillFiremaking;
 import squeeze.theorem.skill.fishing.SkillFishing;
-import squeeze.theorem.skill.hitpoints.SkillHitpoints;
-import squeeze.theorem.skill.larceny.SkillLarceny;
-import squeeze.theorem.skill.mining.SkillMining;
-import squeeze.theorem.skill.ranged.SkillRanged;
-import squeeze.theorem.skill.smithing.SkillSmithing;
-import squeeze.theorem.skill.strength.SkillStrength;
 import squeeze.theorem.skill.witchcraft.SkillWitchcraft;
-import squeeze.theorem.skill.woodcutting.SkillWoodcutting;
 import squeeze.theorem.ui.UserInterface;
 
 public abstract class Skill {

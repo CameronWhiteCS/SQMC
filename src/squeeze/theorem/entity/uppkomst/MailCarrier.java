@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import squeeze.theorem.entity.Boundable;
 import squeeze.theorem.entity.DialogueNode;
 import squeeze.theorem.entity.DialogueNode.DialogueType;
+import squeeze.theorem.ui.UserInterface;
 import squeeze.theorem.entity.EyeTracking;
 import squeeze.theorem.entity.NPC;
 
@@ -26,7 +27,12 @@ public class MailCarrier extends NPC implements EyeTracking, Boundable{
 	@Override
 	public DialogueNode getDialogueNode(Player player) {
 		
-		DialogueNode root = new DialogueNode("Hello, " + player.getName() + ". What can I do for you?", DialogueType.NPC);
+		DialogueNode root = new DialogueNode("Hello, " + player.getName() + ". What can I do for you?", DialogueType.NPC) {
+			@Override
+			public void onSelect(Player player) {
+				UserInterface.bank.open(player);
+			}
+		};
 			root.addChild("Do you have any mail for me?", DialogueType.PLAYER);
 			root.getChild(0).addChild("I'm afraid the developer is a lazy fuck and hasn't implemented the mail feature yet.", DialogueType.NPC);
 			root.getChild(0, 0).addChild("Oh. Well, when do we get that feature?", DialogueType.PLAYER);

@@ -73,104 +73,26 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 
 	/*Tier 1 smithing recipes*/
 	
+	public static SQMCRecipe WOODEN_SHOVEL = fromFile("wooden-shovel");
+	public static SQMCRecipe WOODEN_HOE = fromFile("wooden-hoe");
+	public static SQMCRecipe WOODEN_SWORD = fromFile("wooden-sword");
+	public static final SQMCRecipe WOODEN_AXE = fromFile("wooden-axe");
 	public static final SQMCRecipe WOODEN_PICKAXE = fromFile("wooden-pickaxe");
 	
-	public static final SQMCRecipe WOODEN_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.WOODEN_SWORD)
-			.addRequirement(Skill.smithing, 2)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.OAK_LOG, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL)
-			.setAcceptsSubstitutes(true);
 	
-	public static SQMCRecipe WOODEN_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.WOODEN_AXE)
-			.addRequirement(Skill.smithing, 3)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.OAK_LOG, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL)
-			.setAcceptsSubstitutes(true);
-	
-	public static SQMCRecipe WOODEN_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.WOODEN_SHOVEL)
-			.addRequirement(Skill.smithing, 4)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.OAK_LOG, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL)
-			.setAcceptsSubstitutes(true);
-	
-	public static SQMCRecipe WOODEN_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.WOODEN_HOE)
-			.addRequirement(Skill.smithing, 5)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.OAK_LOG, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL)
-			.setAcceptsSubstitutes(true);
-	
-	public static SQMCRecipe LEATHER_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.LEATHER_BOOTS)
-			.addRequirement(Skill.smithing, 6)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe LEATHER_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.LEATHER_HELMET)
-			.addRequirement(Skill.smithing, 7)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 5)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe LEATHER_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.LEATHER_LEGGINGS)
-			.addRequirement(Skill.smithing, 8)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 7)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe LEATHER_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.LEATHER_CHESTPLATE)
-			.addRequirement(Skill.smithing, 9)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 8)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
+	public static SQMCRecipe LEATHER_BOOTS = fromFile("leather-boots");
+	public static SQMCRecipe LEATHER_HELMET = fromFile("leather-helmet");
+	public static SQMCRecipe LEATHER_LEGGINGS = fromFile("leather-leggings");
+	public static SQMCRecipe LEATHER_CHESTPLATE = fromFile("leather-chestplate");
+
 	
 	/*Tier 2 smithing recipes*/
 	
-	public static final SQMCRecipe COBBLESTONE_PICKAXE = new SQMCRecipe()
-			.setOutput(CustomItem.COBBLESTONE_PICKAXE)
-			.addRequirement(Skill.smithing, 11)
-			.setXP(Skill.smithing, 9.0)
-			.addInput(CustomItem.COBBLESTONE, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static final SQMCRecipe COBBLESTONE_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.COBBLESTONE_SWORD)
-			.addRequirement(Skill.smithing, 12)
-			.setXP(Skill.smithing, 6.0)
-			.addInput(CustomItem.COBBLESTONE, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe COBBLESTONE_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.COBBLESTONE_AXE)
-			.addRequirement(Skill.smithing, 13)
-			.setXP(Skill.smithing, 9.0)
-			.addInput(CustomItem.COBBLESTONE, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe COBBLESTONE_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.COBBLESTONE_SHOVEL)
-			.addRequirement(Skill.smithing, 14)
-			.setXP(Skill.smithing, 3.0)
-			.addInput(CustomItem.COBBLESTONE, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe COBBLESTONE_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.COBBLESTONE_HOE)
-			.addRequirement(Skill.smithing, 15)
-			.setXP(Skill.smithing, 6.0)
-			.addInput(CustomItem.COBBLESTONE, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
+	public static SQMCRecipe COBBLESTONE_SHOVEL = fromFile("cobblestone-shovel");
+	public static SQMCRecipe COBBLESTONE_HOE = fromFile("cobblestone-hoe");
+	public static SQMCRecipe COBBLESTONE_SWORD = fromFile("cobblestone-sword");
+	public static final SQMCRecipe COBBLESTONE_AXE = fromFile("cobblestone-axe");
+	public static final SQMCRecipe COBBLESTONE_PICKAXE = fromFile("cobblestone-pickaxe");
 	
 	public static SQMCRecipe HARD_LEATHER_BOOTS = new SQMCRecipe()
 			.setOutput(CustomItem.HARD_LEATHER_BOOTS)
@@ -871,6 +793,7 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 					DataManager.getPlayerData(player.getUniqueId()).getSessionData().setRecipe(this);
 					player.sendMessage(ChatColor.GREEN + "Now crafting " + r.getOutput().getName() + ChatColor.GREEN + ".");
 					player.closeInventory();
+					DataManager.getPlayerData(player.getUniqueId()).getSessionData().setCraftingLocation(player.getLocation());
 					
 				}
 			}
@@ -1089,7 +1012,7 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 		recipe.setXP(xp);
 		recipe.setRequirements(requirements);
 		
-		return null;
+		return recipe;
 		
 	}
 	

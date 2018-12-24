@@ -1,9 +1,8 @@
-package squeeze.theorem.skill.larceny;
+package squeeze.theorem.skill;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.UserInterface;
 
 public class SkillLarceny extends Skill {

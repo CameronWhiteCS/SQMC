@@ -21,6 +21,7 @@ public class UserInterfaceSettings extends UserInterface {
 		components.add(new UIComponentSettingsHUD());
 		components.add(new UIComponentSettingsCombatMode());
 		components.add(new UIComponentSettingsMusic());
+		components.add(new UIComponentSettingsXPBars());
 	}
 	
 

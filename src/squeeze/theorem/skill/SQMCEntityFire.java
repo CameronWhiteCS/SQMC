@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.firemaking;
+package squeeze.theorem.skill;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -19,8 +19,6 @@ import org.bukkit.potion.PotionEffectType;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.Lootable;
-import squeeze.theorem.skill.LevelRequirements;
-import squeeze.theorem.skill.Skill;
 
 public class SQMCEntityFire extends SQMCEntity implements Lootable, LevelRequirements {
 	

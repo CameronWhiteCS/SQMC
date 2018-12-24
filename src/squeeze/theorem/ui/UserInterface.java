@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import squeeze.theorem.bank.UserInterfaceBank;
 import squeeze.theorem.recipe.RecipeType;
 import squeeze.theorem.ui.settings.UserInterfaceSettings;
 
@@ -35,6 +36,7 @@ public abstract class UserInterface {
 	public static UserInterface skillguideWitchcraft = new UserInterfaceSkillguideWitchcraft("Witchcraft", 27);
 	public static UserInterface skillguideWoodcutting = new UserInterfaceSkillguideWoodcutting("Woodcutting", 27);
 	public static UserInterface skillguideLarceny = new UserInterfaceSkillguideLarceny("Larceny", 27);
+	public static UserInterface bank = new UserInterfaceBank();
 	
 	public UserInterface() {
 		userInterfaces.add(this);

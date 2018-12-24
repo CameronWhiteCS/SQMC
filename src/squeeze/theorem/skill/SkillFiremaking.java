@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.firemaking;
+package squeeze.theorem.skill;
 
 import java.util.Collection;
 
@@ -21,7 +21,6 @@ import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.event.FireLightEvent;
 import squeeze.theorem.item.CustomItem;
-import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.UserInterface;
 
 public class SkillFiremaking extends Skill implements Listener, Runnable {

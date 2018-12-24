@@ -216,11 +216,10 @@ public class CustomItem implements Listener {
 	//new wood type when it's released
 	public static final CustomItem INFERNAL_WAND = new CombatItem(508, "Infernal wand", Material.BLAZE_ROD, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).addEnchantment(Enchantment.ARROW_FIRE);
 	
-	/*Quest items batch 1*/
-	public static final CustomItem SUSPICIOUS_PACKAGE = new CustomItem(601, "Suspcious package", Material.SHULKER_BOX, "Seems perfectly legitimate");
-	public static final CustomItemBook THE_COMMUNIST_MANIFESTO = new CustomItemBook(602, "The Communist Manifesto", Material.WRITTEN_BOOK, "A spectre is haunting Europe").setText(CustomItemBook.THE_COMMUNIST_MANIFESTO).setAuthor("Karl Marx");
-	public static final CustomItem BRIGHTBRIAR_LETTER = new CustomItem(603, "Brightbriar letter", Material.PAPER, "I should take this to Brightbriar");
-	public static final CustomItem LAYOFF_NOTICE = new CustomItem(603, "Layoff notice", Material.PAPER, "I have a bad feeling about", "delivering this...");
+	/*Misc/Quest items -- block I*/
+	public static final CustomItem torch = new CustomItem(601, "Torch", Material.TORCH, "");
+	
+	
 	
 	/*Alchemy/Witchcraft*/
 	public static final CustomItem SPIDER_EYE = new CustomItem(701, "Spider eye", Material.SPIDER_EYE, "");

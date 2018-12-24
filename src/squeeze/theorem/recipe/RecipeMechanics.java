@@ -29,9 +29,10 @@ public class RecipeMechanics implements Runnable, Listener {
 	@EventHandler
 	public void onMove(PlayerMoveEvent evt) {
 		if(evt.isCancelled()) return;
-		Location from = evt.getFrom();
+		Location craftingLocation = DataManager.getPlayerData(evt.getPlayer().getUniqueId()).getSessionData().getCraftingLocation();
+		if(craftingLocation == null) return;
 		Location to = evt.getTo();
-		if(to.getX() == from.getX() && from.getY() == to.getY() && from.getZ() == to.getZ()) return;
+		if(craftingLocation.distance(to) < 2) return;
 		PlayerData dat = DataManager.getPlayerData(evt.getPlayer().getUniqueId());
 		if(dat.getSessionData().getRecipe() != null) dat.getSessionData().setRecipe(null);
 	}

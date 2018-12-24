@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.entity.SQMCEntity;
-import squeeze.theorem.skill.firemaking.SQMCEntityFire;
+import squeeze.theorem.skill.SQMCEntityFire;
 
 public class UserInterfaceSkillguideFiremaking extends MultiPageInterface {
 

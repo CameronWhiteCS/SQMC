@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.hitpoints;
+package squeeze.theorem.skill;
 
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -11,7 +11,6 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
-import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.UserInterface;
 
 public class SkillHitpoints extends Skill implements Runnable, Listener {

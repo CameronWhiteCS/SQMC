@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.mining;
+package squeeze.theorem.skill;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -8,8 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import squeeze.theorem.item.CustomItem;
-import squeeze.theorem.skill.Resource;
-import squeeze.theorem.skill.Skill;
 
 //TODO: Implement ore failure rates
 public class Ore implements Resource{

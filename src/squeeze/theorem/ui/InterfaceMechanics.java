@@ -60,8 +60,6 @@ public class InterfaceMechanics implements Runnable, Listener {
 
 	// Automatically updates outdated UI's
 	// TODO: Make this function compatable with the skills menu: make it where if
-	// you look up andother players skils, that interface will update as well. Right
-	// now, only personalized interfaces update.
 	@Override
 	public void run() {
 
