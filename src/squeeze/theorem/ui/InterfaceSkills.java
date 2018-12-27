@@ -25,15 +25,9 @@ public class InterfaceSkills extends UserInterface {
 	@Override
 	public String getTitle(Player player) {
 		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
-		return player.getName() + "'s Skills [" + dat.getTotalLevel() + "]";
+		return player.getName() + "'s Skills [" + dat.getTotalLevel() + "]" + appendID();
 	}
-
-	@Override
-	public void open(Player player) {
-		player.openInventory(getInventory(player));
-		
-	}
-
+	
 	@Override
 	public Inventory getInventory(Player player) {
 

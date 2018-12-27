@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import squeeze.theorem.bank.UserInterfaceBank;
+import squeeze.theorem.data.DataManager;
+import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.recipe.RecipeType;
 import squeeze.theorem.ui.settings.UserInterfaceSettings;
 
@@ -30,7 +33,7 @@ public abstract class UserInterface {
 	public static UserInterface skillguideFishing = new UserInterfaceSkillguideFishing("Fishing", 27);
 	public static UserInterface skillguideHitpoints = new UserInterfaceSkillguideHitpoints("Hitpoints", 27);
 	public static UserInterface skillguideMining = new UserInterfaceSkillguideMining("Mining", 27);
-	public static UserInterface skillguideRanged = new UserInterfaceSkilguideRanged("Ranged", 27);
+	public static UserInterface skillguideRanged = new UserInterfaceSkillguideRanged("Ranged", 27);
 	public static UserInterface skillguideSmithing = new UserInterfaceSkillguideSmithing("Smithing", 45);
 	public static UserInterface skillguideStrength = new UserInterfaceSkillguideStrength("Strength", 27);
 	public static UserInterface skillguideWitchcraft = new UserInterfaceSkillguideWitchcraft("Witchcraft", 27);
@@ -42,7 +45,17 @@ public abstract class UserInterface {
 		userInterfaces.add(this);
 	}
 	
-	public abstract void open(Player player);
+	
+	public String appendID() {
+		return "                                                                                             " + "ID:" + getID();
+	}
+	
+	public void open(Player player) {
+		Inventory inv = getInventory(player);
+		player.openInventory(inv);
+		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		dat.getSessionData().setUIpage(0);
+	}
 	public abstract Inventory getInventory(Player player);
 	public abstract List<UIComponent> getComponents();
 	public abstract String getTitle(Player player);
@@ -52,7 +65,22 @@ public abstract class UserInterface {
 	}
 	
 	public int getID() {
-		return  userInterfaces.indexOf(this);
+		return userInterfaces.indexOf(this);
+	}
+	
+	public void update(Player player) {
+		if (player.getOpenInventory().getTitle() == null) return;
+		String title = player.getOpenInventory().getTopInventory().getTitle();
+		if(title.contains("ID:" + getID()) == false) return;
+		String[] split = title.split("ID:");
+		int ID = Integer.parseInt(split[1]);
+		if(ID != getID()) return;
+		
+		
+		ItemStack[] visibleContents = player.getOpenInventory().getTopInventory().getContents();
+		ItemStack[] expectedContents = getInventory(player).getContents();
+
+		if (visibleContents.equals(expectedContents) == false) player.openInventory(getInventory(player));
 	}
 
 }

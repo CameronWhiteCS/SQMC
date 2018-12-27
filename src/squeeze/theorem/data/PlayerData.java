@@ -31,7 +31,6 @@ import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 
 import squeeze.theorem.audio.SQMCSong;
 import squeeze.theorem.bank.BankDistrict;
-import squeeze.theorem.bank.BankEntry;
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatMode;
 import squeeze.theorem.combat.CombatStats;
@@ -74,14 +73,7 @@ public class PlayerData implements CombatStats {
 	private HashMap<Skill, BossBar> xpBars;
 	private HashMap<Skill, Long> xpBarTimers;
 	private boolean showXPBars = true;
-	private Map<BankDistrict, BankEntry[]> banks = new HashMap<BankDistrict, BankEntry[]>(){
-		private static final long serialVersionUID = -612157451553598255L;
-		{
-			for(BankDistrict d: BankDistrict.values()) {
-				put(d, new BankEntry[450]);
-			}
-		}
-	};
+	private BankAccount bankAccount = new BankAccount(this);
 	
 	/* Constructors */
 	public PlayerData(UUID id) {
@@ -101,6 +93,10 @@ public class PlayerData implements CombatStats {
 	}
 	
 	/* Setters and getters */
+	
+	public BankAccount getBankAccount() {
+		return this.bankAccount;
+	}
 	
 	public boolean showXPBars() {
 		return this.showXPBars;
@@ -747,70 +743,6 @@ public class PlayerData implements CombatStats {
 		getPlayer().sendTitle("", ChatColor.GOLD + song.getName(), 0, 100, 0);
 	}
 
-	/*Banking system*/
-	public void depositItem(BankDistrict district, ItemStack stack, int slot){
-		BankEntry[] bank = this.banks.get(district);
-		CustomItem ci = CustomItem.getCustomItem(stack);
-		if(ci == null) return;
-		for(BankEntry b: bank) {
-			if(b == null) continue;
-			if(b.getDistrict() != district) continue;
-			if(b.getCustomItem() == ci) {
-				b.setAmount(b.getAmount() + stack.getAmount());
-				stack.setAmount(0);
-				return;
-			}
-		}
-
-			bank[slot] = new BankEntry(district, ci, stack.getAmount(), slot);
-			stack.setAmount(0);
-	}
-	
-	public void depositItem(BankDistrict district, ItemStack stack){
-		BankEntry[] bank = this.banks.get(district);
-		CustomItem ci = CustomItem.getCustomItem(stack);
-		if(ci == null) return;
-		for(BankEntry b: bank) {
-			if(b == null) continue;
-			if(b.getDistrict() != district) continue;
-			if(b.getCustomItem() == ci) {
-				b.setAmount(b.getAmount() + stack.getAmount());
-				stack.setAmount(0);
-				return;
-			}
-		}
-
-			for(int i = 0; i <= bank.length; i++) {
-				if(bank[i] == null) bank[i] = new BankEntry(district, ci, stack.getAmount(), i);
-				stack.setAmount(0);
-			}
-	}
-	
-	public BankEntry getBankEntry(BankDistrict district, int slot) {
-		BankEntry[] bank = this.banks.get(district);
-		if(bank.length - 1 < slot) return null;
-		return bank[slot];
-	}
-	
-	public void withdrawItem(BankDistrict district, int slot, int amount) {
-		BankEntry[] bank = banks.get(district);
-		BankEntry entry = bank[slot];
-		if(entry == null) return;
-		CustomItem ci = entry.getCustomItem();
-		if(entry.getAmount() >= amount) {
-			entry.setAmount(entry.getAmount() - amount);
-			this.giveItem(ci, amount);
-		} else {
-			this.giveItem(ci, entry.getAmount());
-			entry.setAmount(0);
-		}
-		
-		if(entry.getAmount() <= 0) {
-			bank[slot] = null;
-			banks.put(district, bank);
-		}
-		
-	}
 	
 	public BankDistrict getBankDistrict() {
 		for(Region r: Region.getRegions()) {

@@ -20,21 +20,18 @@ public class InterfaceMechanics implements Runnable, Listener {
 		//Null checks
 		if (evt == null) return;
 		if (evt.getCurrentItem() == null) return;
-		if (evt.getCursor() == null) return;
 		if (evt.getInventory().getName() == null) return;
-		if (!evt.getInventory().getName().contains(ChatColor.DARK_PURPLE + "")) return;
+		if (evt.getInventory().getName().contains(ChatColor.DARK_PURPLE + "") == false) return;
 
+		if(evt.isShiftClick()) {
+			evt.setCancelled(true);
+			return;
+		}
 		
 		//Variable creation
 		Player player = (Player) evt.getWhoClicked();
 		Inventory inv = evt.getInventory();
 		ItemStack stack = evt.getCurrentItem();
-
-		//Once the event has been recognized as occuring within a UI, cancel it if it's a shift click and then return
-		if(evt.isShiftClick()) {
-			evt.setCancelled(true);
-			return;
-		}
 		
 		//Once the event has been recognized as occuring within a UI, cancel it if it occurs within the top inventory
 		int size = player.getOpenInventory().getTopInventory().getSize();
@@ -43,7 +40,7 @@ public class InterfaceMechanics implements Runnable, Listener {
 		}
 
 		for (UserInterface ui : UserInterface.getUserInterfaces()) {
-			if (ui.getTitle(player).equals(ChatColor.stripColor(inv.getTitle()))) {
+			if (inv.getTitle().contains("ID:" + ui.getID()) == false) continue; 
 				for (UIComponent comp : ui.getComponents()) {
 					if (comp.getItemStack(player).equals(stack)) {
 
@@ -54,7 +51,7 @@ public class InterfaceMechanics implements Runnable, Listener {
 
 					}
 				}
-			}
+			
 		}
 	}
 
@@ -64,25 +61,8 @@ public class InterfaceMechanics implements Runnable, Listener {
 	public void run() {
 
 		for (PlayerData dat : DataManager.getOnlinePlayers()) {
-			Player player = dat.getPlayer();
-			if (player.getOpenInventory().getTitle() == null)
-				continue;
-
-			String title = player.getOpenInventory().getTopInventory().getTitle();
-
-			for (UserInterface ui : UserInterface.userInterfaces) {
-
-				if (ui.getInventory(player).getTitle().equals(title)) {
-
-					ItemStack[] visibleContents = player.getOpenInventory().getTopInventory().getContents();
-					ItemStack[] expectedContents = ui.getInventory(player).getContents();
-
-					if (!visibleContents.equals(expectedContents)) {
-						player.getOpenInventory().getTopInventory().setContents(expectedContents);
-					}
-
-				}
-
+			for(UserInterface ui: UserInterface.getUserInterfaces()) {
+				ui.update(dat.getPlayer());
 			}
 
 		}

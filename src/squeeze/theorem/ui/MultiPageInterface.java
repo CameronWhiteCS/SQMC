@@ -41,15 +41,6 @@ public class MultiPageInterface extends UserInterface {
 		return title;
 	}
 
-
-	@Override
-	public void open(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
-		dat.getSessionData().setUIpage(0);
-		player.openInventory(getInventory(player));
-		
-	}
-
 	public void addComponent(UIComponent comp) {
 		this.components.add(comp);
 	}
@@ -67,7 +58,7 @@ public class MultiPageInterface extends UserInterface {
 		Inventory inv;
 		
 		if(this.components.size() > getSize()) {
-			inv = Bukkit.createInventory(null, getSize() + 9, ChatColor.DARK_PURPLE + getTitle(player));
+			inv = Bukkit.createInventory(null, getSize() + 9, ChatColor.DARK_PURPLE + getTitle(player) + appendID());
 			inv.setItem(inv.getSize() - 2, back.getItemStack(player));
 			inv.setItem(inv.getSize() - 1, forward.getItemStack(player));
 		} else {

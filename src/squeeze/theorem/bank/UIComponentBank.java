@@ -43,7 +43,7 @@ public class UIComponentBank implements UIComponent {
 			return output;
 		}
 		
-		BankEntry entry = dat.getBankEntry(district, slot);
+		BankEntry entry = dat.getBankAccount().getBankEntry(district, slot);
 		if(entry == null) {
 			ItemStack output = new ItemStack(Material.BARRIER);
 			ItemMeta meta = output.getItemMeta();
@@ -82,20 +82,20 @@ public class UIComponentBank implements UIComponent {
 		if(evt.getCursor().getType() != Material.AIR) {
 			CustomItem ci = CustomItem.getCustomItem(evt.getCursor());
 			if(ci == null) return;
-			dat.depositItem(district, evt.getCursor(), slot);
+			dat.getBankAccount().depositItem(district, evt.getCursor(), slot);
 			return;
 		}
 		
 		//If withdrawing
-		BankEntry entry = dat.getBankEntry(district, slot);
+		BankEntry entry = dat.getBankAccount().getBankEntry(district, slot);
 		if(entry == null) return;
 		
 		CustomItem ci = entry.getCustomItem();
 		if(entry.getAmount() >= ci.getMaxStackSize()) {
-			dat.withdrawItem(district, slot, ci.getMaxStackSize());
+			dat.getBankAccount().withdrawItem(district, slot, ci.getMaxStackSize());
 			
 		} else {
-			dat.withdrawItem(district, slot, entry.getAmount());
+			dat.getBankAccount().withdrawItem(district, slot, entry.getAmount());
 		}
 
 	}

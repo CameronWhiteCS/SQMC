@@ -12,9 +12,9 @@ import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.skill.Skill;
 
-public class UserInterfaceSkilguideRanged extends MultiPageInterface {
+public class UserInterfaceSkillguideRanged extends MultiPageInterface {
 
-	public UserInterfaceSkilguideRanged(String title, int size) {
+	public UserInterfaceSkillguideRanged(String title, int size) {
 		super(title, size);
 		for(CustomItem ci: CustomItem.getItems()) {
 			if(ci instanceof CombatItem) {

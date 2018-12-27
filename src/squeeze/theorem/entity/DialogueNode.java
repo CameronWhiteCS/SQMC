@@ -121,7 +121,7 @@ public class DialogueNode {
 	/*Methods*/
 	//Intended to be overwritten
 	public void onSelect(Player player) {
-		
+
 	}
 
 	public void send(Player player) {

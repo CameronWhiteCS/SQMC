@@ -70,7 +70,7 @@ public class Spellbook extends UserInterface {
 
 	@Override
 	public Inventory getInventory(Player player) {
-		Inventory inv = Bukkit.createInventory(null, getSize(), ChatColor.DARK_PURPLE + getTitle(player));
+		Inventory inv = Bukkit.createInventory(null, getSize(), ChatColor.DARK_PURPLE + getTitle(player) + appendID());
 		for(UIComponent ui: spells) {
 			inv.addItem(ui.getItemStack(player));
 		}

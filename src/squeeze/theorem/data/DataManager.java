@@ -219,8 +219,9 @@ public class DataManager implements Listener, Runnable {
 		
 	}
 
+	//TODO: Make asyc
 	public static void saveToDatabase(UUID id, Connection conn) throws SQLException, PlayerNotLoadedException {
-			
+		
 			Statement statement = conn.createStatement();
 			PlayerData dat = getPlayerData(id);
 			
@@ -333,8 +334,8 @@ public class DataManager implements Listener, Runnable {
 			String appended = "";
 			
 			for(BankDistrict dist: BankDistrict.values()) {
-				for(int i = 0; i <= 449; i++) {
-					BankEntry entry = dat.getBankEntry(dist, i);
+				for(int i = 0; i <= BankAccount.MAX_SLOTS - 1; i++) {
+					BankEntry entry = dat.getBankAccount().getBankEntry(dist, i);
 					if(entry == null) continue;
 					appended += String.format("('%s', '%s', '%s', '%s', '%s'),", dat.getUUID().toString(), dist.toString().toLowerCase(), entry.getCustomItem().getID(), entry.getAmount(), entry.getSlot());
 				}
@@ -354,6 +355,10 @@ public class DataManager implements Listener, Runnable {
 	public static PlayerData getPlayerData(UUID id) {
 		if(players.containsKey(id)) return players.get(id);
 		return null;
+	}
+	
+	public static PlayerData getPlayerData(Player player) {
+		return getPlayerData(player.getUniqueId());
 	}
 	
 	public void run() {
@@ -456,7 +461,7 @@ public class DataManager implements Listener, Runnable {
 				String districtString = set.getString("district");
 				for(BankDistrict d: BankDistrict.values()) {
 					if(d.toString().equalsIgnoreCase(districtString)) {
-						dat.depositItem(d, CustomItem.getCustomItem(set.getInt("id")).getItemStack(set.getInt("amount")), set.getInt("slot"));
+						dat.getBankAccount().depositItem(d, CustomItem.getCustomItem(set.getInt("id")).getItemStack(set.getInt("amount")), set.getInt("slot"));
 					}
 				}
 				

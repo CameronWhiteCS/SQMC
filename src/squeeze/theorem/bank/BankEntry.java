@@ -15,6 +15,7 @@ public class BankEntry {
 		setDistrict(district);
 		setCustomItem(ci);
 		setAmount(amount);
+		setSlot(slot);
 	}
 	
 	/*Setters and getters*/
