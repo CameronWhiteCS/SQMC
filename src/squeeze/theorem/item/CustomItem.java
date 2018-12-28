@@ -28,7 +28,7 @@ public class CustomItem implements Listener {
 	private int ID;
 	private String name;
 	private Material material;
-	private List<String> lore = new ArrayList<String>();
+	private List<String> description = new ArrayList<String>();
 	private Map<Enchantment, Integer> enchantments = new LinkedHashMap<Enchantment, Integer>();
 	private int maxStackSize = 1;
 	private boolean infinitelyStackable = false;
@@ -227,19 +227,19 @@ public class CustomItem implements Listener {
 	
 	/* Constructors */
 
-	public CustomItem(int ID, String name, Material material, String... lore) {
+	public CustomItem(int ID, String name, Material material, String... desc) {
 		setID(ID);
 		setName(name);
 		setMaterial(material);
-		setLore(lore);
+		setDescription(desc);
 		items.add(this);
 	}
 	
-	public CustomItem(int ID, String name, Material material, boolean infinitelyStackable, String... lore) {
+	public CustomItem(int ID, String name, Material material, boolean infinitelyStackable, String... desc) {
 		setID(ID);
 		setName(name);
 		setMaterial(material);
-		setLore(lore);
+		setDescription(desc);
 		setInfinitelyStackable(infinitelyStackable);
 		items.add(this);
 	}
@@ -294,21 +294,32 @@ public class CustomItem implements Listener {
 	public List<String> getLore() {
 		List<String> output = new ArrayList<String>();
 		//Header
-		output.addAll(lore);
-		
+		output.addAll(getDescription());
 		if(this instanceof CombatItem) {
 			CombatItem cmbt = (CombatItem) this;
 			output.add(ChatColor.GRAY + "=======");
 			output.addAll(cmbt.getCombatItemLore());
 			output.add(ChatColor.GRAY + "=======");
 		}
-		output.add(ChatColor.GRAY + "ID: " + getID());
 		return output;
 	}
 
-	public CustomItem setLore(ArrayList<String> lore) {
-		this.lore = lore;
+	public CustomItem setDescription(ArrayList<String> desc) {
+		this.description = desc;
 		return this;
+	}
+	
+	public CustomItem setDescription(String[] desc) {
+		List<String> list = new ArrayList<String>();
+		for(String s: desc) {
+			list.add(s);
+		}
+		this.description = list;
+		return this;
+	}
+	
+	public List<String> getDescription(){
+		return this.description;
 	}
 	
 	public CustomItem setLore(String...lore) {
@@ -325,10 +336,13 @@ public class CustomItem implements Listener {
 		ItemMeta meta = stack.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS);
 		meta.setDisplayName(ChatColor.GOLD + getName());
-		meta.setLore(getLore());
+		List<String> lore = getLore();
+		lore.add((ChatColor.GRAY + "ID: " + getID()));
+		if(isInfinitelyStackable() == true) lore.add((ChatColor.GRAY + "Count: " + amount));
+		meta.setLore(lore);
 		meta.setUnbreakable(true);
 		stack.setItemMeta(meta);
-		stack.setAmount(amount);
+		if(isInfinitelyStackable() == false) stack.setAmount(amount);
 		for(Enchantment e: enchantments.keySet()) {
 			stack.addUnsafeEnchantment(e, enchantments.get(e));
 		}
@@ -343,15 +357,37 @@ public class CustomItem implements Listener {
 	/* Vanilla items to custom items and custom items to vanilla items */
 
 	public static int getID(ItemStack stack) {
-		try {
-			List<String> lore = stack.getItemMeta().getLore();
-			String s = ChatColor.stripColor(lore.get(lore.size() - 1));
-			s = s.replaceAll("ID: ", "");
-
-			return Integer.parseInt(s);
-		} catch (Exception exc) {
-			return -1;
+		int output = -1;
+		if(stack == null) return output;
+		ItemMeta meta = stack.getItemMeta();
+		if(meta == null) return output;
+		List<String> lore = meta.getLore();
+		for(String s: lore) {
+			if(s.contains("ID: ")) {
+				String[] split = s.split("ID: ");
+				output = Integer.parseInt(split[1]);
+			}
 		}
+		return output;
+	}
+	
+	public static int getCount(ItemStack stack) {
+		int output = 1;
+		if(stack == null) return output;
+		ItemMeta meta = stack.getItemMeta();
+		if(meta == null) return output;
+		List<String> lore = meta.getLore();
+		for(String s: lore) {
+			if(s.contains("Count: ")) {
+				String[] split = s.split("Count: ");
+				output = Integer.parseInt(split[1]);
+			}
+		}
+		return output * stack.getAmount();
+	}
+	
+	public static void setCount(ItemStack stack, int count) {
+		
 	}
 
 	public static CustomItem getCustomItem(int ID) {

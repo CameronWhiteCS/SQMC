@@ -2,10 +2,10 @@
     "name":"Hard leather boots",
     "material":"LEATHER_BOOTS",
     "melee-defense":"11",
-    "ranged-defense":"22",
+    "ranged-defense":"16.5",
     "magic-defense":"5.5",
     "ranged-accuracy":"-5.5",
-    "magic-accuracy":"-22",
+    "magic-accuracy":"-16.5",
     "requirements":{
         "defense":"10"
     },

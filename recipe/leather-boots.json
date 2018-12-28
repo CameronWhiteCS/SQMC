@@ -1,0 +1,17 @@
+{
+	"output-id":"304",
+	"output-amount":"1",
+	"inputs":[
+		{
+			"item-id":"130",
+			"amount":"4"
+		}
+	],
+	"requirements":{
+		"smithing":"6"
+	},
+	"xp":{
+		"smithing":"30"
+	},
+	"recipe-type":"SMITHING_ANVIL"
+}

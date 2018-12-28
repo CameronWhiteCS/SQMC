@@ -4,14 +4,14 @@
 	"inputs":[
 		{
 			"item-id":"9",
-			"amount":"3"
+			"amount":"5"
 		}
 	],
 	"requirements":{
-		"smithing":"1"
+		"smithing":"5"
 	},
 	"xp":{
-		"smithing":"5"
+		"smithing":"25"
 	},
 	"recipe-type":"SMITHING_ANVIL",
 	"accepts-substitutes":true

@@ -1,0 +1,15 @@
+{
+    "name":"Chainmail boots",
+    "material":"CHAINMAIL_BOOTS",
+    "melee-defense":"13",
+    "ranged-defense":"19.5",
+    "magic-defense":"6.5",
+    "ranged-accuracy":"-6.5",
+    "magic-accuracy":"-19.5",
+    "requirements":{
+        "defense":"20"
+    },
+	"lore":[
+		""
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"name":"The Eternal Flame",
+	"description":"",
+	"start-point"{
+		"x":"0",
+		"y":"0",
+		"z":"0"
+	}
+	"required-levels":{
+		"firemaking":"20"
+	},
+	"required-flags":[
+		"arbitrary.flag"
+	],
+	"flags":[
+		{
+			"flag":"arbitrary.flag",
+			"flag-desc":"arbitrary desc"
+		}
+	]
+}

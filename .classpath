@@ -8,6 +8,5 @@
 	<classpathentry kind="lib" path="C:/Users/Cameron/Desktop/Programming/NoteBlockAPI-1.2.3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Cameron/Desktop/BuildTools/Bukkit/target/bukkit-1.13.2-R0.1-SNAPSHOT-shaded.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Cameron/Desktop/BuildTools/CraftBukkit/target/craftbukkit-1.13.2-R0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Cameron/Desktop/Development Server/MCServer/plugins/worldedit-bukkit-7.0.0-SNAPSHOT-dist.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

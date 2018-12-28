@@ -40,16 +40,20 @@
 	"drop-tables":[
 		[
 			{
-				"item-id":"101",
-				"weight":"1"
-			},
-			{
 				"item-id":"113",
 				"weight":"1"
 			},
 			{
 				"item-id":"109",
 				"weight":"1"
+			},
+			{
+				"item-id":"101",
+				"weight":"1"
+			},
+			{
+				"item-id":"-1",
+				"weight":"5"
 			}
 		],
 		[
@@ -59,7 +63,4 @@
 			}	
 		]
 	]
-
-
-
 }

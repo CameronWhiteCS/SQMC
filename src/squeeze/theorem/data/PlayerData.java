@@ -69,7 +69,7 @@ public class PlayerData implements CombatStats {
 	private SongPlayer songPlayer = null;
 	private boolean music = true;
 	private VanillaData vanillaData = new VanillaData();
-	private Map<Integer, ItemStack> items = new ConcurrentHashMap<Integer, ItemStack>();
+	private Map<Integer, ItemStack> items = new ConcurrentHashMap<Integer, ItemStack>(); //Inventory items
 	private HashMap<Skill, BossBar> xpBars;
 	private HashMap<Skill, Long> xpBarTimers;
 	private boolean showXPBars = true;
@@ -671,20 +671,8 @@ public class PlayerData implements CombatStats {
 		}
 	}
 	
-	public void giveItems(ItemStack[] items) {
-		for(ItemStack i: items) {
-			giveItem(i);
-		}
-	}
-	
 	public void giveItems(List<ItemStack> items) {
 		for(ItemStack i: items) {
-			giveItem(i);
-		}
-	}
-	
-	public void giveItems(CustomItem[] items) {
-		for(CustomItem i: items) {
 			giveItem(i);
 		}
 	}
@@ -697,25 +685,42 @@ public class PlayerData implements CombatStats {
 		giveItem(ci.getItemStack());
 	}
 	
-	public void removeItem(CustomItem ci, int amount) {
+	public void removeItem(CustomItem customItem, int amount) {
 		
-		int total = 0;
 		Inventory inv = getPlayer().getInventory();
 		for(ItemStack stack: inv.getContents()) {
-			if(CustomItem.getCustomItem(stack) == ci) {
-				while(stack.getAmount() > 0 && total < amount) {
-					stack.setAmount(stack.getAmount() - 1);
-					total += 1;
-				}
+			if(amount == 0) return;
+			CustomItem ci = CustomItem.getCustomItem(stack);
+			if(ci != customItem) continue;
+			int count = CustomItem.getCount(stack);
+			
+			if(count > amount) {
+				CustomItem.setCount(stack, count - amount);
+				return;
 			}
 			
+			if(count <= amount) {
+				CustomItem.setCount(stack, 0);
+				amount -= count;
+			}
 		}
 		
 		
 	}
 	
-	public boolean hasItem(CustomItem ci) {
-		return getPlayer().getInventory().containsAtLeast(ci.getItemStack(), 1);
+	public boolean hasItem(CustomItem customItem, int amount) {
+		
+		int total = 0;
+		
+		Inventory inv = getPlayer().getInventory();
+		for(ItemStack stack: inv.getContents()) {
+			CustomItem ci = CustomItem.getCustomItem(stack);
+			if(ci == null) continue;
+			total += CustomItem.getCount(stack);
+		}
+		
+		return (total >= amount);
+		
 	}
 
 	//Songs
