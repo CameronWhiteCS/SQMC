@@ -31,8 +31,9 @@ public class UserInterfaceSkillguideWitchcraft extends MultiPageInterface {
 							ItemMeta meta = stack.getItemMeta();
 							ArrayList<String> lore = new ArrayList<String>();
 							
-							lore.add(cmbt.getLevelRequirementLore(player, Skill.witchcraft));
+							lore.addAll(cmbt.getLevelRequirementLore(player));
 							lore.add(ChatColor.GRAY + "=======");
+							lore.addAll(cmbt.getCombatItemLore());
 							meta.setLore(lore);
 							stack.setItemMeta(meta);
 							return stack;

@@ -38,7 +38,7 @@ public class MultiPageInterface extends UserInterface {
 	
 	@Override
 	public String getTitle(Player player) {
-		return title;
+		return title + appendID();
 	}
 
 	public void addComponent(UIComponent comp) {
@@ -58,7 +58,7 @@ public class MultiPageInterface extends UserInterface {
 		Inventory inv;
 		
 		if(this.components.size() > getSize()) {
-			inv = Bukkit.createInventory(null, getSize() + 9, ChatColor.DARK_PURPLE + getTitle(player) + appendID());
+			inv = Bukkit.createInventory(null, getSize() + 9, ChatColor.DARK_PURPLE + getTitle(player));
 			inv.setItem(inv.getSize() - 2, back.getItemStack(player));
 			inv.setItem(inv.getSize() - 1, forward.getItemStack(player));
 		} else {

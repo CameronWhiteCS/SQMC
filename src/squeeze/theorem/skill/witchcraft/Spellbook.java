@@ -42,7 +42,7 @@ public class Spellbook extends UserInterface {
 	
 	@Override
 	public String getTitle(Player player) {
-		return getName();
+		return getName() + appendID();
 	}
 	
 	public Spellbook addSpell(Spell spell) {
@@ -70,7 +70,7 @@ public class Spellbook extends UserInterface {
 
 	@Override
 	public Inventory getInventory(Player player) {
-		Inventory inv = Bukkit.createInventory(null, getSize(), ChatColor.DARK_PURPLE + getTitle(player) + appendID());
+		Inventory inv = Bukkit.createInventory(null, getSize(), ChatColor.DARK_PURPLE + getTitle(player));
 		for(UIComponent ui: spells) {
 			inv.addItem(ui.getItemStack(player));
 		}

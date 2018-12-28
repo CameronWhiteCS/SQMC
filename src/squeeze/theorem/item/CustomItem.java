@@ -28,10 +28,10 @@ public class CustomItem implements Listener {
 	private int ID;
 	private String name;
 	private Material material;
-	private ArrayList<String> lore = new ArrayList<String>();
+	private List<String> lore = new ArrayList<String>();
 	private Map<Enchantment, Integer> enchantments = new LinkedHashMap<Enchantment, Integer>();
-	private String[] description = {""};
 	private int maxStackSize = 1;
+	private boolean infinitelyStackable = false;
 	
 	/*Woodcutting & Woodworking: Axes, Logs, Planks, & Woodworking*/
 	
@@ -119,7 +119,7 @@ public class CustomItem implements Listener {
 	public static final CustomItem TURTLE_EGG = new CustomItem(216, "Trutle egg", Material.TURTLE_EGG);
 	public static final CustomItem SCUTE = new CustomItem(217, "Scute", Material.SCUTE, "Looks like turning off all those", "lights didn't help much.");
 	
-	public static final CustomItem FEATHER = new CustomItem(220, "Feather", Material.FEATHER, "Useful for fishing and making arrows.").setMaxStackSize(8);
+	public static final CustomItem FEATHER = new CustomItem(220, "Feather", Material.FEATHER, true, "Useful for fishing and making arrows.");
 	public static final CustomItem KELP = new CustomItem(221, "Kelp", Material.KELP, "Obtained while fishing");	
 	
 	//Heal amount
@@ -143,10 +143,10 @@ public class CustomItem implements Listener {
 	public static final CustomItem HARD_LEATHER_BOOTS = CombatItem.fromFileName(309, "hardleather-boots");
 	public static final CustomItem COBBLESTONE_SWORD = CombatItem.fromFileName(310, "cobblestone-sword");
 	
-	public static final CustomItem CHAINMAIL_BOOTS = new CombatItem(311, "Chainmail boots", Material.CHAINMAIL_BOOTS, "");
-	public static final CustomItem CHAINMAIL_HELMET = new CombatItem(312, "Chainmail helmet", Material.CHAINMAIL_HELMET, "");
-	public static final CustomItem CHAINMAIL_LEGGINGS = new CombatItem(313, "Chainmail leggings", Material.CHAINMAIL_LEGGINGS, "");
-	public static final CustomItem CHAINMAIL_CHESTPLATE = new CombatItem(314, "Chainmail chestplate", Material.CHAINMAIL_CHESTPLATE, "");
+	public static final CustomItem CHAINMAIL_HELMET = CombatItem.fromFileName(311, "chainmail-helmet");
+	public static final CustomItem CHAINMAIL_CHESTPLATE = CombatItem.fromFileName(312, "chainmail-chestplate");
+	public static final CustomItem CHAINMAIL_LEGGINGS = CombatItem.fromFileName(313, "chainmail-leggings");
+	public static final CustomItem CHAINMAIL_BOOTS = CombatItem.fromFileName(314, "chainmail-boots");
 	public static final CustomItem STONE_SWORD = CombatItem.fromFileName(315, "stone-sword");
 	
 	public static final CustomItem IRON_BOOTS = new CombatItem(316, "Iron boots", Material.IRON_BOOTS, "");
@@ -231,20 +231,30 @@ public class CustomItem implements Listener {
 		setID(ID);
 		setName(name);
 		setMaterial(material);
-		String[] description = new String[lore.length];
-		int counter = 0;
-		for (String s : lore) {
-			description[counter] = s;
-			counter++;
-			this.lore.add(s);
-		}
-		
-		setDescription(description);
+		setLore(lore);
+		items.add(this);
+	}
+	
+	public CustomItem(int ID, String name, Material material, boolean infinitelyStackable, String... lore) {
+		setID(ID);
+		setName(name);
+		setMaterial(material);
+		setLore(lore);
+		setInfinitelyStackable(infinitelyStackable);
 		items.add(this);
 	}
 
 	/* Setters and getters */
 
+	public boolean isInfinitelyStackable() {
+		return infinitelyStackable;
+	}
+
+	public CustomItem setInfinitelyStackable(boolean infinitelyStackable) {
+		this.infinitelyStackable = infinitelyStackable;
+		return this;
+	}
+	
 	public int getMaxStackSize() {
 		return maxStackSize;
 	}
@@ -252,14 +262,6 @@ public class CustomItem implements Listener {
 	public CustomItem setMaxStackSize(int maxStackSize) {
 		this.maxStackSize = maxStackSize;
 		return this;
-	}
-	
-	public String[] getDescription() {
-		return description;
-	}
-
-	private void setDescription(String[] description) {
-		this.description = description;
 	}
 	
 	public int getID() {
@@ -289,8 +291,8 @@ public class CustomItem implements Listener {
 		return this;
 	}
 
-	public ArrayList<String> getLore() {
-		ArrayList<String> output = new ArrayList<String>();
+	public List<String> getLore() {
+		List<String> output = new ArrayList<String>();
 		//Header
 		output.addAll(lore);
 		
@@ -384,7 +386,7 @@ public class CustomItem implements Listener {
 	}
 	
 	//Intended to be overwritten
-	public void onRightClick(PlayerInteractEvent evt) {
+	protected void onRightClick(PlayerInteractEvent evt) {
 
 	}
 

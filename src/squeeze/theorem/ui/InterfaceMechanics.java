@@ -21,7 +21,7 @@ public class InterfaceMechanics implements Runnable, Listener {
 		if (evt == null) return;
 		if (evt.getCurrentItem() == null) return;
 		if (evt.getInventory().getName() == null) return;
-		if (evt.getInventory().getName().contains(ChatColor.DARK_PURPLE + "") == false) return;
+		if (evt.getInventory().getName().contains("ID:") == false) return;
 
 		if(evt.isShiftClick()) {
 			evt.setCancelled(true);
@@ -38,9 +38,10 @@ public class InterfaceMechanics implements Runnable, Listener {
 		if(evt.getRawSlot() < size) {
 			evt.setCancelled(true);
 		}
-
+		
+		int ID = Integer.parseInt(ChatColor.stripColor(inv.getTitle()).split("ID:")[1]);
 		for (UserInterface ui : UserInterface.getUserInterfaces()) {
-			if (inv.getTitle().contains("ID:" + ui.getID()) == false) continue; 
+			if(ID != ui.getID()) continue;
 				for (UIComponent comp : ui.getComponents()) {
 					if (comp.getItemStack(player).equals(stack)) {
 
@@ -55,14 +56,13 @@ public class InterfaceMechanics implements Runnable, Listener {
 		}
 	}
 
-	// Automatically updates outdated UI's
-	// TODO: Make this function compatable with the skills menu: make it where if
+	
 	@Override
 	public void run() {
 
 		for (PlayerData dat : DataManager.getOnlinePlayers()) {
 			for(UserInterface ui: UserInterface.getUserInterfaces()) {
-				ui.update(dat.getPlayer());
+				ui.refresh(dat.getPlayer());
 			}
 
 		}

@@ -41,6 +41,7 @@ public class BankAccount {
 			}
 		}
 
+			if(bank[slot] != null) return;
 			bank[slot] = new BankEntry(district, ci, stack.getAmount(), slot);
 			stack.setAmount(0);
 	}

@@ -22,7 +22,7 @@ public class UserInterfaceBank extends MultiPageInterface {
 		BankDistrict dist = dat.getBankDistrict();
 		String name = dist.toString().toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
-		return String.format(name + " Bank (%s)", dat.getSessionData().getUIpage() + 1);
+		return name + " Bank" + appendID();
 	}
 	 
 }

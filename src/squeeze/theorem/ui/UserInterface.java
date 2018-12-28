@@ -3,6 +3,7 @@ package squeeze.theorem.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -47,7 +48,7 @@ public abstract class UserInterface {
 	
 	
 	public String appendID() {
-		return "                                                                                             " + "ID:" + getID();
+		return "                                                                                " + "ID:" + getID();
 	}
 	
 	public void open(Player player) {
@@ -68,19 +69,21 @@ public abstract class UserInterface {
 		return userInterfaces.indexOf(this);
 	}
 	
-	public void update(Player player) {
+	//TODO - visible contents NEVER equals expected contents -- why (array.length maybe)?
+	public void refresh(Player player) {
 		if (player.getOpenInventory().getTitle() == null) return;
 		String title = player.getOpenInventory().getTopInventory().getTitle();
 		if(title.contains("ID:" + getID()) == false) return;
-		String[] split = title.split("ID:");
-		int ID = Integer.parseInt(split[1]);
+		int ID = Integer.parseInt(title.split("ID:")[1]);
 		if(ID != getID()) return;
 		
 		
+		/*
 		ItemStack[] visibleContents = player.getOpenInventory().getTopInventory().getContents();
 		ItemStack[] expectedContents = getInventory(player).getContents();
-
-		if (visibleContents.equals(expectedContents) == false) player.openInventory(getInventory(player));
+		if (visibleContents.equals(expectedContents) == false) player.getOpenInventory().getTopInventory().setContents(expectedContents);
+		*/
+		player.getOpenInventory().getTopInventory().setContents(getInventory(player).getContents());
 	}
 
 }

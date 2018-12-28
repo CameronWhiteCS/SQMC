@@ -12,9 +12,9 @@ import squeeze.theorem.entity.DialogueNode;
 import squeeze.theorem.entity.EyeTracking;
 import squeeze.theorem.entity.NPC;
 
-public class PriestOfMoonti extends NPC implements EyeTracking {
+public class UppkomstPriestOfMoonti extends NPC implements EyeTracking {
 
-	public PriestOfMoonti() {
+	public UppkomstPriestOfMoonti() {
 		super("Priest of Moonti", EntityType.VILLAGER);
 		setProfession(Profession.PRIEST);
 		addLocation(new Location(Bukkit.getWorld("world"), 3899.5, 256, -8969.5));

@@ -56,11 +56,12 @@ import squeeze.theorem.entity.uppkomst.GrandMageTyrus;
 import squeeze.theorem.entity.uppkomst.MagicStudent;
 import squeeze.theorem.entity.uppkomst.MailCarrier;
 import squeeze.theorem.entity.uppkomst.MelonFarmer;
-import squeeze.theorem.entity.uppkomst.PriestOfMoonti;
 import squeeze.theorem.entity.uppkomst.ProfessorFiddlesticks;
 import squeeze.theorem.entity.uppkomst.ShadyMan;
 import squeeze.theorem.entity.uppkomst.UnionBoss;
 import squeeze.theorem.entity.uppkomst.UnionMiner;
+import squeeze.theorem.entity.uppkomst.UppkomstPriestOfMoonti;
+import squeeze.theorem.entity.volcanis.VolcanisPriestOfMoonti;
 import squeeze.theorem.event.PlayerKillSQMCEntityEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.main.SQMC;
@@ -70,7 +71,7 @@ import squeeze.theorem.skill.Skill;
 
 public class SQMCEntity implements Listener, Runnable {
 	
-	/*Static fields*/
+	/*STATIC FIELDS*/
 	private static List<SQMCEntity> entities = new ArrayList<SQMCEntity>();
 	private static List<Anchorable> anchorables = new ArrayList<Anchorable>();
 	private static List<Location> queuedLocations = new ArrayList<Location>();
@@ -82,6 +83,15 @@ public class SQMCEntity implements Listener, Runnable {
 	protected static DialogueType NPC = DialogueType.NPC;
 	protected static DialogueType PLAYER = DialogueType.PLAYER;
 	public static List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
+	
+	//Fires	
+	public static SQMCEntityFire fireSpruce = new SQMCEntityFire("Spruce fire", CustomItem.SPRUCE_LOG, 1, 11.0, 30 * 20L, 1, 1);
+	public static SQMCEntityFire fireBirch = new SQMCEntityFire("Birch fire", CustomItem.BIRCH_LOG, 15, 60.0, 60 * 20L, 2, 2);
+	public static SQMCEntityFire fireOak = new SQMCEntityFire("Oak fire", CustomItem.OAK_LOG, 30, 90.0, 90 * 20L, 3, 3);
+	public static SQMCEntityFire fireJungle = new SQMCEntityFire("Jungle fire", CustomItem.JUNGLE_LOG, 45, 135.0, 120 * 20L, 4, 4);
+	public static SQMCEntityFire fireAcacia = new SQMCEntityFire("Acacia fire", CustomItem.ACACIA_LOG, 60, 202.5, 150 * 20L, 5, 5);
+	public static SQMCEntityFire fireDarkOak = new SQMCEntityFire("Dark oak fire", CustomItem.DARK_OAK_LOG, 75, 303.75, 180 * 20L, 6, 6);
+
 	
 	//Uppkomst
 	public static NPC brightbriarMiningExecutive = new BrightbriarMininingExecutive();
@@ -95,7 +105,7 @@ public class SQMCEntity implements Listener, Runnable {
 	public static NPC professorFiddlesticks = new ProfessorFiddlesticks();
 	public static NPC magicStudent = new MagicStudent();
 	public static NPC BotchedExperiment = new BotchedExperiment();
-	public static NPC priestOfMoonti = new PriestOfMoonti();
+	public static NPC uppkomstPriestOfMoonti = new UppkomstPriestOfMoonti();
 	public static GrandMageTyrus grandMageTyrus = new GrandMageTyrus();
 	public static Blacksmith blacksmith = new Blacksmith();
 	public static GenericMob uppkomstCow = GenericMob.fromFileName("uppkomst-cow");
@@ -105,17 +115,10 @@ public class SQMCEntity implements Listener, Runnable {
 	public static GenericMob uppkomstFiend = GenericMob.fromFileName("uppkomst-fiend");
 	public static GenericMob uppkomstUndeadMiner = GenericMob.fromFileName("uppkomst-undead-miner");
 	
-	//Fires	
-	public static SQMCEntityFire fireSpruce = new SQMCEntityFire("Spruce fire", CustomItem.SPRUCE_LOG, 1, 11.0, 30 * 20L, 1, 1);
-	public static SQMCEntityFire fireBirch = new SQMCEntityFire("Birch fire", CustomItem.BIRCH_LOG, 15, 60.0, 60 * 20L, 2, 2);
-	public static SQMCEntityFire fireOak = new SQMCEntityFire("Oak fire", CustomItem.OAK_LOG, 30, 90.0, 90 * 20L, 3, 3);
-	public static SQMCEntityFire fireJungle = new SQMCEntityFire("Jungle fire", CustomItem.JUNGLE_LOG, 45, 135.0, 120 * 20L, 4, 4);
-	public static SQMCEntityFire fireAcacia = new SQMCEntityFire("Acacia fire", CustomItem.ACACIA_LOG, 60, 202.5, 150 * 20L, 5, 5);
-	public static SQMCEntityFire fireDarkOak = new SQMCEntityFire("Dark oak fire", CustomItem.DARK_OAK_LOG, 75, 303.75, 180 * 20L, 6, 6);
-
+	//Volcanis
+	public static NPC volcanisPriestOfMoonti = new VolcanisPriestOfMoonti();
 	
-	
-	/*Fields*/
+	/*FIELDS*/
 	private String prefix;
 	private String name;
 	private String suffix;

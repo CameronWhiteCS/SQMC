@@ -49,7 +49,7 @@ public class UserInterfaceSettings extends UserInterface {
 
 	@Override
 	public String getTitle(Player player) {
-		return"Game Settings";
+		return"Game Settings" + appendID();
 	}
 
 }
