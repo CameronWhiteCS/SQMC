@@ -35,7 +35,7 @@ public class CaptainFishy extends NPC implements EyeTracking, Pickpocketable {
 		this.setAI(false);
 		this.setInvulnerable(true);
 		shop.addItem(CustomItem.FISHING_ROD, 10, 8);
-		shop.addItem(CustomItem.FEATHER, 1, 0, 5);
+		shop.addItem(CustomItem.FEATHER, 1, 1, 5);
 		addLocation(new Location(Bukkit.getWorld("world"), 4410, 19, -8649));
 		this.setSilent(true);
 	}

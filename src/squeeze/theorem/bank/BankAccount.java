@@ -1,12 +1,11 @@
-package squeeze.theorem.data;
+package squeeze.theorem.bank;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.inventory.ItemStack;
 
-import squeeze.theorem.bank.BankDistrict;
-import squeeze.theorem.bank.BankEntry;
+import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.item.CustomItem;
 
 public class BankAccount {
@@ -18,6 +17,14 @@ public class BankAccount {
 	private PlayerData dat;
 	private Map<BankDistrict, BankEntry[]> banks = new HashMap<BankDistrict, BankEntry[]>();
 	
+	/*Setters and getters*/
+	public PlayerData getPlayerData() {
+		return dat;
+	}
+
+	public void setPlayerData(PlayerData dat) {
+		this.dat = dat;
+	}
 	
 	/*Constructors*/
 	public BankAccount(PlayerData dat) {
@@ -27,6 +34,7 @@ public class BankAccount {
 		}
 	}
 	
+	/*Methods*/
 	public void depositItem(BankDistrict district, ItemStack stack, int slot){
 		BankEntry[] bank = this.banks.get(district);
 		CustomItem ci = CustomItem.getCustomItem(stack);
@@ -35,35 +43,15 @@ public class BankAccount {
 			if(b == null) continue;
 			if(b.getDistrict() != district) continue;
 			if(b.getCustomItem() == ci) {
-				b.setAmount(b.getAmount() + stack.getAmount());
+				b.setAmount(b.getAmount() + CustomItem.getCount(stack));
 				stack.setAmount(0);
 				return;
 			}
 		}
 
 			if(bank[slot] != null) return;
-			bank[slot] = new BankEntry(district, ci, stack.getAmount(), slot);
+			bank[slot] = new BankEntry(district, ci, CustomItem.getCount(stack), slot);
 			stack.setAmount(0);
-	}
-	
-	public void depositItem(BankDistrict district, ItemStack stack){
-		BankEntry[] bank = this.banks.get(district);
-		CustomItem ci = CustomItem.getCustomItem(stack);
-		if(ci == null) return;
-		for(BankEntry b: bank) {
-			if(b == null) continue;
-			if(b.getDistrict() != district) continue;
-			if(b.getCustomItem() == ci) {
-				b.setAmount(b.getAmount() + stack.getAmount());
-				stack.setAmount(0);
-				return;
-			}
-		}
-
-			for(int i = 0; i <= bank.length; i++) {
-				if(bank[i] == null) bank[i] = new BankEntry(district, ci, stack.getAmount(), i);
-				stack.setAmount(0);
-			}
 	}
 	
 	public BankEntry getBankEntry(BankDistrict district, int slot) {
@@ -90,15 +78,6 @@ public class BankAccount {
 			banks.put(district, bank);
 		}
 		
-	}
-
-	/*Setters and getters*/
-	public PlayerData getPlayerData() {
-		return dat;
-	}
-
-	public void setPlayerData(PlayerData dat) {
-		this.dat = dat;
 	}
 	
 }

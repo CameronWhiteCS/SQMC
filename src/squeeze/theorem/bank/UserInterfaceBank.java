@@ -2,7 +2,6 @@ package squeeze.theorem.bank;
 
 import org.bukkit.entity.Player;
 
-import squeeze.theorem.data.BankAccount;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.ui.MultiPageInterface;

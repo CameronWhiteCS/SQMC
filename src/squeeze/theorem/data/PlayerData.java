@@ -30,6 +30,7 @@ import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 
 
 import squeeze.theorem.audio.SQMCSong;
+import squeeze.theorem.bank.BankAccount;
 import squeeze.theorem.bank.BankDistrict;
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatMode;

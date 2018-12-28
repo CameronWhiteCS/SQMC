@@ -139,7 +139,7 @@ public class Region implements Listener {
 		Region region = new Region(name, desc);
 		
 		if(jsonRegion.has("color")) region.setColor((int) Long.parseLong(jsonRegion.getString("color"), 16));
-		if(jsonRegion.has("song")) region.setSong(SQMCSong.getSongByName(jsonRegion.getString("song")));
+		if(jsonRegion.has("song")) region.setSong(SQMCSong.getSong(jsonRegion.getString("song")));
 		
 		if(jsonRegion.has("cuboids")) {
 			JSONArray jsonCuboids = jsonRegion.getJSONArray("cuboids");
@@ -153,7 +153,7 @@ public class Region implements Listener {
 				double z2 = jsonCuboid.getDouble("z2");
 				World world = Bukkit.getWorld(jsonCuboid.getString("world"));
 				Cuboid boid = new Cuboid(world, x1, y1, z1, x2, y2, z2);
-				if(jsonCuboid.has("song")) boid.setSong(SQMCSong.getSongByName(jsonCuboid.getString("song")));
+				if(jsonCuboid.has("song")) boid.setSong(SQMCSong.getSong(jsonCuboid.getString("song")));
 				region.addCuboid(boid);
 			}
 		}

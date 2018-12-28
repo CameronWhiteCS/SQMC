@@ -865,7 +865,7 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 					
 					//Non-substitute
 					if(ci.equals(input)) {
-						i.setAmount(i.getAmount() - 1);
+						CustomItem.setCount(i, CustomItem.getCount(i) - 1);
 						removed++;
 						break;
 					}
@@ -873,7 +873,7 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 					//Remove substitutes
 					if(substitutes.containsKey(input) && acceptsSubstitutes()) {
 						if(substitutes.get(input).contains(ci)) {
-							i.setAmount(i.getAmount() - 1);
+							CustomItem.setCount(i, CustomItem.getCount(i) - 1);
 							removed++;
 							break;
 						}

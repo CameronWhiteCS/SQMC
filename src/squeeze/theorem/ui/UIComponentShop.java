@@ -43,7 +43,6 @@ public class UIComponentShop implements UIComponent {
 		return item;
 	}
 
-
 	public void setItem(CustomItem item) {
 		this.item = item;
 	}
@@ -52,12 +51,10 @@ public class UIComponentShop implements UIComponent {
 		return amount;
 	}
 
-
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	
-
 	public int getSellPrice() {
 		return sellPrice;
 	}
@@ -153,7 +150,7 @@ public class UIComponentShop implements UIComponent {
 		} else {
 			CustomItem ci = CustomItem.getCustomItem(cursor);
 			if(ci == null || ci != this.item) return;
-			int amount = cursor.getAmount();
+			int amount = CustomItem.getCount(cursor);
 			cursor.setAmount(0);
 			PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
 			dat.addBalance(amount * sellPrice);

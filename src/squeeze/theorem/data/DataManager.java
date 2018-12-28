@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import squeeze.theorem.bank.BankAccount;
 import squeeze.theorem.bank.BankDistrict;
 import squeeze.theorem.bank.BankEntry;
 import squeeze.theorem.combat.CombatMode;
@@ -277,7 +278,7 @@ public class DataManager implements Listener, Runnable {
 				CustomItem ci = CustomItem.getCustomItem(stack);
 				if(ci == null) continue;
 				if(first == null) first = ci;
-				query += String.format("('%s', '%s', '%s', '%s'),", id.toString(), ci.getID(), i, stack.getAmount());
+				query += String.format("('%s', '%s', '%s', '%s'),", id.toString(), ci.getID(), i, CustomItem.getCount(stack));
 			}
 			query = query.substring(0, query.length() - 1);
 			query += ";";

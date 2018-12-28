@@ -26,37 +26,31 @@ public class UIComponentBank implements UIComponent {
 	public UIComponentBank(int slot) {
 		setSlot(slot);
 	}
+
+	/*Setters and getters*/
+	public void setSlot(int slot) {
+		this.slot = slot;
+	}
 	
-	@Override
-	public ItemStack getItemStack(Player player) {
-		
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
-		BankDistrict district = dat.getBankDistrict();
-		if(district == null) {
-			ItemStack output = new ItemStack(Material.BARRIER);
-			ItemMeta meta = output.getItemMeta();
-			List<String> lore = new ArrayList<String>();
-			meta.setDisplayName(ChatColor.GOLD + "Empty");
-			lore.add(ChatColor.GREEN + "Slot: " + (slot + 1));
-			meta.setLore(lore);
-			output.setItemMeta(meta);
-			return output;
-		}
-		
-		BankEntry entry = dat.getBankAccount().getBankEntry(district, slot);
-		if(entry == null) {
-			ItemStack output = new ItemStack(Material.BARRIER);
-			ItemMeta meta = output.getItemMeta();
-			List<String> lore = new ArrayList<String>();
-			meta.setDisplayName(ChatColor.GOLD + "Empty");
-			lore.add(ChatColor.GREEN + "Slot: " + (slot + 1));
-			meta.setLore(lore);
-			output.setItemMeta(meta);
-			return output;
-		}
-		
+	public int getSlot() {
+		return this.slot;
+	}
+	
+	/*Methods*/
+	private ItemStack getEmptySlot() {
+		ItemStack output = new ItemStack(Material.BARRIER);
+		ItemMeta meta = output.getItemMeta();
+		List<String> lore = new ArrayList<String>();
+		meta.setDisplayName(ChatColor.GOLD + "Empty");
+		lore.add(ChatColor.GREEN + "Slot: " + (slot + 1));
+		meta.setLore(lore);
+		output.setItemMeta(meta);
+		return output;
+	}
+	
+	private ItemStack getFilledSlot(BankEntry entry) {
 		CustomItem ci = entry.getCustomItem();
-		ItemStack output = entry.getCustomItem().getItemStack();
+		ItemStack output = ci.getItemStack();
 		ItemMeta meta = new ItemStack(Material.STONE).getItemMeta();
 		for(Enchantment e: ci.getEnchantments().keySet()) {
 			meta.addEnchant(e, ci.getEnchantments().get(e), true);
@@ -70,7 +64,23 @@ public class UIComponentBank implements UIComponent {
 		output.setItemMeta(meta);
 		return output;
 	}
-
+	
+	/*Inherited methods*/
+	@Override
+	public ItemStack getItemStack(Player player) {
+		
+		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		
+		BankDistrict district = dat.getBankDistrict();
+		if(district == null) return getEmptySlot();
+		
+		BankEntry entry = dat.getBankAccount().getBankEntry(district, slot);
+		if(entry == null) return getEmptySlot();
+		
+		return getFilledSlot(entry);
+	}
+	
+	//TODO: Add functionality, clean up.
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
@@ -99,13 +109,4 @@ public class UIComponentBank implements UIComponent {
 		}
 
 	}
-
-	public int getSlot() {
-		return slot;
-	}
-
-	public void setSlot(int slot) {
-		this.slot = slot;
-	}
-
 }

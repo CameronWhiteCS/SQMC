@@ -362,6 +362,7 @@ public class CustomItem implements Listener {
 		ItemMeta meta = stack.getItemMeta();
 		if(meta == null) return output;
 		List<String> lore = meta.getLore();
+		if(lore == null) return output;
 		for(String s: lore) {
 			if(s.contains("ID: ")) {
 				String[] split = s.split("ID: ");
@@ -377,6 +378,7 @@ public class CustomItem implements Listener {
 		ItemMeta meta = stack.getItemMeta();
 		if(meta == null) return output;
 		List<String> lore = meta.getLore();
+		if(lore == null) return output;
 		for(String s: lore) {
 			if(s.contains("Count: ")) {
 				String[] split = s.split("Count: ");
@@ -386,7 +388,21 @@ public class CustomItem implements Listener {
 		return output * stack.getAmount();
 	}
 	
+	//TODO
 	public static void setCount(ItemStack stack, int count) {
+		
+		CustomItem ci = getCustomItem(stack);
+		if(ci == null) return;
+		
+		if(ci.isInfinitelyStackable()) {
+			
+			stack.setItemMeta(ci.getItemStack(count).getItemMeta());
+			
+		} else {
+			
+			stack.setAmount(stack.getAmount() - 1);
+			
+		}
 		
 	}
 
