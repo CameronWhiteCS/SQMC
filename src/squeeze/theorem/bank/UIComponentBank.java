@@ -23,15 +23,27 @@ public class UIComponentBank implements UIComponent {
 	private int slot;
 
 	/*Constructors*/
+	/**
+	 * 
+	 * @param slot The slot of this component's associated BankEntry
+	 */
 	public UIComponentBank(int slot) {
 		setSlot(slot);
 	}
 
 	/*Setters and getters*/
+	/**
+	 * 
+	 * @param slot The slot of this component's associated BankEntry
+	 */
 	public void setSlot(int slot) {
 		this.slot = slot;
 	}
 	
+	/**
+	 * 
+	 * @return The slot of this component's associated BankEntry
+	 */
 	public int getSlot() {
 		return this.slot;
 	}

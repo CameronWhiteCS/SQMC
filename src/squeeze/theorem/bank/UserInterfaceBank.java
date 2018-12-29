@@ -6,6 +6,11 @@ import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.ui.MultiPageInterface;
 
+/**
+ * 
+ * @author SqueezeTheorem
+ *
+ */
 public class UserInterfaceBank extends MultiPageInterface {
 
 	public UserInterfaceBank() {
