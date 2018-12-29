@@ -64,7 +64,6 @@ public class CombatManager implements Listener, Runnable {
 		double defense = getDefense(style, damagee);
 		
 		/* Make people abusing entity mechanics miss */
-		
 		SQMCEntity ce = SQMCEntity.getSQMCEntity(damagee);
 		/*if (ce != null) {
 			if (ce instanceof Boundable) {

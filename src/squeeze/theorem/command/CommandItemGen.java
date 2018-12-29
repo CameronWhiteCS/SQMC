@@ -20,8 +20,12 @@ public class CommandItemGen extends SQMCCommand {
 			return;
 		}
 
+		if(args.length < 1) {
+			sender.sendMessage(ChatColor.RED + "No arguments specified. Usage: /itemgen <name> <amount>");
+		}
+			
 		CustomItem item = null;
-		int amount = 0;
+		int amount = 1;
 		
 		for(CustomItem ci: CustomItem.getItems()) {
 			if(ci.getName().toLowerCase().equals(ChatColor.stripColor(args[0].toLowerCase().replaceAll("_", " ")))) {
@@ -38,7 +42,7 @@ public class CommandItemGen extends SQMCCommand {
 		try {
 			amount = Integer.parseInt(args[1]);
 		} catch(Exception exc) {
-			sender.sendMessage(ChatColor.RED + "Failed to parse int: " + args[1]);
+			if(args.length > 1) sender.sendMessage(ChatColor.RED + "Failed to parse int: " + args[1]);
 			return;
 		}
 		

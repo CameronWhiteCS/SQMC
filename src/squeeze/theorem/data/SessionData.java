@@ -23,7 +23,6 @@ public class SessionData {
 	private int UIpage;
 	private SQMCRecipe recipe;
 	private Location craftingLocation;
-	
 
 	public SessionData(PlayerData dat) {
 		setPlayerData(dat);

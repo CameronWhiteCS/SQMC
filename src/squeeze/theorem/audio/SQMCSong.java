@@ -7,6 +7,12 @@ import java.util.List;
 import com.xxmicloxx.NoteBlockAPI.model.Song;
 import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 
+/**
+ * SQMCSong serves as a wrapper class for com.xxmicloxx.NoteBlockAPI.model.Song
+ * 
+ * @author SqueezeTheorem
+ *
+ */
 public class SQMCSong {
 
 	/*Static fields*/
@@ -26,6 +32,11 @@ public class SQMCSong {
 	private String name;
 	
 	/*Constructors*/
+	/**
+	 * Creates an instance of SQMCSong using an existing instance of com.xxmicloxx.NoteBlockAPI.model.Song 
+	 * @param song Instance of com.xxmicloxx.NoteBlockAPI.model.Song to be used
+	 * @param name Name to be displayed on the player's screen in-game when this song starts playing
+	 */
 	public SQMCSong(Song song, String name) {
 		this.setSong(song);
 		this.setName(name);
@@ -33,29 +44,50 @@ public class SQMCSong {
 	}
 
 	/*Setters and getter*/
+	/**
+	 * 
+	 * @return An instance of com.xxmicloxx.NoteBlockAPI.model.Song
+	 */
 	public Song getSong() {
 		return song;
 	}
 
+	/**
+	 * 
+	 * @param song An instance of com.xxmicloxx.NoteBlockAPI.model.Song
+	 */
 	public void setSong(Song song) {
 		this.song = song;
 	}
 
+	/**
+	 * 
+	 * @return The display name of this Song
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @param name The display name of this song
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
 	/*Methods*/
-	public static Song parse(String s) {
+	private static Song parse(String s) {
 		InputStream stream = SQMCSong.class.getResourceAsStream("/songs/" + s + ".nbs");
 		Song song = NBSDecoder.parse(stream);
 		return song;
 	}
 	
+	/**
+	 * 
+	 * @param name The display name of song you're trying to get an instance of
+	 * @return The first instance of SQMCSong with a display name of the provided input name (case insensitive). Can return null.
+	 */
 	public static SQMCSong getSong(String name) {
 		for(SQMCSong song: songs) {
 			if(song.getName().equalsIgnoreCase(name)) return song;

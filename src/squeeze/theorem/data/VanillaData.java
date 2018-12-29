@@ -18,6 +18,8 @@ public class VanillaData {
 	private int fireTicks = -20;
 	private float fallDistance = 0;
 	
+	//TODO Make it where database inventory data is saved here 
+	
 	public double getX() {
 		return x;
 	}

@@ -79,10 +79,10 @@ public class SQMCEntity implements Listener, Runnable {
 	private static Map<Entity, Location> spawnpoints = new HashMap<Entity, Location>();
 	private static Map<Entity, Location> previousLocation = new HashMap<Entity, Location>();
 	private static Map<Entity, Location> currentLocation = new HashMap<Entity, Location>();
-	private static Map<Entity, Long> lastStruck = new ConcurrentHashMap<Entity, Long>();
+	private static Map<Entity, Long> lastStruck = new ConcurrentHashMap<Entity, Long>(); //TODO: Make it where an entity targeting a player also puts them on this list
+	public static List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
 	protected static DialogueType NPC = DialogueType.NPC;
 	protected static DialogueType PLAYER = DialogueType.PLAYER;
-	public static List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
 	
 	//Fires	
 	public static SQMCEntityFire fireSpruce = new SQMCEntityFire("Spruce fire", CustomItem.SPRUCE_LOG, 1, 11.0, 30 * 20L, 1, 1);
@@ -91,7 +91,6 @@ public class SQMCEntity implements Listener, Runnable {
 	public static SQMCEntityFire fireJungle = new SQMCEntityFire("Jungle fire", CustomItem.JUNGLE_LOG, 45, 135.0, 120 * 20L, 4, 4);
 	public static SQMCEntityFire fireAcacia = new SQMCEntityFire("Acacia fire", CustomItem.ACACIA_LOG, 60, 202.5, 150 * 20L, 5, 5);
 	public static SQMCEntityFire fireDarkOak = new SQMCEntityFire("Dark oak fire", CustomItem.DARK_OAK_LOG, 75, 303.75, 180 * 20L, 6, 6);
-
 	
 	//Uppkomst
 	public static NPC brightbriarMiningExecutive = new BrightbriarMininingExecutive();
@@ -553,9 +552,9 @@ public class SQMCEntity implements Listener, Runnable {
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onStrike(EntityDamageByEntityEvent evt) {
 		
-		if(evt.getDamager() instanceof Player == false || evt.getEntity() instanceof Player) return;
-		
 		if(evt.isCancelled()) return;
+		
+		if(evt.getDamager() instanceof Player == false || evt.getEntity() instanceof Player) return;
 		
 		lastStruck.put(evt.getEntity(), System.currentTimeMillis());
 		

@@ -17,14 +17,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.combat.AttackStyle;
-
+/**
+ * The CustomItem class is the super class for all plugin-specific items in SQMC
+ * @author SqueezeTheorem
+ *
+ */
 public class CustomItem implements Listener {
 
 	/*Static fields*/
 	private static ArrayList<CustomItem> items = new ArrayList<CustomItem>();
 	
 	/* Fields */
-
 	private int ID;
 	private String name;
 	private Material material;
@@ -217,16 +220,20 @@ public class CustomItem implements Listener {
 	public static final CustomItem INFERNAL_WAND = new CombatItem(508, "Infernal wand", Material.BLAZE_ROD, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).addEnchantment(Enchantment.ARROW_FIRE);
 	
 	/*Misc/Quest items -- block I*/
-	public static final CustomItem torch = new CustomItem(601, "Torch", Material.TORCH, "");
-	
-	
+	public static final CustomItem TORCH = new CustomItem(601, "Torch", Material.TORCH, "");
 	
 	/*Alchemy/Witchcraft*/
 	public static final CustomItem SPIDER_EYE = new CustomItem(701, "Spider eye", Material.SPIDER_EYE, "");
 	public static final CustomItem ROTTEN_FLESH = new CustomItem(702, "Rotten flesh", Material.ROTTEN_FLESH, "Could use some salt");
 	
 	/* Constructors */
-
+	/**
+	 * 
+	 * @param ID Unique numeric identifier used to differentiate this item from other custom items
+	 * @param name The display name of this custom item
+	 * @param material The ItemStack material used for this CustomItem
+	 * @param desc The item's description, or flavor text.
+	 */
 	public CustomItem(int ID, String name, Material material, String... desc) {
 		setID(ID);
 		setName(name);
@@ -235,6 +242,14 @@ public class CustomItem implements Listener {
 		items.add(this);
 	}
 	
+	/**
+	 * 
+	 * @param ID Unique numeric identifier used to differentiate this item from other custom items
+	 * @param name The display name of this custom item
+	 * @param material The ItemStack material used for this CustomItem
+	 * @param infinitelyStackable Whether or not this item should be able to stack infinitely using the CustomItem API
+	 * @param desc The item's description, or flavor text.
+	 */
 	public CustomItem(int ID, String name, Material material, boolean infinitelyStackable, String... desc) {
 		setID(ID);
 		setName(name);
@@ -245,52 +260,100 @@ public class CustomItem implements Listener {
 	}
 
 	/* Setters and getters */
-
+	/**
+	 * An item that is made infinitely stackable bypasses the MC limit of 64 blocks per stack by using an ItemStack's ItemMeta
+	 * @return whether or not this item is infinitely stackable
+	 */
 	public boolean isInfinitelyStackable() {
 		return infinitelyStackable;
 	}
 
+	/**
+	 * 
+	 * @param infinitelyStackable Whether or not this item is infinitely stackable
+	 * @return This instance of CustomItem
+	 */
 	public CustomItem setInfinitelyStackable(boolean infinitelyStackable) {
 		this.infinitelyStackable = infinitelyStackable;
 		return this;
 	}
 	
+	/**
+	 * The max stack size of a CustomItem *only* applies to items that are not set as infinitely stackable. 
+	 * @return The max stack size of this CustomItem
+	 */
 	public int getMaxStackSize() {
 		return maxStackSize;
 	}
 
+	/**
+	 * The max stack size of a CustomItem *only* applies to items that are not set as infinitely stackable.
+	 * @param maxStackSize The max stack size of this CustomItem
+	 * @return This instance of CustomItem
+	 */
 	public CustomItem setMaxStackSize(int maxStackSize) {
 		this.maxStackSize = maxStackSize;
 		return this;
 	}
 	
+	/**
+	 * 
+	 * @return This CustomItem's unique numeric identifier
+	 */
 	public int getID() {
 		return ID;
 	}
 
-	public CustomItem setID(int iD) {
-		ID = iD;
+	/**
+	 * 
+	 * @param ID This CustomItem's unique numeric identifier
+	 * @return This instance of CustomItem
+	 */
+	public CustomItem setID(int ID) {
+		this.ID = ID;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return This CustomItem's display name. 
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @param name The display name of this custom item.
+	 * @return This instance of CustomItem
+	 */
 	public CustomItem setName(String name) {
 		this.name = name;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return The org.bukkit.Material of this CustomItem
+	 */
 	public Material getMaterial() {
 		return material;
 	}
 
+	/**
+	 * 
+	 * @param material The org.bukkit.Material of this CustomItem
+	 * @return This instance of CustomItem
+	 */
 	public CustomItem setMaterial(Material material) {
 		this.material = material;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return This item's entire lore, including its description and other SQMC metadata, such as combat stats. Excludes item ID and item count.
+	 */
 	public List<String> getLore() {
 		List<String> output = new ArrayList<String>();
 		//Header
@@ -304,11 +367,21 @@ public class CustomItem implements Listener {
 		return output;
 	}
 
+	/**
+	 * 
+	 * @param desc This CustomItem's description, or flavor text.
+	 * @return This instance of CustomItem
+	 */
 	public CustomItem setDescription(ArrayList<String> desc) {
 		this.description = desc;
 		return this;
 	}
 	
+	/**
+	 * 
+	 * @param desc This CustomItem's description, or flavor text.
+	 * @return This instance of CustomItem
+	 */
 	public CustomItem setDescription(String[] desc) {
 		List<String> list = new ArrayList<String>();
 		for(String s: desc) {
@@ -318,10 +391,19 @@ public class CustomItem implements Listener {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * @return This CustomItem's description, or flavor text.
+	 */
 	public List<String> getDescription(){
 		return this.description;
 	}
 	
+	/**
+	 * 
+	 * @param lore This CustomItem's description, or flavor text.
+	 * @return This instance of CustomItem
+	 */
 	public CustomItem setLore(String...lore) {
 		ArrayList<String> arr = new ArrayList<String>();
 		for(String s: lore) {
@@ -331,18 +413,26 @@ public class CustomItem implements Listener {
 	}
 	
 
-	public ItemStack getItemStack(int amount) {
+	/**
+	 * 
+	 * @param count The meaning of this paramater changes with context. For items that are not infinitely stackable, 
+	 * count simply sets the amount of the returned ItemStack to the specified count. 
+	 * However, for items that are infinitely stackable, the amount of the returned ItemStack is always 1, and the ItemStack's ItemMeta is
+	 * modifed to read "Count: $count" instead. 
+	 * @return An ItemStack representation of this CustomItem.
+	 */
+	public ItemStack getItemStack(int count) {
 		ItemStack stack = new ItemStack(getMaterial());
 		ItemMeta meta = stack.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS);
 		meta.setDisplayName(ChatColor.GOLD + getName());
 		List<String> lore = getLore();
 		lore.add((ChatColor.GRAY + "ID: " + getID()));
-		if(isInfinitelyStackable() == true) lore.add((ChatColor.GRAY + "Count: " + amount));
+		if(isInfinitelyStackable() == true) lore.add((ChatColor.GRAY + "Count: " + count));
 		meta.setLore(lore);
 		meta.setUnbreakable(true);
 		stack.setItemMeta(meta);
-		if(isInfinitelyStackable() == false) stack.setAmount(amount);
+		if(isInfinitelyStackable() == false) stack.setAmount(count);
 		for(Enchantment e: enchantments.keySet()) {
 			stack.addUnsafeEnchantment(e, enchantments.get(e));
 		}
@@ -350,12 +440,20 @@ public class CustomItem implements Listener {
 		return stack;
 	}
 
+	/**
+	 * Shorthand for getItemStack(1);
+	 * @return An ItemStack representation of this CustomItem with a count of 1
+	 */
 	public ItemStack getItemStack() {
 		return getItemStack(1);
 	}
 
 	/* Vanilla items to custom items and custom items to vanilla items */
-
+	/**
+	 * 
+	 * @param stack 
+	 * @return The CustomItem ID of the input item stack. If no item has a matching ID, -1 is returned.
+	 */
 	public static int getID(ItemStack stack) {
 		int output = -1;
 		if(stack == null) return output;

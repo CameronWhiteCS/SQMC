@@ -8,6 +8,11 @@ import org.bukkit.inventory.ItemStack;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.item.CustomItem;
 
+/**
+ * 
+ * @author SqueezeTheorem
+ *
+ */
 public class BankAccount {
 
 	/*Static fields*/

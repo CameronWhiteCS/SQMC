@@ -53,8 +53,8 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 	}; 
 
 	/* Constructors */
-	public CombatItem(int ID, String name, Material material, String... lore) {
-		super(ID, name, material, lore);
+	public CombatItem(int ID, String name, Material material, String... desc) {
+		super(ID, name, material, desc);
 	}
 	
 	@Override
