@@ -790,10 +790,11 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 						return;
 					} 
 
-					DataManager.getPlayerData(player.getUniqueId()).getSessionData().setRecipe(this);
+					DataManager dataManager = DataManager.getInstance();
+					dataManager.getPlayerData(player.getUniqueId()).getSessionData().setRecipe(this);
 					player.sendMessage(ChatColor.GREEN + "Now crafting " + r.getOutput().getName() + ChatColor.GREEN + ".");
 					player.closeInventory();
-					DataManager.getPlayerData(player.getUniqueId()).getSessionData().setCraftingLocation(player.getLocation());
+					dataManager.getPlayerData(player.getUniqueId()).getSessionData().setCraftingLocation(player.getLocation());
 					
 				}
 			}
@@ -824,10 +825,12 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 		if(!evt.isCancelled() && evt.getSQMCRecipe().canCraft(evt.getPlayer(), false)) {
 			evt.getSQMCRecipe().craftItem(evt.getPlayer());
 			for (Skill s : evt.getXpRewards().keySet()) {
-				DataManager.getPlayerData(evt.getPlayer().getUniqueId()).awardXP(s, evt.getXpRewards().get(s));
+				DataManager dataManager = DataManager.getInstance();
+				dataManager.getPlayerData(evt.getPlayer().getUniqueId()).awardXP(s, evt.getXpRewards().get(s));
 			}
 		} else {
-			SessionData dat = DataManager.getPlayerData(evt.getPlayer().getUniqueId()).getSessionData();
+			DataManager dataManager = DataManager.getInstance();
+			SessionData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId()).getSessionData();
 			dat.setRecipe(null);
 		}
 		
@@ -885,7 +888,8 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 	
 		}
 	
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		dat.giveItem(getOutput().getItemStack(getAmount()));
 		player.getWorld().playSound(player.getLocation(), getRecipeType().getSound(), getRecipeType().getVolume(), 0);
 	

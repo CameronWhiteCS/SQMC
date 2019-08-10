@@ -117,7 +117,8 @@ public class SkillMining extends Skill implements Listener {
 			ConcurrentHashMap<Location, Material> blocks = evt.getBlocks();
 			Ore ore = evt.getOre();
 			Player player = evt.getPlayer();
-			PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 			CustomItemPickaxe pickaxe = evt.getPickaxe();
 			ItemStack drop = new ItemStack(ore.getDrop());
 			

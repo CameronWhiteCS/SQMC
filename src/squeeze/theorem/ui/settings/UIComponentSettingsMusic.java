@@ -21,7 +21,8 @@ public class UIComponentSettingsMusic implements UIComponent {
 		
 		Material material;
 		String status;
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		boolean music = dat.getMusic();
 		
 		if(music) {
@@ -47,7 +48,8 @@ public class UIComponentSettingsMusic implements UIComponent {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
-		PlayerData dat = DataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
 		if(dat.getMusic()) {
 			dat.setMusic(false);
 		} else {

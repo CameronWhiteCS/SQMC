@@ -18,7 +18,8 @@ public class UIComponentSettingsXPBars implements UIComponent {
 
 	@Override
 	public ItemStack getItemStack(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		String status;
 		Material material;
 		if(dat.showXPBars() == true) {
@@ -43,7 +44,8 @@ public class UIComponentSettingsXPBars implements UIComponent {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
-		PlayerData dat = DataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
 		if(dat.showXPBars() == false) {
 			dat.setShowXPBars(true);
 		} else {

@@ -95,7 +95,8 @@ public class SkillFiremaking extends Skill implements Listener, Runnable {
 	public void onLight(FireLightEvent evt) {
 		if(!evt.isCancelled()) {
 			evt.getFire().spawn(evt.getLocation());
-			PlayerData dat = DataManager.getPlayerData(evt.getPlayer().getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId());
 			dat.awardXP(Skill.firemaking, evt.getXP());
 			evt.getLogs().setAmount(evt.getLogs().getAmount() - 1);
 		}

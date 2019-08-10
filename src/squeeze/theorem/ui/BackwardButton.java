@@ -32,7 +32,8 @@ public class BackwardButton implements UIComponent {
 	public void onClick(InventoryClickEvent evt) {
 
 		Player player = (Player) evt.getWhoClicked();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		SessionData sdat = dat.getSessionData();
 		if(sdat.getUIpage() == 0) return;
 		sdat.setUIpage(sdat.getUIpage() - 1);

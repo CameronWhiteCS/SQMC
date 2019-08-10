@@ -93,7 +93,8 @@ public class SQMCEntityFish extends SQMCEntity implements Lootable, LevelRequire
 	
 	/*Methods*/
 	public ItemStack getSkillGuideComponent(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		ItemStack output = new ItemStack(getMaterial());
 		ItemMeta meta = output.getItemMeta();
 		meta.setDisplayName(ChatColor.GOLD + getName());

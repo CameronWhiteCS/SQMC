@@ -53,7 +53,8 @@ public class MultiPageInterface extends UserInterface {
 	@Override
 	public Inventory getInventory(Player player) {
 		
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		
 		Inventory inv;
 		

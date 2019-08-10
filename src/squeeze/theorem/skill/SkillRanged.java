@@ -39,7 +39,8 @@ public class SkillRanged extends Skill implements Listener {
 		double strength = 0.0;
 		
 		if(entity instanceof Player) {
-			PlayerData dat = DataManager.getPlayerData(entity.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(entity.getUniqueId());
 			accuracy += dat.getAccuracy(AttackStyle.RANGED);
 			strength += dat.getStrength(AttackStyle.RANGED);
 		} else {
@@ -70,7 +71,8 @@ public class SkillRanged extends Skill implements Listener {
 		double strength = 0.0;
 		
 		if(entity instanceof Player) {
-			PlayerData dat = DataManager.getPlayerData(entity.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(entity.getUniqueId());
 			accuracy += dat.getAccuracy(AttackStyle.RANGED);
 			strength += dat.getStrength(AttackStyle.RANGED);
 		} else {

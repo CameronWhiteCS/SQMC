@@ -72,13 +72,15 @@ public class UIComponentShop implements UIComponent {
 	}
 	
 	private boolean canAfford(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		if(dat.getBalance() >= buyPrice * amount) return true;
 		return false;
 	}
 	
 	private void buy(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		Inventory inv = player.getInventory();
 		
 		if(inv.firstEmpty() != -1) {
@@ -152,7 +154,8 @@ public class UIComponentShop implements UIComponent {
 			if(ci == null || ci != this.item) return;
 			int amount = CustomItem.getCount(cursor);
 			cursor.setAmount(0);
-			PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 			dat.addBalance(amount * sellPrice);
 		}
 		

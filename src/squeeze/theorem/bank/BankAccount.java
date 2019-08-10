@@ -42,7 +42,8 @@ public class BankAccount {
 	 * @param player The owner of this bank account
 	 */
 	public BankAccount(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player);
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player);
 		setPlayerData(dat);
 		for(BankDistrict d: BankDistrict.values()) {
 			banks.put(d, new BankEntry[MAX_SLOTS]);

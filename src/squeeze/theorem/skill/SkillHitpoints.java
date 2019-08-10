@@ -27,8 +27,8 @@ public class SkillHitpoints extends Skill implements Runnable, Listener {
 
 	@Override
 	public void run() {
-		
-		for(PlayerData dat: DataManager.getOnlinePlayers()) {
+		DataManager dataManager = DataManager.getInstance();
+		for(PlayerData dat: dataManager.getOnlinePlayers()) {
 			Player player = dat.getPlayer();
 			AttributeInstance attribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 			attribute.setBaseValue(dat.getMaxHealth());

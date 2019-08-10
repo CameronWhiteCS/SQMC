@@ -54,7 +54,8 @@ public abstract class UserInterface {
 	public void open(Player player) {
 		Inventory inv = getInventory(player);
 		player.openInventory(inv);
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		dat.getSessionData().setUIpage(0);
 	}
 	public abstract Inventory getInventory(Player player);

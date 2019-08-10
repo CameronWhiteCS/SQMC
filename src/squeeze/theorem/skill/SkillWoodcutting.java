@@ -120,7 +120,8 @@ public class SkillWoodcutting extends Skill implements Listener {
 			ConcurrentHashMap<Location, Material> blocks = evt.getBlocks();
 			Tree tree = evt.getTree();
 			Player player = evt.getPlayer();
-			PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 			CustomItemAxe axe = evt.getAxe();
 			ItemStack drop = new ItemStack(tree.getDrop());
 			

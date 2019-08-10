@@ -42,7 +42,8 @@ public class SkillWitchcraft extends Skill implements Listener, Runnable {
 	public void onRightClick(PlayerInteractEvent evt) {
 		
 		Player player = evt.getPlayer();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		SessionData sessionData = dat.getSessionData();
 		
 		if(evt.getItem() == null) return;
@@ -106,7 +107,8 @@ public class SkillWitchcraft extends Skill implements Listener, Runnable {
 			return;
 		}
 
-		for(PlayerData dat: DataManager.getOnlinePlayers()) {
+		DataManager dataManager = DataManager.getInstance();
+		for(PlayerData dat: dataManager.getOnlinePlayers()) {
 			
 			int mana = dat.getMana();
 			int maxIncrease = dat.getMaxMana() - mana;

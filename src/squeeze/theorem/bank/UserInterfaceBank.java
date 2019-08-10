@@ -22,7 +22,8 @@ public class UserInterfaceBank extends MultiPageInterface {
 	
 	@Override
 	public String getTitle(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		BankDistrict dist = dat.getBankDistrict();
 		String name = dist.toString().toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length());

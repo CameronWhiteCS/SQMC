@@ -33,7 +33,8 @@ public interface LevelRequirements {
 	
 	public default String getLevelRequirementLore(Player player, Skill skill){
 		
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 			
 		if (dat.getLevel(skill) >= getLevelRequired(skill)) {
 			return ChatColor.GREEN + "Level " + getLevelRequired(skill) + " " + skill.getProperName() + " \u2713";
@@ -45,7 +46,8 @@ public interface LevelRequirements {
 	
 	public default boolean meetsRequirements(Player player) {
 		
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		for(Skill s: getRequirements().keySet()) {
 			if(dat.getLevel(s) < getRequirements().get(s)) {
 				return false;
@@ -56,7 +58,8 @@ public interface LevelRequirements {
 	}
 	
 	public default void sendInsufficientLevelNotice(Player player, String action) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		for(Skill s: getRequirements().keySet()) {
 			if(dat.getLevel(s) < getRequirements().get(s)) {
 				player.sendMessage(ChatColor.RED + "You need at least level " + getRequirements().get(s) + " " + s.getProperName() + " to " + action + ".");

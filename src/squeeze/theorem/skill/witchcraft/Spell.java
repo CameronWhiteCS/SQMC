@@ -164,7 +164,8 @@ public class Spell implements UIComponent, LevelRequirements {
 	//Intended to be overwritten by individual spells, defaults to setting the spell
 	public void onClick(InventoryClickEvent evt) {
 		Player player = (Player) evt.getWhoClicked();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		int slot = player.getInventory().getHeldItemSlot();
 		dat.getSessionData().setSpell(slot, this);
 		player.sendMessage(ChatColor.GREEN + getName() + " assigned to slot " + (slot + 1) + ".");
@@ -188,7 +189,8 @@ public class Spell implements UIComponent, LevelRequirements {
 		if(entity instanceof Player) {
 			Cooldown.magic.addPlayer(entity.getUniqueId(), 10);
 			cooldownTimer.addPlayer(entity.getUniqueId(), getCooldown());
-			PlayerData dat = DataManager.getPlayerData(entity.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(entity.getUniqueId());
 			dat.setMana(dat.getMana() - getCost());
 			dat.awardXP(Skill.witchcraft, getXP());
 		}
@@ -207,7 +209,8 @@ public class Spell implements UIComponent, LevelRequirements {
 		}
 		
 		if(e instanceof Player) {
-			PlayerData dat = DataManager.getPlayerData(e.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(e.getUniqueId());
 			if(dat.getMana() < getCost()) {
 	
 				return false;

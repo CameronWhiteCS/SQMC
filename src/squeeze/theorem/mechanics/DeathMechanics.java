@@ -30,7 +30,8 @@ public class DeathMechanics implements Listener {
 		evt.setDeathMessage(null);
 		
 		//halve balance
-		PlayerData dat = DataManager.getPlayerData(evt.getEntity().getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(evt.getEntity().getUniqueId());
 		dat.setBalance(dat.getBalance() / 2);
 		
 	}

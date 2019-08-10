@@ -1,3 +1,4 @@
+
 package squeeze.theorem.ui;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class InterfaceSkills extends UserInterface {
 	
 	@Override
 	public String getTitle(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		return player.getName() + "'s Skills [" + dat.getTotalLevel() + "]" + appendID();
 	}
 	

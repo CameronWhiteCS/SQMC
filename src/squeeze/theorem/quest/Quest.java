@@ -126,7 +126,8 @@ public abstract class Quest  {
 
 			@Override
 			public ItemStack getItemStack(Player player) {
-				PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+				DataManager dataManager = DataManager.getInstance();
+				PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 				ItemStack stack = new ItemStack(getMaterial());
 				ItemMeta meta = stack.getItemMeta();
 				
@@ -155,7 +156,8 @@ public abstract class Quest  {
 
 			@Override
 			public void onClick(InventoryClickEvent evt) {
-				PlayerData dat = DataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
+				DataManager dataManager = DataManager.getInstance();
+				PlayerData dat = dataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
 				dat.giveItem(getQuestLog((Player)evt.getWhoClicked()));
 				((Player) evt.getWhoClicked()).closeInventory();
 				
@@ -165,7 +167,8 @@ public abstract class Quest  {
 	}
 
 	public ItemStack getQuestLog(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		
 		ItemStack stack = new ItemStack(Material.WRITTEN_BOOK);
 		BookMeta bm = (BookMeta) stack.getItemMeta();

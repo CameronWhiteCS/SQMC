@@ -42,7 +42,8 @@ public class SQMC extends JavaPlugin {
 		
 		Region.onEnable();
 		
-		DataManager.loadAllPlayers();
+		DataManager dataManager = DataManager.getInstance();
+		dataManager.loadAllPlayers();
 		
 		registerSkills();
 		
@@ -59,7 +60,8 @@ public class SQMC extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		
-		DataManager.saveAllPlayers();
+		DataManager dataManager = DataManager.getInstance();
+		dataManager.saveAllPlayers();
 		ConfigManager.saveConfig();
 		executePendingTasks();
 		
@@ -135,7 +137,7 @@ public class SQMC extends JavaPlugin {
 	
 	private void registerMisc() {
 		
-		Bukkit.getPluginManager().registerEvents(new DataManager(), this);
+		Bukkit.getPluginManager().registerEvents(DataManager.getInstance(), this);
 		Bukkit.getPluginManager().registerEvents(SQMCRecipe.WOODEN_SHOVEL, this);
 		Bukkit.getPluginManager().registerEvents(CustomItem.WOODEN_AXE, this); 
 		Bukkit.getPluginManager().registerEvents(new InterfaceMechanics(), this);
@@ -145,7 +147,7 @@ public class SQMC extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new RecipeMechanics(), this);
 		Bukkit.getPluginManager().registerEvents(new NoStack(), this);
 		
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new DataManager(), 0, 1);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, DataManager.getInstance(), 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RecipeMechanics(), 0, 100);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Cooldown.food, 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeMechanics(), 0, 20);

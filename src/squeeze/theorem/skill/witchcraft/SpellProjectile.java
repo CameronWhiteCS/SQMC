@@ -45,7 +45,8 @@ public class SpellProjectile extends Spell implements CombatSpell {
 		ProjectileSource projectileSource = (ProjectileSource) e;
 		
 		if (e instanceof Player) {
-			cs = DataManager.getPlayerData(e.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			cs = dataManager.getPlayerData(e.getUniqueId());
 		} else {
 			SQMCEntity cust = SQMCEntity.getSQMCEntity(e);
 			if (cust == null)

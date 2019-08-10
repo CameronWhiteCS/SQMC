@@ -24,7 +24,8 @@ public class VolcanisPriestOfMoonti extends NPC implements EyeTracking {
 	@Override
 	public DialogueNode getDialogueNode(Player player) {
 
-		PlayerData dat = DataManager.getPlayerData(player);
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player);
 		
 		DialogueNode root = new DialogueNode(String.format("Hello there, %s.", player.getName()), NPC);
 		root.append("Hey, I think I've seen another priest like you before.", PLAYER);

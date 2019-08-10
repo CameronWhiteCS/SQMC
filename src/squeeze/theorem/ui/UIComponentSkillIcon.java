@@ -29,7 +29,8 @@ public class UIComponentSkillIcon implements UIComponent {
 	public ItemStack getItemStack(Player player) {
 		ItemStack output = new ItemStack(skill.getMaterial());
 		ItemMeta meta = output.getItemMeta();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		
 		
 		ArrayList<String> lore = new ArrayList<String>();

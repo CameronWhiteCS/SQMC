@@ -20,7 +20,8 @@ public class UIComponentSettingsCombatMode implements UIComponent {
 
 	@Override
 	public ItemStack getItemStack(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		
 		Material material;
 		String status;
@@ -51,7 +52,8 @@ public class UIComponentSettingsCombatMode implements UIComponent {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
-		PlayerData dat = DataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
 		CombatMode mode = dat.getCombatMode();
 		
 		if(mode == CombatMode.AGGRESSIVE) {

@@ -81,7 +81,8 @@ public class UIComponentBank implements UIComponent {
 	@Override
 	public ItemStack getItemStack(Player player) {
 		
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		
 		BankDistrict district = dat.getBankDistrict();
 		if(district == null) return getEmptySlot();
@@ -96,7 +97,8 @@ public class UIComponentBank implements UIComponent {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
-		PlayerData dat = DataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
 		BankDistrict district = dat.getBankDistrict();
 		if(district == null) return;
 		

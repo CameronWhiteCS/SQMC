@@ -63,7 +63,8 @@ public abstract class Skill {
 	public ItemStack getDisplayIcon(UUID id) {
 
 		ItemStack output = new ItemStack(getMaterial());
-		PlayerData dat = DataManager.getPlayerData(id);
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(id);
 		output.setAmount(1);
 
 		ItemMeta meta = output.getItemMeta();

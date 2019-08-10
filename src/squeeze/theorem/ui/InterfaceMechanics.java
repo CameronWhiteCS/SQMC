@@ -60,7 +60,8 @@ public class InterfaceMechanics implements Runnable, Listener {
 	@Override
 	public void run() {
 
-		for (PlayerData dat : DataManager.getOnlinePlayers()) {
+		DataManager dataManager = DataManager.getInstance();
+		for (PlayerData dat : dataManager.getOnlinePlayers()) {
 			for(UserInterface ui: UserInterface.getUserInterfaces()) {
 				ui.refresh(dat.getPlayer());
 			}

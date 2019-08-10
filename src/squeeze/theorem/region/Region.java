@@ -208,14 +208,16 @@ public class Region implements Listener {
 			
 			for(Cuboid boid: r.getCuboids()) {
 				if(boid.contains(to) && boid.getSong() != null) {
-					PlayerData dat = DataManager.getPlayerData(evt.getPlayer().getUniqueId());
+					DataManager dataManager = DataManager.getInstance();
+					PlayerData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId());
 					dat.playSong(boid.getSong());
 					return;
 				}
 			}
 			
 			if(r.contains(to) && r.getSong() != null) {
-				PlayerData dat = DataManager.getPlayerData(evt.getPlayer().getUniqueId());
+				DataManager dataManager = DataManager.getInstance();
+				PlayerData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId());
 				dat.playSong(r.getSong());
 				return;
 			}

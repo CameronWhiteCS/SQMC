@@ -67,7 +67,8 @@ public class SkillCooking extends Skill implements Listener, Runnable {
 				continue;
 			}
 			
-			PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 			if(dat.getSessionData().getRecipe() == null) continue;
 			if(dat.getSessionData().getRecipe().getRecipeType() == RecipeType.COOKING_FIRE) {
 				notifyBurnout(player);
@@ -80,7 +81,8 @@ public class SkillCooking extends Skill implements Listener, Runnable {
 	
 	private static void notifyBurnout(Player player){
 		player.sendMessage(ChatColor.RED + "The fire burns out, leaving behind a piles of ashes.");
-		DataManager.getPlayerData(player.getUniqueId()).getSessionData().setRecipe(null);
+		DataManager dataManager = DataManager.getInstance();
+		dataManager.getPlayerData(player.getUniqueId()).getSessionData().setRecipe(null);
 		getFireUsers().remove(player);
 		player.closeInventory();
 	}

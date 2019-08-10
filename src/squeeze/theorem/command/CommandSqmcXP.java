@@ -22,7 +22,8 @@ public class CommandSqmcXP extends SQMCCommand {
 			sender.sendMessage(ChatColor.RED + "Only in-game players can use the setxp command");
 			return;
 		}
-		PlayerData dat = DataManager.getPlayerData(((Player) sender).getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(((Player) sender).getUniqueId());
 		
 		Skill skill = null;
 		for(Skill s: Skill.getSkills()) {

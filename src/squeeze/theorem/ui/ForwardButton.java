@@ -40,7 +40,8 @@ public class ForwardButton implements UIComponent {
 		
 		if(count > 7) return;
 		
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		SessionData sdat = dat.getSessionData();
 		sdat.setUIpage(sdat.getUIpage() + 1);
 	}

@@ -126,7 +126,8 @@ public class DialogueNode {
 
 	public void send(Player player) {
 		
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		SessionData sessionData = dat.getSessionData();
 		sessionData.setDialogueNode(this);
 		

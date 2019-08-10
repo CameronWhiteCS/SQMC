@@ -85,7 +85,8 @@ public class SpellZap extends Spell implements CombatSpell {
 		
 		//Add stat-based damage to this calculation
 		if(e instanceof Player) {
-			PlayerData dat = DataManager.getPlayerData(e.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(e.getUniqueId());
 			accuracy += dat.getAccuracy(AttackStyle.MAGIC);
 			damage += dat.getStrength(AttackStyle.MAGIC);
 		}

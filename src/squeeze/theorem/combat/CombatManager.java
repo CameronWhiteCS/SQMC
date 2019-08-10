@@ -154,7 +154,8 @@ public class CombatManager implements Listener, Runnable {
 		
 		/* Award XP to the player */
 		if (damager instanceof Player) {
-			PlayerData dat = DataManager.getPlayerData(damager.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(damager.getUniqueId());
 			if (dat != null)
 				dat.awardCombatXP(style, xpDamage);
 		}
@@ -173,7 +174,8 @@ public class CombatManager implements Listener, Runnable {
 		if (projectile == null) {
 
 			if (damager instanceof Player) {
-				PlayerData dat = DataManager.getPlayerData(damager.getUniqueId());
+				DataManager dataManager = DataManager.getInstance();
+				PlayerData dat = dataManager.getPlayerData(damager.getUniqueId());
 				return dat.getAccuracy(style);
 			} else {
 				SQMCEntity cust = SQMCEntity.getSQMCEntity(damager);
@@ -201,8 +203,8 @@ public class CombatManager implements Listener, Runnable {
 
 			if (damager instanceof Player) {
 				
-				
-				PlayerData dat = DataManager.getPlayerData(damager.getUniqueId());
+				DataManager dataManager = DataManager.getInstance();
+				PlayerData dat = dataManager.getPlayerData(damager.getUniqueId());
 				Player player = dat.getPlayer();
 				
 				double genericAttackDamage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
@@ -230,7 +232,8 @@ public class CombatManager implements Listener, Runnable {
 	private static double getDefense(AttackStyle style, Entity damagee) {
 
 		if (damagee instanceof Player) {
-			PlayerData dat = DataManager.getPlayerData(damagee.getUniqueId());
+			DataManager dataManager = DataManager.getInstance();
+			PlayerData dat = dataManager.getPlayerData(damagee.getUniqueId());
 			return dat.getDefense(style);
 		} else {
 			SQMCEntity cust = SQMCEntity.getSQMCEntity(damagee);

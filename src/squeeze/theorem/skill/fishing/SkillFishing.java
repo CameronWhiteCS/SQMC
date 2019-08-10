@@ -101,7 +101,8 @@ public class SkillFishing extends Skill implements Listener {
 		
 		Item item = (Item) evt.getVanillaEvent().getCaught();
 		Player player = evt.getPlayer();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		
 		item.setItemStack(CustomItem.KELP.getItemStack());
 

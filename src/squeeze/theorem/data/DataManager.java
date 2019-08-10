@@ -38,26 +38,33 @@ import squeeze.theorem.skill.witchcraft.Spellbook;
 public class DataManager implements Listener, Runnable {
 	
 	/*Static fields*/
-	private static Map<UUID, PlayerData> players = new ConcurrentHashMap<UUID, PlayerData>();
-	private static Map<UUID, PlayerData> prelogin = new ConcurrentHashMap<UUID, PlayerData>();
+	private static DataManager instance = new DataManager();
 	
-	private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
-	private static final String HOST = ConfigManager.getMysqlHost();
-	private static final int PORT = ConfigManager.getMysqlPort();
-	private static final String USERNAME = ConfigManager.getMysqlUser();
-	private static final String PASSWORD = ConfigManager.getMysqlPassword();
-	private static final String DATABASE = ConfigManager.getMysqlDatabase();
-	private static final String URL = String.format("jdbc:mysql://%s:%s/%s?useSSL=false", HOST, PORT, DATABASE);
+	/*Fields*/
+	private Map<UUID, PlayerData> players = new ConcurrentHashMap<UUID, PlayerData>();
+	private Map<UUID, PlayerData> prelogin = new ConcurrentHashMap<UUID, PlayerData>();
+	
+	private final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
+	private final String HOST = ConfigManager.getMysqlHost();
+	private final int PORT = ConfigManager.getMysqlPort();
+	private final String USERNAME = ConfigManager.getMysqlUser();
+	private final String PASSWORD = ConfigManager.getMysqlPassword();
+	private final String DATABASE = ConfigManager.getMysqlDatabase();
+	private final String URL = String.format("jdbc:mysql://%s:%s/%s?useSSL=false", HOST, PORT, DATABASE);
+	
+	private DataManager() {
+		
+	}
 	
 	/*Methods*/
-	private static Connection getConnection() throws ClassNotFoundException, SQLException  {
+	private Connection getConnection() throws ClassNotFoundException, SQLException  {
 		Connection con = null;
 		Class.forName(DRIVER_CLASS);
 		con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 		return con;
 	}
 	
-	public static boolean isRegistered(UUID id, Connection con) {
+	public boolean isRegistered(UUID id, Connection con) {
 		
 		try {
 			
@@ -80,7 +87,7 @@ public class DataManager implements Listener, Runnable {
 		
 	}
 	
-	public static PlayerData fromDatabase(UUID id, Connection conn) throws SQLException {
+	public PlayerData fromDatabase(UUID id, Connection conn) throws SQLException {
 
 		PlayerData dat = new PlayerData(id);
 		Statement statement = conn.createStatement();
@@ -178,7 +185,7 @@ public class DataManager implements Listener, Runnable {
 		
 	}
 	
-	public static void saveToDatabase(UUID id, Connection conn) throws SQLException, PlayerNotLoadedException {
+	public void saveToDatabase(UUID id, Connection conn) throws SQLException, PlayerNotLoadedException {
 		
 		Statement statement = conn.createStatement();
 		PlayerData dat = getPlayerData(id);
@@ -310,7 +317,7 @@ public class DataManager implements Listener, Runnable {
 	
 	}
 	
-	public  static void loadAllPlayers() {
+	public void loadAllPlayers() {
 		
 		try {
 			
@@ -333,7 +340,7 @@ public class DataManager implements Listener, Runnable {
 		
 	}
 
-	public static void saveAllPlayers() {
+	public void saveAllPlayers() {
 	
 		try {
 			
@@ -352,16 +359,16 @@ public class DataManager implements Listener, Runnable {
 		
 	}
 	
-	public static PlayerData getPlayerData(UUID id) {
+	public PlayerData getPlayerData(UUID id) {
 		if(players.containsKey(id)) return players.get(id);
 		return null;
 	}
 	
-	public static PlayerData getPlayerData(Player player) {
+	public PlayerData getPlayerData(Player player) {
 		return getPlayerData(player.getUniqueId());
 	}
 	
-	public static Collection<PlayerData> getOnlinePlayers(){
+	public Collection<PlayerData> getOnlinePlayers(){
 		return players.values();
 	}
 	
@@ -375,7 +382,7 @@ public class DataManager implements Listener, Runnable {
 	
 	/*Events*/
 	@EventHandler
-	public static void onJoin(AsyncPlayerPreLoginEvent evt) {
+	public void onJoin(AsyncPlayerPreLoginEvent evt) {
 		
 		try {
 			Connection conn = getConnection();
@@ -409,7 +416,7 @@ public class DataManager implements Listener, Runnable {
 	}
 
 	@EventHandler
-	public static void onJoin(PlayerJoinEvent evt) {
+	public void onJoin(PlayerJoinEvent evt) {
 		
 		Player player = evt.getPlayer();
 		UUID id = player.getUniqueId();
@@ -450,7 +457,7 @@ public class DataManager implements Listener, Runnable {
 	
 	//TODO: Make this execute Asynchronously 
 	@EventHandler
-	public static void onQuit(PlayerQuitEvent evt) {
+	public void onQuit(PlayerQuitEvent evt) {
 		Player player = evt.getPlayer();
 		UUID id = player.getUniqueId();
 		Connection conn;
@@ -478,6 +485,10 @@ public class DataManager implements Listener, Runnable {
 		evt.setQuitMessage(ChatColor.RED + "-" + ChatColor.GRAY + evt.getPlayer().getName());
 		
 		
+	}
+	
+	public static DataManager getInstance() {
+		return instance;
 	}
 	
 }

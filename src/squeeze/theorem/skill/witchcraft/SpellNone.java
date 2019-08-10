@@ -23,7 +23,8 @@ public class SpellNone extends Spell {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		Player player = (Player) evt.getWhoClicked();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		int slot = player.getInventory().getHeldItemSlot();
 		dat.getSessionData().setSpell(slot, null);
 		player.sendMessage(ChatColor.GREEN + "Spell unbound from slot " + (slot + 1) + ".");

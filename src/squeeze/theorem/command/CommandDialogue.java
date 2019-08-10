@@ -25,7 +25,8 @@ public class CommandDialogue extends SQMCCommand{
 		}
 		
 		Player player = (Player) sender;
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		SessionData sessionData = dat.getSessionData();
 		DialogueNode node = sessionData.getDialogueNode();
 		

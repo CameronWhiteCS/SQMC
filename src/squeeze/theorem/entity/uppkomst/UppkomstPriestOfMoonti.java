@@ -24,7 +24,8 @@ public class UppkomstPriestOfMoonti extends NPC implements EyeTracking {
 	@Override
 	public DialogueNode getDialogueNode(Player player) {
 		
-		PlayerData dat = DataManager.getPlayerData(player);
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player);
 		if(!dat.hasFlags("quest.eternal_flame.start")) return eternalFlameStart(player);
 		
 		return null;
@@ -55,7 +56,8 @@ public class UppkomstPriestOfMoonti extends NPC implements EyeTracking {
 				n1.getChild(0).append(new DialogueNode("Priest of Moonti. Retrieve from him a flame, and carry it back with you to where we now stand, with it still burning. This is our custom, that any follower of The Flame should take this pilgrimage.", NPC) {
 					@Override
 					public void onSelect(Player player) {
-						PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+						DataManager dataManager = DataManager.getInstance();
+						PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 						dat.addFlag("quest.eternal_flame.start");
 					}
 				});

@@ -18,7 +18,8 @@ public class UIComponentSettingsHUD implements UIComponent {
 
 	@Override
 	public ItemStack getItemStack(Player player) {
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		String status;
 		Material material;
 		if(dat.getHud() == true) {
@@ -43,7 +44,8 @@ public class UIComponentSettingsHUD implements UIComponent {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
-		PlayerData dat = DataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
 		if(dat.getHud() == false) {
 			dat.setHud(true);
 		} else {

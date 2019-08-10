@@ -16,7 +16,8 @@ public class RecipeMechanics implements Runnable, Listener {
 	@Override
 	public void run() {
 
-			for(PlayerData dat: DataManager.getOnlinePlayers()) {
+		DataManager dataManager = DataManager.getInstance();
+			for(PlayerData dat: dataManager.getOnlinePlayers()) {
 				SessionData sdat = dat.getSessionData();
 				if(sdat.getRecipe() != null) {
 					Bukkit.getPluginManager().callEvent(new SQMCRecipeEvent(sdat.getRecipe(), dat.getPlayer()));
@@ -29,11 +30,12 @@ public class RecipeMechanics implements Runnable, Listener {
 	@EventHandler
 	public void onMove(PlayerMoveEvent evt) {
 		if(evt.isCancelled()) return;
-		Location craftingLocation = DataManager.getPlayerData(evt.getPlayer().getUniqueId()).getSessionData().getCraftingLocation();
+		DataManager dataManager = DataManager.getInstance();
+		Location craftingLocation = dataManager.getPlayerData(evt.getPlayer().getUniqueId()).getSessionData().getCraftingLocation();
 		if(craftingLocation == null) return;
 		Location to = evt.getTo();
 		if(craftingLocation.distance(to) < 2) return;
-		PlayerData dat = DataManager.getPlayerData(evt.getPlayer().getUniqueId());
+		PlayerData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId());
 		if(dat.getSessionData().getRecipe() != null) dat.getSessionData().setRecipe(null);
 	}
 	

@@ -411,7 +411,8 @@ public class SQMCEntity implements Listener, Runnable {
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent evt) {
 		Player player = evt.getPlayer();
-		SessionData sdat = DataManager.getPlayerData(player.getUniqueId()).getSessionData();
+		DataManager dataManager = DataManager.getInstance();
+		SessionData sdat = dataManager.getPlayerData(player.getUniqueId()).getSessionData();
 		sdat.endConversation();
 	}
 	
@@ -419,7 +420,8 @@ public class SQMCEntity implements Listener, Runnable {
 	public void onPickup(EntityPickupItemEvent evt) {
 		if(evt.getEntity() instanceof Player == false) return;
 		Player player = (Player) evt.getEntity();
-		SessionData sdat = DataManager.getPlayerData(player.getUniqueId()).getSessionData();
+		DataManager dataManager = DataManager.getInstance();
+		SessionData sdat = dataManager.getPlayerData(player.getUniqueId()).getSessionData();
 		sdat.endConversation();
 	}
 	
@@ -475,7 +477,8 @@ public class SQMCEntity implements Listener, Runnable {
 		
 		Entity entity = evt.getRightClicked();
 		Player player = evt.getPlayer();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		
 		//Cancel all interactions if entity is invisible
 		if(cust instanceof ConditionallyVisible) {
@@ -531,7 +534,8 @@ public class SQMCEntity implements Listener, Runnable {
 	private static void endConversations(PlayerMoveEvent evt) {
 		if(evt.isCancelled()) return;
 		Player player = evt.getPlayer();
-		PlayerData dat = DataManager.getPlayerData(player.getUniqueId());
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		SessionData sessionData = dat.getSessionData();
 		if (sessionData.getNPC() == null || sessionData.getDialogueNode() == null)
 			return;
