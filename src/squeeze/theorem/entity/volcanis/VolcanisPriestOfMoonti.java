@@ -16,7 +16,7 @@ public class VolcanisPriestOfMoonti extends NPC implements EyeTracking {
 
 	public VolcanisPriestOfMoonti() {
 		super("Priest of Moonti", EntityType.VILLAGER);
-		setProfession(Profession.PRIEST);
+		setProfession(Profession.CLERIC);
 		setAI(false);
 		addLocation(new Location(Bukkit.getWorld("world"), 7193.5, 236, -7304.5));
 	}

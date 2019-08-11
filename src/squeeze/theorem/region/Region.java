@@ -1,6 +1,7 @@
 package squeeze.theorem.region;
 
-import java.io.InputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +22,7 @@ import squeeze.theorem.audio.SQMCSong;
 import squeeze.theorem.bank.BankDistrict;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.main.SQMC;
 
 public class Region implements Listener {
 
@@ -172,14 +174,22 @@ public class Region implements Listener {
 	}
 	
 	public static Region parse(String filename) {
-		InputStream stream = Region.class.getResourceAsStream("/region/" + filename + ".json");
-		Scanner sc = new Scanner(stream);
-		String s = "";
-		while(sc.hasNext()) {
-			s += sc.nextLine();
+		
+		try {
+			
+			File file = new File(SQMC.getPlugin(SQMC.class).getDataFolder() + "/res/region/" + filename + ".json");
+			
+			Scanner sc = new Scanner(file);
+			String s = "";
+			while(sc.hasNext()) {
+				s += sc.nextLine();
+			}
+			sc.close();
+			return fromJSON(new JSONObject(s));
+		} catch(IOException exc) {
+			exc.printStackTrace();
+			return null;
 		}
-		sc.close();
-		return fromJSON(new JSONObject(s));
 	}
 
 	private static void addMarkers() {

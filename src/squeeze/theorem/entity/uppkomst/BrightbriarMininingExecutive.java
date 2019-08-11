@@ -19,7 +19,7 @@ public class BrightbriarMininingExecutive extends NPC {
 		setPrefix("Mr.");
 		this.setInvulnerable(true);
 		setSuffix("Mining Executive");
-		setProfession(Profession.PRIEST);
+		setProfession(Profession.CLERIC);
 	}
 	
 	@Override

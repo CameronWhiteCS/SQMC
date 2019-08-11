@@ -1,11 +1,16 @@
 package squeeze.theorem.audio;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.xxmicloxx.NoteBlockAPI.model.Song;
 import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
+
+import squeeze.theorem.main.SQMC;
 
 /**
  * SQMCSong serves as a wrapper class for com.xxmicloxx.NoteBlockAPI.model.Song
@@ -78,8 +83,9 @@ public class SQMCSong {
 	
 	/*Methods*/
 	private static Song parse(String s) {
-		InputStream stream = SQMCSong.class.getResourceAsStream("/songs/" + s + ".nbs");
-		Song song = NBSDecoder.parse(stream);
+		
+		File f = new File(SQMC.getPlugin(SQMC.class).getDataFolder() + "/res/songs/" + s + ".nbs");
+		Song song = NBSDecoder.parse(f);
 		return song;
 	}
 	

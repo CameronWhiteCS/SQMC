@@ -16,7 +16,7 @@ public class UppkomstPriestOfMoonti extends NPC implements EyeTracking {
 
 	public UppkomstPriestOfMoonti() {
 		super("Priest of Moonti", EntityType.VILLAGER);
-		setProfession(Profession.PRIEST);
+		setProfession(Profession.CLERIC);
 		addLocation(new Location(Bukkit.getWorld("world"), 3899.5, 256, -8969.5));
 		this.setAI(false);
 	}

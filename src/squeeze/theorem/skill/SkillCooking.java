@@ -61,8 +61,7 @@ public class SkillCooking extends Skill implements Listener, Runnable {
 			Entity entity = fireUsers.get(player);
 
 			if(!entity.isDead()) continue;
-			
-			if(player.getOpenInventory().getTopInventory().getTitle().equals(ChatColor.DARK_PURPLE + "Fire")) {
+			if(player.getOpenInventory().getTitle().equals(ChatColor.DARK_PURPLE + "Fire")) {
 				notifyBurnout(player);
 				continue;
 			}

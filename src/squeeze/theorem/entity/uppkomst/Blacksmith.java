@@ -18,7 +18,7 @@ public class Blacksmith extends NPC implements EyeTracking {
 	
 	public Blacksmith() {
 		super("Grunkle", EntityType.VILLAGER);
-		setProfession(Profession.BLACKSMITH);
+		setProfession(Profession.TOOLSMITH);
 		setSuffix("the Blacksmith");
 		addLocation(new Location(Bukkit.getWorld("world"), 4424.5, 54, -8594.5));
 		shop.addItem(CustomItem.WOODEN_PICKAXE, 25, 0, 1);

@@ -1,6 +1,7 @@
 package squeeze.theorem.entity;
 
-import java.io.InputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import squeeze.theorem.combat.CombatStats;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.DropTable;
 import squeeze.theorem.item.Lootable;
+import squeeze.theorem.main.SQMC;
 
 public class GenericMob extends SQMCEntity implements CombatStats, Respawnable, Lootable, Boundable {
 
@@ -267,15 +269,20 @@ public class GenericMob extends SQMCEntity implements CombatStats, Respawnable, 
 	
 	public static GenericMob fromFileName(String fileName) {
 		
-		InputStream stream = GenericMob.class.getResourceAsStream("/genericmob/" + fileName + ".json");
-		Scanner sc = new Scanner(stream);
-		String s = "";
-		while(sc.hasNextLine()) {
-			s += sc.nextLine();
+		try {
+			File f = new File(SQMC.getPlugin(SQMC.class).getDataFolder() + "/res/genericmob/" + fileName + ".json");
+			Scanner sc = new Scanner(f);
+			String s = "";
+			while(sc.hasNextLine()) {
+				s += sc.nextLine();
+			}
+			sc.close();
+			JSONObject obj = new JSONObject(s);
+			return fromJSON(obj);
+		} catch(IOException exc){
+			exc.printStackTrace();
+			return null;
 		}
-		sc.close();
-		JSONObject obj = new JSONObject(s);
-		return fromJSON(obj);
 		
 	}
 	

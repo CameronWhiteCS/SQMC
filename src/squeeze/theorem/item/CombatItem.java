@@ -1,5 +1,7 @@
 package squeeze.theorem.item;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatStats;
+import squeeze.theorem.main.SQMC;
 import squeeze.theorem.skill.LevelRequirements;
 import squeeze.theorem.skill.Skill;
 
@@ -301,17 +304,22 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		this.requirements = requirements;
 	}
 
-	public static CustomItem fromFileName(int ID, String file) {
+	public static CustomItem fromFileName(int ID, String fileName) {
 		
-		InputStream stream = CombatItem.class.getResourceAsStream("/combatitem/" + file + ".json");
-		Scanner sc = new Scanner(stream);
-		String s = "";
-		while(sc.hasNextLine()) {
-			s += sc.nextLine();
+		try {
+			File file = new File(SQMC.getPlugin(SQMC.class).getDataFolder() + "/res/combatitem/" + fileName + ".json");
+			Scanner sc = new Scanner(file);
+			String s = "";
+			while(sc.hasNextLine()) {
+				s += sc.nextLine();
+			}
+			sc.close();
+			JSONObject obj = new JSONObject(s);
+			return fromJSON(ID, obj);
+		} catch(IOException exc) {
+			exc.printStackTrace();
+			return null;
 		}
-		sc.close();
-		JSONObject obj = new JSONObject(s);
-		return fromJSON(ID, obj);
 		
 	}
 

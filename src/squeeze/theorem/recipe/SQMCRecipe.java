@@ -1,6 +1,7 @@
 package squeeze.theorem.recipe;
 
-import java.io.InputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +30,7 @@ import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.data.SessionData;
 import squeeze.theorem.event.SQMCRecipeEvent;
 import squeeze.theorem.item.CustomItem;
+import squeeze.theorem.main.SQMC;
 import squeeze.theorem.skill.LevelRequirements;
 import squeeze.theorem.skill.Skill;
 import squeeze.theorem.skill.cooking.recipe.RecipeCookedCod;
@@ -806,15 +809,19 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 	public boolean canCraft(Player player, boolean notify) {	
 		
 		if (!meetsRequirements(player)) {
-			if(notify) sendInsufficientLevelNotice(player, "craft that");
+			if(notify) {
+				sendInsufficientLevelNotice(player, "craft that");
+				player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+			}
 			player.closeInventory();
 			return false;
 		}
 		
 		if (!hasRequiredItems(player)) {
-			if(notify) player.sendMessage(ChatColor.RED + "You don't have enough materials to craft this item.");
-			player.closeInventory();
-			return false;
+			if(notify) {
+				sendInsufficientLevelNotice(player, "craft that");
+				player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+			}
 		}
 		
 		return true;
@@ -1022,14 +1029,19 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 	
 	public static SQMCRecipe fromFile(String name) {
 		
-		InputStream stream = SQMCRecipe.class.getResourceAsStream("/recipe/" + name + ".json");
-		Scanner sc = new Scanner(stream);
-		String s = "";
-		while(sc.hasNextLine()) {
-			s += sc.nextLine();
+		try {
+			File f = new File(SQMC.getPlugin(SQMC.class).getDataFolder() + "/res/recipe/" + name + ".json");
+			Scanner sc = new Scanner(f);
+			String s = "";
+			while(sc.hasNextLine()) {
+				s += sc.nextLine();
+			}
+			sc.close();
+			return fromJSON(new JSONObject(s));
+		} catch(IOException exc) {
+			exc.printStackTrace();
+			return null;
 		}
-		sc.close();
-		return fromJSON(new JSONObject(s));
 		
 	}
 	

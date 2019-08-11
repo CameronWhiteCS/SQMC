@@ -185,132 +185,138 @@ public class DataManager implements Listener, Runnable {
 		
 	}
 	
-	public void saveToDatabase(UUID id, Connection conn) throws SQLException, PlayerNotLoadedException {
+	public void saveToDatabase(UUID id, Connection conn) {
 		
-		Statement statement = conn.createStatement();
-		PlayerData dat = getPlayerData(id);
+		try {
+			
+			Statement statement = conn.createStatement();
+			PlayerData dat = getPlayerData(id);
+			
+			if(dat == null) throw new PlayerNotLoadedException();
+			
+			Player player = dat.getPlayer();
+			
+			/*ERASE*/
+			String query = String.format("DELETE FROM flags WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
+			query = String.format("DELETE FROM inventory WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
+			query = String.format("DELETE FROM settings WHERE uuid='%s';", id.toString());
 		
-		if(dat == null) throw new PlayerNotLoadedException();
-		
-		Player player = dat.getPlayer();
-		
-		/*ERASE*/
-		String query = String.format("DELETE FROM flags WHERE uuid='%s';", id.toString());
-		statement.executeUpdate(query);
-		
-		query = String.format("DELETE FROM inventory WHERE uuid='%s';", id.toString());
-		statement.executeUpdate(query);
-		
-		query = String.format("DELETE FROM settings WHERE uuid='%s';", id.toString());
-	
-		statement.executeUpdate(query);
-		
-		query = String.format("DELETE FROM skills WHERE uuid='%s';", id.toString());
-		statement.executeUpdate(query);
-		
-		query = String.format("DELETE FROM vanilladata WHERE uuid='%s';", id.toString());
-		statement.executeUpdate(query);
-		
-		query = String.format("DELETE FROM playerdata WHERE uuid='%s';", id.toString());
-		statement.executeUpdate(query);
-		
-		query = String.format("DELETE FROM bank WHERE uuid='%s';", id.toString());
-		statement.executeUpdate(query);
-		
-		/*REWRITE*/
-		
-		/*Flags*/
-		for(String f: dat.getFlags()) {
-			statement.executeUpdate("INSERT IGNORE INTO flags(uuid, flag) VALUES ('$UUID', '$FLAG');"
-					.replace("$UUID", id.toString())
-					.replace("$FLAG", f));
-		}
-		
-		
-		
-		/*Inventory*/
-		query = String.format("DELETE FROM inventory WHERE uuid='%s';", id.toString());
-		statement.executeUpdate(query);
-		
-		Inventory inv = player.getInventory();			
-		CustomItem first = null;
-		
-		query = "INSERT INTO inventory (uuid, id, slot, amount) values";
-		for(int i = 0; i <= 40; i++) {
-			ItemStack stack = inv.getItem(i);
-			if(stack == null) continue;
-			CustomItem ci = CustomItem.getCustomItem(stack);
-			if(ci == null) continue;
-			if(first == null) first = ci;
-			query += String.format("('%s', '%s', '%s', '%s'),", id.toString(), ci.getID(), i, CustomItem.getCount(stack));
-		}
-		query = query.substring(0, query.length() - 1);
-		query += ";";
-		
-		if(first != null) statement.executeUpdate(query);
-		
-		
-		/*Settings*/
-		
-		query = "INSERT IGNORE INTO settings(uuid, spellbook, combatmode, hud, music, xpbars) VALUES('$UUID', '$SPELLBOOK', '$COMBATMODE', $HUD, $MUSIC, $XPBARS);";
-				query = query.replace("$UUID", dat.getUUID().toString());
-				query = query.replace("$SPELLBOOK", dat.getSpellbook().getIdentifier());
-				query = query.replace("$COMBATMODE", dat.getCombatMode().toString().toLowerCase());
-				query = query.replace("$HUD", (dat.getHud() ? 1 : 0) + "");
-				query = query.replace("$MUSIC", (dat.getMusic() ? 1 : 0) + "");
-				query = query.replace("$XPBARS", (dat.showXPBars() ? 1 : 0) + "");
-				
-		statement.executeUpdate(query);
-		
-		/*Skills*/
-		query = "INSERT IGNORE INTO skills(uuid, mining, smithing, woodcutting, firemaking, fishing, cooking, strength, ranged, witchcraft, defense, hitpoints, larceny) VALUES('$UUID', $MINING, $SMITHING, $WOODCUTTING, $FIREMAKING, $FISHING, $COOKING, $STRENGTH, $RANGED, $WITCHCRAFT, $DEFENSE, $HITPOINTS, $LARCENY);";
-		for(Skill s: Skill.getSkills()) {
-			String st = "$" + s.getName().toUpperCase();
-			query = query.replace(st, dat.getXP(s) + "");
-		}
-		query = query.replace("$UUID", id.toString());
-		statement.executeUpdate(query);
-		
-		
-		
-		/*VanillaData*/
-		query = "INSERT IGNORE INTO vanilladata(uuid, x, y, z, pitch, yaw, health, foodlevel, air, fireticks, falldistance, world) VALUES('$UUID', $LOC_X, $LOC_Y, $LOC_Z, $PITCH, $YAW, $HEALTH, $FOODLEVEL, $AIR, $FIRETICKS, $FALLDISTANCE, '$WORLD');"
-				.replace("$UUID", id.toString())
-				.replace("$WORLD", player.getWorld().getName())
-				.replace("$LOC_X", player.getLocation().getX() + "")
-				.replace("$LOC_Y", player.getLocation().getY() + "")
-				.replace("$LOC_Z", player.getLocation().getZ() + "")
-				.replace("$YAW", player.getLocation().getYaw() + "")
-				.replace("$PITCH", player.getLocation().getPitch() + "")
-				.replace("$HEALTH", player.getHealth() + "")
-				.replace("$FOODLEVEL", player.getFoodLevel() + "")
-				.replace("$AIR", player.getRemainingAir() + "")
-				.replace("$FIRETICKS", player.getFireTicks() + "")
-				.replace("$FALLDISTANCE", player.getFallDistance() + "");
-		
-		statement.executeUpdate(query);
-		
-		/*'playerdata' table in MySQL db -- misc account info*/
-		query = String.format("INSERT IGNORE INTO playerdata(uuid, balance) VALUES('%s', '%s');", dat.getUUID().toString(), dat.getBalance());
-		statement.executeUpdate(query);
-		
-		/*Bank*/
-		query = "INSERT INTO bank(uuid, district, id, amount, slot) VALUES";
-		String appended = "";
-		
-		for(BankDistrict dist: BankDistrict.values()) {
-			for(int i = 0; i <= BankAccount.MAX_SLOTS - 1; i++) {
-				BankEntry entry = dat.getBankAccount().getBankEntry(dist, i);
-				if(entry == null) continue;
-				appended += String.format("('%s', '%s', '%s', '%s', '%s'),", dat.getUUID().toString(), dist.toString().toLowerCase(), entry.getCustomItem().getID(), entry.getAmount(), entry.getSlot());
+			statement.executeUpdate(query);
+			
+			query = String.format("DELETE FROM skills WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
+			query = String.format("DELETE FROM vanilladata WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
+			query = String.format("DELETE FROM playerdata WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
+			query = String.format("DELETE FROM bank WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
+			/*REWRITE*/
+			
+			/*Flags*/
+			for(String f: dat.getFlags()) {
+				statement.executeUpdate("INSERT IGNORE INTO flags(uuid, flag) VALUES ('$UUID', '$FLAG');"
+						.replace("$UUID", id.toString())
+						.replace("$FLAG", f));
 			}
-		}
-		
-		if(appended != "") {
-			query += appended;
+			
+			
+			
+			/*Inventory*/
+			query = String.format("DELETE FROM inventory WHERE uuid='%s';", id.toString());
+			statement.executeUpdate(query);
+			
+			Inventory inv = player.getInventory();			
+			CustomItem first = null;
+			
+			query = "INSERT INTO inventory (uuid, id, slot, amount) values";
+			for(int i = 0; i <= 40; i++) {
+				ItemStack stack = inv.getItem(i);
+				if(stack == null) continue;
+				CustomItem ci = CustomItem.getCustomItem(stack);
+				if(ci == null) continue;
+				if(first == null) first = ci;
+				query += String.format("('%s', '%s', '%s', '%s'),", id.toString(), ci.getID(), i, CustomItem.getCount(stack));
+			}
 			query = query.substring(0, query.length() - 1);
 			query += ";";
+			
+			if(first != null) statement.executeUpdate(query);
+			
+			
+			/*Settings*/
+			
+			query = "INSERT IGNORE INTO settings(uuid, spellbook, combatmode, hud, music, xpbars) VALUES('$UUID', '$SPELLBOOK', '$COMBATMODE', $HUD, $MUSIC, $XPBARS);";
+					query = query.replace("$UUID", dat.getUUID().toString());
+					query = query.replace("$SPELLBOOK", dat.getSpellbook().getIdentifier());
+					query = query.replace("$COMBATMODE", dat.getCombatMode().toString().toLowerCase());
+					query = query.replace("$HUD", (dat.getHud() ? 1 : 0) + "");
+					query = query.replace("$MUSIC", (dat.getMusic() ? 1 : 0) + "");
+					query = query.replace("$XPBARS", (dat.showXPBars() ? 1 : 0) + "");
+					
 			statement.executeUpdate(query);
+			
+			/*Skills*/
+			query = "INSERT IGNORE INTO skills(uuid, mining, smithing, woodcutting, firemaking, fishing, cooking, strength, ranged, witchcraft, defense, hitpoints, larceny) VALUES('$UUID', $MINING, $SMITHING, $WOODCUTTING, $FIREMAKING, $FISHING, $COOKING, $STRENGTH, $RANGED, $WITCHCRAFT, $DEFENSE, $HITPOINTS, $LARCENY);";
+			for(Skill s: Skill.getSkills()) {
+				String st = "$" + s.getName().toUpperCase();
+				query = query.replace(st, dat.getXP(s) + "");
+			}
+			query = query.replace("$UUID", id.toString());
+			statement.executeUpdate(query);
+			
+			
+			
+			/*VanillaData*/
+			query = "INSERT IGNORE INTO vanilladata(uuid, x, y, z, pitch, yaw, health, foodlevel, air, fireticks, falldistance, world) VALUES('$UUID', $LOC_X, $LOC_Y, $LOC_Z, $PITCH, $YAW, $HEALTH, $FOODLEVEL, $AIR, $FIRETICKS, $FALLDISTANCE, '$WORLD');"
+					.replace("$UUID", id.toString())
+					.replace("$WORLD", player.getWorld().getName())
+					.replace("$LOC_X", player.getLocation().getX() + "")
+					.replace("$LOC_Y", player.getLocation().getY() + "")
+					.replace("$LOC_Z", player.getLocation().getZ() + "")
+					.replace("$YAW", player.getLocation().getYaw() + "")
+					.replace("$PITCH", player.getLocation().getPitch() + "")
+					.replace("$HEALTH", player.getHealth() + "")
+					.replace("$FOODLEVEL", player.getFoodLevel() + "")
+					.replace("$AIR", player.getRemainingAir() + "")
+					.replace("$FIRETICKS", player.getFireTicks() + "")
+					.replace("$FALLDISTANCE", player.getFallDistance() + "");
+			
+			statement.executeUpdate(query);
+			
+			/*'playerdata' table in MySQL db -- misc account info*/
+			query = String.format("INSERT IGNORE INTO playerdata(uuid, balance) VALUES('%s', '%s');", dat.getUUID().toString(), dat.getBalance());
+			statement.executeUpdate(query);
+			
+			/*Bank*/
+			query = "INSERT INTO bank(uuid, district, id, amount, slot) VALUES";
+			String appended = "";
+			
+			for(BankDistrict dist: BankDistrict.values()) {
+				for(int i = 0; i <= BankAccount.MAX_SLOTS - 1; i++) {
+					BankEntry entry = dat.getBankAccount().getBankEntry(dist, i);
+					if(entry == null) continue;
+					appended += String.format("('%s', '%s', '%s', '%s', '%s'),", dat.getUUID().toString(), dist.toString().toLowerCase(), entry.getCustomItem().getID(), entry.getAmount(), entry.getSlot());
+				}
+			}
+			
+			if(appended != "") {
+				query += appended;
+				query = query.substring(0, query.length() - 1);
+				query += ";";
+				statement.executeUpdate(query);
+			}
+			
+		} catch(Exception exc) {
+			exc.printStackTrace();
 		}
 		
 	
@@ -472,10 +478,6 @@ public class DataManager implements Listener, Runnable {
 		try {
 			saveToDatabase(id, conn);
 			players.remove(id);
-		} catch(SQLException exc) {
-			Bukkit.getLogger().log(Level.SEVERE, String.format("[SQMC] Failed to save player %s (uuid='%s') to the database -- SQLException", player.getName(), id.toString()));
-			exc.printStackTrace();
-			evt.setQuitMessage(ChatColor.RED + "-" + ChatColor.GRAY + evt.getPlayer().getName());
 		} catch(PlayerNotLoadedException exc) {
 			Bukkit.getLogger().log(Level.SEVERE, String.format("[SQMC] Failed to save player %s (uuid='%s') to database -- PlayerNotLoadedException", player.getName(), id.toString()));
 			evt.setQuitMessage(null);

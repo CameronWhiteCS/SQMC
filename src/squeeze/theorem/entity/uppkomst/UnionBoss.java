@@ -33,7 +33,7 @@ public class UnionBoss extends NPC implements EyeTracking, Boundable {
 	@Override
 	public LivingEntity spawn(Location loc) {
 		Villager v = (Villager) super.spawn(loc);
-		v.setProfession(Profession.PRIEST);
+		v.setProfession(Profession.CLERIC);
 		return v;
 	}
 

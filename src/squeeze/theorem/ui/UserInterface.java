@@ -73,7 +73,7 @@ public abstract class UserInterface {
 	//TODO - visible contents NEVER equals expected contents -- why (array.length maybe)?
 	public void refresh(Player player) {
 		if (player.getOpenInventory().getTitle() == null) return;
-		String title = player.getOpenInventory().getTopInventory().getTitle();
+		String title = player.getOpenInventory().getTitle();
 		if(title.contains("ID:" + getID()) == false) return;
 		int ID = Integer.parseInt(title.split("ID:")[1]);
 		if(ID != getID()) return;

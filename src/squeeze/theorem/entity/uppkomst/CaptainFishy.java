@@ -59,7 +59,7 @@ public class CaptainFishy extends NPC implements EyeTracking, Pickpocketable {
 	public LivingEntity spawn(Location loc) {
 		
 		Villager v = (Villager) super.spawn(loc);
-		v.setProfession(Profession.BLACKSMITH);
+		v.setProfession(Profession.TOOLSMITH);
 		
 		
 		return null;

@@ -4,14 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.projectiles.ProjectileSource;
 
-import net.minecraft.server.v1_13_R2.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_14_R1.PacketPlayOutEntityDestroy;
 import squeeze.theorem.animation.Animations;
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatManager;
