@@ -13,10 +13,10 @@ import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.skill.Skill;
 import squeeze.theorem.skill.witchcraft.Spell;
 
-public class UserInterfaceSkillguideWitchcraft extends MultiPageInterface {
+public class UserInterfaceSkillguideWitchcraft extends ChestInterface {
 
-	public UserInterfaceSkillguideWitchcraft(String title, int size) {
-		super(title, size);
+	public UserInterfaceSkillguideWitchcraft(String title) {
+		super(title);
 		//Equipment
 		for(CustomItem ci: CustomItem.getItems()) {
 			if(ci instanceof CombatItem) {

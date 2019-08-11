@@ -8,10 +8,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import squeeze.theorem.ui.ChestInterface;
 import squeeze.theorem.ui.UIComponent;
-import squeeze.theorem.ui.UserInterface;
 
-public class Spellbook extends UserInterface {
+public class Spellbook extends ChestInterface {
 
 	/*Static fields*/
 	private static ArrayList<Spellbook> spellbooks = new ArrayList<Spellbook>();
@@ -26,10 +26,10 @@ public class Spellbook extends UserInterface {
 	
 	/*Constructors*/
 	public Spellbook(String name, String identifier, int size) {
+		super(name);
 		setName(name);
 		setSize(size);
 		setIdentifier(identifier);
-		UserInterface.userInterfaces.add(this);
 	}
 
 	public String getName() {
@@ -38,11 +38,6 @@ public class Spellbook extends UserInterface {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	@Override
-	public String getTitle(Player player) {
-		return getName() + appendID();
 	}
 	
 	public Spellbook addSpell(Spell spell) {

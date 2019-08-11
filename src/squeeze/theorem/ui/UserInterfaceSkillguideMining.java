@@ -12,10 +12,10 @@ import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemPickaxe;
 import squeeze.theorem.skill.Ore;
 
-public class UserInterfaceSkillguideMining extends MultiPageInterface {
+public class UserInterfaceSkillguideMining extends ChestInterface {
 
-	public UserInterfaceSkillguideMining(String title, int size) {
-		super(title, size);
+	public UserInterfaceSkillguideMining(String title) {
+		super(title);
 	
 		for(Ore ore: Ore.getOres()) {
 			addComponent(new UIComponent() {

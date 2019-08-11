@@ -15,7 +15,7 @@ import squeeze.theorem.ui.UserInterfaceShop;
 
 public class MelonFarmer extends NPC implements EyeTracking {
 
-	private UserInterfaceShop shop = new UserInterfaceShop("Uppkomst Melon Emporium", 27);
+	private UserInterfaceShop shop = new UserInterfaceShop("Uppkomst Melon Emporium");
 	
 	public MelonFarmer() {
 		super("Randy", EntityType.VILLAGER);

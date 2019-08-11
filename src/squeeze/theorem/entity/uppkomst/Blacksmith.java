@@ -14,7 +14,7 @@ import squeeze.theorem.ui.UserInterfaceShop;
 
 public class Blacksmith extends NPC implements EyeTracking {
 
-	private UserInterfaceShop shop = new UserInterfaceShop("Grunkle's Blacksmith", 27);
+	private UserInterfaceShop shop = new UserInterfaceShop("Grunkle's Blacksmith");
 	
 	public Blacksmith() {
 		super("Grunkle", EntityType.VILLAGER);

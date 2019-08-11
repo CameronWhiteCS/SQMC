@@ -17,7 +17,7 @@ import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.skill.fishing.SkillFishing;
 import squeeze.theorem.skill.witchcraft.SkillWitchcraft;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public abstract class Skill {
 
@@ -100,7 +100,7 @@ public abstract class Skill {
 	}
 
 	// Intended to be overwritten
-	public abstract UserInterface getSkillGuide(Player player);
+	public abstract ChestInterface getSkillGuide(Player player);
 
 	public String getName() {
 		return name;

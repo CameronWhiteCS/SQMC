@@ -4,17 +4,17 @@ import org.bukkit.entity.Player;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
-import squeeze.theorem.ui.MultiPageInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 /**
  * 
  * @author SqueezeTheorem
  *
  */
-public class UserInterfaceBank extends MultiPageInterface {
+public class UserInterfaceBank extends ChestInterface {
 
 	public UserInterfaceBank() {
-		super("Bank", 45);
+		super("Bank");
 		for(int i = 0; i <= BankAccount.MAX_SLOTS - 1; i++) {
 			addComponent(new UIComponentBank((i)));
 		}
@@ -27,7 +27,7 @@ public class UserInterfaceBank extends MultiPageInterface {
 		BankDistrict dist = dat.getBankDistrict();
 		String name = dist.toString().toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
-		return name + " Bank" + appendID();
+		return name + " Bank";
 	}
 	 
 }

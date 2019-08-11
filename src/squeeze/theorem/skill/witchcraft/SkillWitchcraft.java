@@ -21,7 +21,7 @@ import squeeze.theorem.data.SessionData;
 import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.skill.Skill;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillWitchcraft extends Skill implements Listener, Runnable {
 	
@@ -34,8 +34,8 @@ public class SkillWitchcraft extends Skill implements Listener, Runnable {
 	}
 	
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideWitchcraft;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideWitchcraft;
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)

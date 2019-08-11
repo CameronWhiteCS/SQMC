@@ -7,10 +7,10 @@ import org.bukkit.inventory.ItemStack;
 import squeeze.theorem.recipe.RecipeType;
 import squeeze.theorem.recipe.SQMCRecipe;
 
-public class UserInterfaceSkillguideCooking extends MultiPageInterface {
+public class UserInterfaceSkillguideCooking extends ChestInterface {
 
-	public UserInterfaceSkillguideCooking(String title, int size) {
-		super(title, size);
+	public UserInterfaceSkillguideCooking(String title) {
+		super(title);
 		for (SQMCRecipe cr : SQMCRecipe.getRecipes()) {
 			if (cr.getRecipeType().equals(RecipeType.COOKING_FIRE)) {
 				addComponent(new UIComponent() {

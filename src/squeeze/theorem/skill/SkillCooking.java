@@ -15,7 +15,7 @@ import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.recipe.RecipeType;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillCooking extends Skill implements Listener, Runnable {
 
@@ -27,8 +27,8 @@ public class SkillCooking extends Skill implements Listener, Runnable {
 	}
 
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideCooking;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideCooking;
 	}
 
 	@EventHandler(priority=EventPriority.LOW)
@@ -38,7 +38,7 @@ public class SkillCooking extends Skill implements Listener, Runnable {
 			SQMCEntity ce = SQMCEntity.getSQMCEntity(evt.getRightClicked());
 			if (ce instanceof SQMCEntityFire) {
 
-				UserInterface.fire.open(evt.getPlayer());
+				ChestInterface.fire.open(evt.getPlayer());
 				addFireUser(evt.getPlayer(), evt.getRightClicked());
 				evt.setCancelled(true);
 			}

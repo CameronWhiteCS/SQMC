@@ -11,10 +11,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.skill.SQMCEntityFire;
 
-public class UserInterfaceSkillguideFiremaking extends MultiPageInterface {
+public class UserInterfaceSkillguideFiremaking extends ChestInterface {
 
-	public UserInterfaceSkillguideFiremaking(String title, int size) {
-		super(title, size);
+	public UserInterfaceSkillguideFiremaking(String title) {
+		super(title);
 		
 		for (SQMCEntityFire fire : SQMCEntity.getFires()) {
 

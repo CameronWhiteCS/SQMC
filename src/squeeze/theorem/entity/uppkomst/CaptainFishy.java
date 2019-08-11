@@ -26,7 +26,7 @@ import squeeze.theorem.ui.UserInterfaceShop;
 
 public class CaptainFishy extends NPC implements EyeTracking, Pickpocketable {
 
-	private UserInterfaceShop shop = new UserInterfaceShop("Captain Fishy's Bait & Tackle", 27);
+	private UserInterfaceShop shop = new UserInterfaceShop("Captain Fishy's Bait & Tackle");
 	
 	
 	public CaptainFishy() {

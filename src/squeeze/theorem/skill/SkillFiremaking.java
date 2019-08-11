@@ -21,7 +21,7 @@ import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.event.FireLightEvent;
 import squeeze.theorem.item.CustomItem;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillFiremaking extends Skill implements Listener, Runnable {
 	
@@ -129,8 +129,8 @@ public class SkillFiremaking extends Skill implements Listener, Runnable {
 	}
 
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideFiremaking;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideFiremaking;
 	}
 
 }

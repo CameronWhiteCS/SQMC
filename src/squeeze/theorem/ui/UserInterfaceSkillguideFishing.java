@@ -10,10 +10,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.skill.fishing.SQMCEntityFish;
 
-public class UserInterfaceSkillguideFishing extends MultiPageInterface {
+public class UserInterfaceSkillguideFishing extends ChestInterface {
 
-	public UserInterfaceSkillguideFishing(String title, int size) {
-		super(title, size);
+	public UserInterfaceSkillguideFishing(String title) {
+		super(title);
 		for (SQMCEntityFish fish : SQMCEntityFish.getFish()) {
 
 			addComponent(new UIComponent() {

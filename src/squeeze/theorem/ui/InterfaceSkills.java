@@ -1,7 +1,6 @@
 
 package squeeze.theorem.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -13,11 +12,10 @@ import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.skill.Skill;
 
-public class InterfaceSkills extends UserInterface {
+public class InterfaceSkills extends ChestInterface {
 
-	private ArrayList<UIComponent> components = new ArrayList<UIComponent>();
-
-	public InterfaceSkills() {
+	public InterfaceSkills(String title) {
+		super(title);
 		for(Skill s: Skill.getSkills()) {
 			this.components.add(new UIComponentSkillIcon(s));
 		}
@@ -27,7 +25,7 @@ public class InterfaceSkills extends UserInterface {
 	public String getTitle(Player player) {
 		DataManager dataManager = DataManager.getInstance();
 		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
-		return player.getName() + "'s Skills [" + dat.getTotalLevel() + "]" + appendID();
+		return player.getName() + "'s Skills [" + dat.getTotalLevel() + "]";
 	}
 	
 	@Override

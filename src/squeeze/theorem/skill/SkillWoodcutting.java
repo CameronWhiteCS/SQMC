@@ -24,7 +24,7 @@ import squeeze.theorem.event.TreeChopEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemAxe;
 import squeeze.theorem.main.SQMC;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillWoodcutting extends Skill implements Listener {
 
@@ -40,8 +40,8 @@ public class SkillWoodcutting extends Skill implements Listener {
 	}
 
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideWoodcutting;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideWoodcutting;
 	}
 
 	@EventHandler(priority=EventPriority.LOW)

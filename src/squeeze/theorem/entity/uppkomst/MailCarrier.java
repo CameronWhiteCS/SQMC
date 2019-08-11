@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 import squeeze.theorem.entity.Boundable;
 import squeeze.theorem.entity.DialogueNode;
 import squeeze.theorem.entity.DialogueNode.DialogueType;
-import squeeze.theorem.ui.UserInterface;
 import squeeze.theorem.entity.EyeTracking;
 import squeeze.theorem.entity.NPC;
+import squeeze.theorem.ui.ChestInterface;
 
 public class MailCarrier extends NPC implements EyeTracking, Boundable{
 	
@@ -30,7 +30,7 @@ public class MailCarrier extends NPC implements EyeTracking, Boundable{
 		DialogueNode root = new DialogueNode("Hello, " + player.getName() + ". What can I do for you?", DialogueType.NPC) {
 			@Override
 			public void onSelect(Player player) {
-				UserInterface.bank.open(player);
+				ChestInterface.bank.open(player);
 			}
 		};
 			root.addChild("Do you have any mail for me?", DialogueType.PLAYER);

@@ -12,10 +12,10 @@ import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.skill.Skill;
 
-public class UserInterfaceSkillguideDefense extends MultiPageInterface {
+public class UserInterfaceSkillguideDefense extends ChestInterface {
 
-	public UserInterfaceSkillguideDefense(String title, int size) {
-		super(title, size);
+	public UserInterfaceSkillguideDefense(String title) {
+		super(title);
 		for(CustomItem ci: CustomItem.getItems()) {
 			if(ci instanceof CombatItem) {
 				CombatItem cmbt = (CombatItem) ci;

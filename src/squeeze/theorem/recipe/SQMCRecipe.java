@@ -38,7 +38,7 @@ import squeeze.theorem.skill.cooking.recipe.RecipeCookedPufferfish;
 import squeeze.theorem.skill.cooking.recipe.RecipeCookedSalmon;
 import squeeze.theorem.skill.cooking.recipe.RecipeCookedSquid;
 import squeeze.theorem.skill.cooking.recipe.RecipeCookedTropicalFish;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SQMCRecipe implements Listener, LevelRequirements {
 
@@ -773,39 +773,6 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 
 	/* Craft a recipe when its recipe icon is clicked */
 	
-	public void onRecipeClick(InventoryClickEvent evt) {
-
-			Player player = (Player) evt.getWhoClicked();
-			ItemStack stack = evt.getCurrentItem();
-			if(stack == null) return;
-			if(stack.getType() == Material.AIR) return;
-			if(stack.getItemMeta() == null) return;
-			if(stack.getItemMeta().getDisplayName() == null) return;
-			if(CustomItem.getCustomItem(stack) != null) return;
-			
-			for (SQMCRecipe r : SQMCRecipe.getRecipes()) {
-				
-				if (r.getUIItemStack(player).equals(stack)) {
-
-					if(!canCraft(player, true)) {
-						evt.setCancelled(true);
-						player.closeInventory();
-						return;
-					} 
-
-					DataManager dataManager = DataManager.getInstance();
-					dataManager.getPlayerData(player.getUniqueId()).getSessionData().setRecipe(this);
-					player.sendMessage(ChatColor.GREEN + "Now crafting " + r.getOutput().getName() + ChatColor.GREEN + ".");
-					player.closeInventory();
-					dataManager.getPlayerData(player.getUniqueId()).getSessionData().setCraftingLocation(player.getLocation());
-					
-				}
-			}
-
-		
-
-	}
-	
 	public boolean canCraft(Player player, boolean notify) {	
 		
 		if (!meetsRequirements(player)) {
@@ -834,6 +801,7 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 			for (Skill s : evt.getXpRewards().keySet()) {
 				DataManager dataManager = DataManager.getInstance();
 				dataManager.getPlayerData(evt.getPlayer().getUniqueId()).awardXP(s, evt.getXpRewards().get(s));
+				
 			}
 		} else {
 			DataManager dataManager = DataManager.getInstance();
@@ -852,7 +820,7 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 		Material m = evt.getClickedBlock().getType();
 		if(m.equals(Material.CRAFTING_TABLE) && evt.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			evt.getPlayer().closeInventory();
-			UserInterface.craftingTable.open(evt.getPlayer());
+			ChestInterface.craftingTable.open(evt.getPlayer());
 			evt.setCancelled(true);
 		}
 		

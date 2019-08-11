@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillSmithing extends Skill implements Listener {
 
@@ -28,21 +28,21 @@ public class SkillSmithing extends Skill implements Listener {
 		//Anvil interface
 		if(m.equals(Material.ANVIL) && evt.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			evt.getPlayer().closeInventory();
-			UserInterface.anvil.open(evt.getPlayer());
+			ChestInterface.anvil.open(evt.getPlayer());
 			evt.setCancelled(true);
 		}
 		
 		//Furnace interface
 		if(m.equals(Material.FURNACE) && evt.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			evt.getPlayer().closeInventory();
-			UserInterface.furnace.open(evt.getPlayer());
+			ChestInterface.furnace.open(evt.getPlayer());
 			evt.setCancelled(true);
 		}
 	}
 
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideSmithing;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideSmithing;
 	}
 
 }

@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class CommandQuest extends SQMCCommand {
 
@@ -20,7 +20,7 @@ public class CommandQuest extends SQMCCommand {
 			return;
 		}
 		
-		UserInterface.quests.open((Player) sender);
+		ChestInterface.quests.open((Player) sender);
 
 	}
 	

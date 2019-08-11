@@ -13,7 +13,7 @@ import squeeze.theorem.ui.UserInterfaceShop;
 
 public class Florist extends NPC implements EyeTracking {
 
-	private UserInterfaceShop shop = new UserInterfaceShop("Uppkomst Flowers", 27);
+	private UserInterfaceShop shop = new UserInterfaceShop("Uppkomst Flowers");
 	
 	public Florist() {
 		super("Marianne", EntityType.VILLAGER);

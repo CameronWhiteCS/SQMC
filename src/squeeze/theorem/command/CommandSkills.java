@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class CommandSkills extends SQMCCommand {
 
@@ -36,7 +36,7 @@ public class CommandSkills extends SQMCCommand {
 		}
 
 		Player player = (Player) sender;
-		player.openInventory(UserInterface.skills.getInventory(target));
+		ChestInterface.skills.open(player);
 
 	}
 

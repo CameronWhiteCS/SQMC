@@ -1,77 +1,81 @@
 package squeeze.theorem.ui;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.data.SessionData;
+import squeeze.theorem.event.SQMCRecipeEvent;
 
-public class InterfaceMechanics implements Runnable, Listener {
+public class InterfaceManager implements Listener {
 
+	private static InterfaceManager instance = new InterfaceManager();
+	
+	private InterfaceManager() {
+		
+	}
+	
 	/* Events */
 	@EventHandler
 	public static void onInventoryClick(InventoryClickEvent evt) {
-			
-		//Null checks
-		if (evt == null) return;
-		
-		if (evt.getCurrentItem() == null) return;
-		if (evt.getView().getTitle() == null) return;
-		if (evt.getView().getTitle().contains("ID:") == false) return;
 
-		if(evt.isShiftClick()) {
+		if (evt == null) return;
+		if (evt.getCurrentItem() == null) return;
+		
+		Player player = (Player) evt.getWhoClicked();
+		DataManager dataManager = DataManager.getInstance();
+		PlayerData dat = dataManager.getPlayerData(player);
+		SessionData sdat = dat.getSessionData();
+		ChestInterface chestInterface = sdat.getChestInterface();
+		int rawSlot = evt.getRawSlot();
+		
+		//Prevent item smuggling
+		if(sdat.getInterfaceInventory() != evt.getClickedInventory()) {
+			return;
+		} else {
 			evt.setCancelled(true);
+		}
+		
+		//Navigation buttons
+		if(rawSlot == 52 && sdat.getUIpage() > 0) {
+			sdat.setUIpage(sdat.getUIpage() - 1);
+			chestInterface.open(player, sdat.getUIpage());
+			return;
+		} else if(rawSlot == 53 && sdat.getUIpage() < chestInterface.getPageCount()){
+			sdat.setUIpage(sdat.getUIpage() + 1);
+			chestInterface.open(player, sdat.getUIpage());
 			return;
 		}
 		
-		//Variable creation
-		Player player = (Player) evt.getWhoClicked();
-		Inventory inv = evt.getInventory();
-		InventoryView inventoryView = evt.getView();
-		ItemStack stack = evt.getCurrentItem();
+		int pageNumber = sdat.getUIpage();
+		int index = pageNumber * chestInterface.getPageSize() + rawSlot;
+		UIComponent comp = chestInterface.getComponent(index);
+		if(comp != null) comp.onClick(evt);
 		
-		//Once the event has been recognized as occuring within a UI, cancel it if it occurs within the top inventory
-		int size = player.getOpenInventory().getTopInventory().getSize();
-		if(evt.getRawSlot() < size) {
-			evt.setCancelled(true);
-		}
 		
-		int ID = Integer.parseInt(ChatColor.stripColor(inventoryView.getTitle()).split("ID:")[1]);
-		for (UserInterface ui : UserInterface.getUserInterfaces()) {
-			if(ID != ui.getID()) continue;
-				for (UIComponent comp : ui.getComponents()) {
-					if (comp.getItemStack(player).equals(stack)) {
-
-						
-						comp.onClick(evt);
-						
-						return;
-
-					}
-				}
-			
+	}
+	
+	/*UPDATING OUT OF DATE INTERFACES*/
+	@EventHandler
+	public void onCraft(SQMCRecipeEvent evt) {
+		Player player = evt.getPlayer();
+		DataManager dataManager = DataManager.getInstance();
+		SessionData sdat = dataManager.getPlayerData(player).getSessionData();
+		Inventory interfaceInventory = sdat.getInterfaceInventory();
+		ChestInterface chestInterface = sdat.getChestInterface();
+		if(interfaceInventory == null) return;
+		if(player.getOpenInventory() == null) return;
+		if(interfaceInventory == player.getOpenInventory().getTopInventory()) {
+			chestInterface.refresh(player);
 		}
 	}
-
 	
-	@Override
-	public void run() {
-
-		DataManager dataManager = DataManager.getInstance();
-		for (PlayerData dat : dataManager.getOnlinePlayers()) {
-			for(UserInterface ui: UserInterface.getUserInterfaces()) {
-				ui.refresh(dat.getPlayer());
-			}
-
-		}
-
+	public static InterfaceManager getInstance() {
+		return instance;
 	}
 	
 }

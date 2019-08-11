@@ -21,7 +21,7 @@ import squeeze.theorem.event.OreMineEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemPickaxe;
 import squeeze.theorem.main.SQMC;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillMining extends Skill implements Listener {
 
@@ -37,8 +37,8 @@ public class SkillMining extends Skill implements Listener {
 	}
 
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideMining;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideMining;
 	}
 
 	@EventHandler(priority=EventPriority.LOW)

@@ -24,7 +24,7 @@ import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.event.SQMCPlayerFishEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.skill.Skill;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 //TODO Clean up some methods
 public class SkillFishing extends Skill implements Listener {
@@ -36,8 +36,8 @@ public class SkillFishing extends Skill implements Listener {
 	}
 	
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideFishing;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideFishing;
 	}
 	
 	@EventHandler

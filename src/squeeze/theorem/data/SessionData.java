@@ -6,13 +6,15 @@ import java.util.HashMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.inventory.Inventory;
 
 import mkremins.fanciful.FancyMessage;
 import squeeze.theorem.entity.DialogueNode;
+import squeeze.theorem.entity.DialogueNode.DialogueType;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.recipe.SQMCRecipe;
-import squeeze.theorem.entity.DialogueNode.DialogueType;
 import squeeze.theorem.skill.witchcraft.Spell;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SessionData {
 
@@ -23,6 +25,8 @@ public class SessionData {
 	private int UIpage;
 	private SQMCRecipe recipe;
 	private Location craftingLocation;
+	private ChestInterface chestInterface;
+	private Inventory interfaceInventory;
 
 	public SessionData(PlayerData dat) {
 		setPlayerData(dat);
@@ -149,6 +153,22 @@ public class SessionData {
 	public void setCraftingLocation(Location craftingLocation) {
 		this.craftingLocation = craftingLocation;
 		
+	}
+
+	public ChestInterface getChestInterface() {
+		return chestInterface;
+	}
+
+	public void setChestInterface(ChestInterface chestInterface) {
+		this.chestInterface = chestInterface;
+	}
+
+	public Inventory getInterfaceInventory() {
+		return interfaceInventory;
+	}
+
+	public void setInterfaceInventory(Inventory interfaceInventory) {
+		this.interfaceInventory = interfaceInventory;
 	}
 
 }

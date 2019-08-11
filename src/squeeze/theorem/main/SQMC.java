@@ -28,7 +28,7 @@ import squeeze.theorem.recipe.SQMCRecipe;
 import squeeze.theorem.region.Region;
 import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
-import squeeze.theorem.ui.InterfaceMechanics;
+import squeeze.theorem.ui.InterfaceManager;
 
 public class SQMC extends JavaPlugin {
 	
@@ -140,7 +140,7 @@ public class SQMC extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(DataManager.getInstance(), this);
 		Bukkit.getPluginManager().registerEvents(SQMCRecipe.WOODEN_SHOVEL, this);
 		Bukkit.getPluginManager().registerEvents(CustomItem.WOODEN_AXE, this); 
-		Bukkit.getPluginManager().registerEvents(new InterfaceMechanics(), this);
+		Bukkit.getPluginManager().registerEvents(InterfaceManager.getInstance(), this);
 		Bukkit.getPluginManager().registerEvents(new CombatManager(), this);
 		Bukkit.getPluginManager().registerEvents(new DeathMechanics(), this);
 		Bukkit.getPluginManager().registerEvents(Region.uppkomst, this);
@@ -151,7 +151,6 @@ public class SQMC extends JavaPlugin {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RecipeMechanics(), 0, 100);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Cooldown.food, 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeMechanics(), 0, 20);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new InterfaceMechanics(), 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, SQMCEntityFire.fireSpruce, 0, 5);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new CombatManager(), 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new NoStack(), 0, 1);

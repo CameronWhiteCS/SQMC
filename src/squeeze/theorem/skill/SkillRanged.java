@@ -17,7 +17,7 @@ import squeeze.theorem.combat.CombatStats;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.SQMCEntity;
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillRanged extends Skill implements Listener {
 	
@@ -27,8 +27,8 @@ public class SkillRanged extends Skill implements Listener {
 	}
 	
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideRanged;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideRanged;
 	}
 
 	@EventHandler

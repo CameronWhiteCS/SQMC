@@ -8,27 +8,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import squeeze.theorem.ui.ChestInterface;
 import squeeze.theorem.ui.UIComponent;
-import squeeze.theorem.ui.UserInterface;
 
-public class UserInterfaceSettings extends UserInterface {
+public class UserInterfaceSettings extends ChestInterface {
 
 	/*Fields*/
 	private List<UIComponent> components = new ArrayList<UIComponent>();
 	
 	/*Constructors*/
-	public UserInterfaceSettings() {
+	public UserInterfaceSettings(String title) {
+		super(title);
 		components.add(new UIComponentSettingsHUD());
 		components.add(new UIComponentSettingsCombatMode());
 		components.add(new UIComponentSettingsMusic());
 		components.add(new UIComponentSettingsXPBars());
-	}
-	
-
-	@Override
-	public void open(Player player) {
-		player.openInventory(getInventory(player));
-		
 	}
 
 	@Override
@@ -49,7 +43,7 @@ public class UserInterfaceSettings extends UserInterface {
 
 	@Override
 	public String getTitle(Player player) {
-		return"Game Settings" + appendID();
+		return"Game Settings";
 	}
 
 }

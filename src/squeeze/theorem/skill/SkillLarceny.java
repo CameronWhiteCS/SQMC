@@ -3,7 +3,7 @@ package squeeze.theorem.skill;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import squeeze.theorem.ui.UserInterface;
+import squeeze.theorem.ui.ChestInterface;
 
 public class SkillLarceny extends Skill {
 
@@ -14,8 +14,8 @@ public class SkillLarceny extends Skill {
 	}
 
 	@Override
-	public UserInterface getSkillGuide(Player player) {
-		return UserInterface.skillguideLarceny;
+	public ChestInterface getSkillGuide(Player player) {
+		return ChestInterface.skillguideLarceny;
 	}
 	
 	

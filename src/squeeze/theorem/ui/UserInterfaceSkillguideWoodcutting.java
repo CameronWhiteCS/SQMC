@@ -12,10 +12,10 @@ import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemAxe;
 import squeeze.theorem.skill.Tree;
 
-public class UserInterfaceSkillguideWoodcutting extends MultiPageInterface {
+public class UserInterfaceSkillguideWoodcutting extends ChestInterface {
 
-	public UserInterfaceSkillguideWoodcutting(String title, int size) {
-		super(title, size);
+	public UserInterfaceSkillguideWoodcutting(String title) {
+		super(title);
 	
 		for(Tree tree: Tree.getTrees()) {
 			addComponent(new UIComponent() {
