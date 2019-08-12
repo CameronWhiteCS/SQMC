@@ -23,18 +23,9 @@ public class SQMCEntityFishingPufferfish extends SQMCEntityFish{
 	
 	
 	@Override
-	public LivingEntity spawn(Location loc) {
-		
-		
-		Entity entity = super.spawn(loc);
-		
-
+	public void onSpawn(LivingEntity entity) {
 		 PufferFish puff = (PufferFish) entity;
 		 puff.setPuffState(10);
-		
-		return puff;
-		
 	}
 
-	
 }

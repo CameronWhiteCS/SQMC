@@ -58,13 +58,9 @@ public class UIComponentSettingsCombatMode implements UIComponent {
 		
 		if(mode == CombatMode.AGGRESSIVE) {
 			dat.setCombatMode(CombatMode.DEFENSIVE);
-		}
-		
-		if(mode == CombatMode.DEFENSIVE) {
+		} else if(mode == CombatMode.DEFENSIVE) {
 			dat.setCombatMode(CombatMode.SPLIT);
-		}
-		
-		if(mode == CombatMode.SPLIT) {
+		} else if(mode == CombatMode.SPLIT) {
 			dat.setCombatMode(CombatMode.AGGRESSIVE);
 		}
 		

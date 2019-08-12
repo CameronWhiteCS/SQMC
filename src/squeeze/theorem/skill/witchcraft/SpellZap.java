@@ -18,6 +18,7 @@ import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatStats;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 
 public class SpellZap extends Spell implements CombatSpell {
@@ -91,8 +92,8 @@ public class SpellZap extends Spell implements CombatSpell {
 			damage += dat.getStrength(AttackStyle.MAGIC);
 		}
 		
-		if(SQMCEntity.getSQMCEntity(e) != null) {
-			SQMCEntity ce = SQMCEntity.getSQMCEntity(e);
+		if(EntityManager.getInstance().getSQMCEntity(e) != null) {
+			SQMCEntity ce = EntityManager.getInstance().getSQMCEntity(e);
 			if(ce instanceof CombatStats == false) return;
 			CombatStats cs = (CombatStats) ce;
 			damage += cs.getStrength(AttackStyle.MAGIC);

@@ -48,13 +48,8 @@ public class UIComponentSkillIcon implements UIComponent {
 
 	@Override
 	public void onClick(InventoryClickEvent evt) {
-		String name = ChatColor.stripColor(evt.getCurrentItem().getItemMeta().getDisplayName()).toLowerCase();
 		Player player = (Player) evt.getWhoClicked();
-		for(Skill s: Skill.getSkills()) {
-			if(name.equals(ChatColor.stripColor(s.getName().toLowerCase()))) {
-				s.getSkillGuide(player).open(player);
-			}
-		}
+		skill.getSkillGuide(player).open(player);
 		
 	}
 

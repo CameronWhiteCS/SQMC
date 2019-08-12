@@ -16,6 +16,7 @@ import squeeze.theorem.combat.CombatManager;
 import squeeze.theorem.combat.CombatStats;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.ui.ChestInterface;
 
@@ -45,7 +46,7 @@ public class SkillRanged extends Skill implements Listener {
 			strength += dat.getStrength(AttackStyle.RANGED);
 		} else {
 			
-			SQMCEntity cust = SQMCEntity.getSQMCEntity(entity);
+			SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(entity);
 			if(cust == null) return;
 			if(cust instanceof CombatStats == false) return;
 			CombatStats cs = (CombatStats) cust;
@@ -77,7 +78,7 @@ public class SkillRanged extends Skill implements Listener {
 			strength += dat.getStrength(AttackStyle.RANGED);
 		} else {
 			
-			SQMCEntity cust = SQMCEntity.getSQMCEntity(entity);
+			SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(entity);
 			if(cust == null) return;
 			if(cust instanceof CombatStats == false) return;
 			CombatStats cs = (CombatStats) cust;

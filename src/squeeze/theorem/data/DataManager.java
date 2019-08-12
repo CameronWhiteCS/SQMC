@@ -53,7 +53,24 @@ public class DataManager implements Listener, Runnable {
 	private final String URL = String.format("jdbc:mysql://%s:%s/%s?useSSL=false", HOST, PORT, DATABASE);
 	
 	private DataManager() {
-		
+		try {
+			Connection conn = getConnection();
+			Statement statement = conn.createStatement();
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS playerdata (uuid VARCHAR(64) NOT NULL PRIMARY KEY, balance INT NOT NULL DEFAULT 0);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS settings (uuid VARCHAR(64) NOT NULL PRIMARY KEY, spellbok VARCHAR(64) NOT NULL DEFAULT \"spellbook.default\", combatmode VARCHAR(64) NOT NULL DEFAULT \"aggressive\", hud TINYINT(1) NOT NULL DEFAULT 1, music TINYINT(1) NOT NULL DEFAULT 1, xpbars TINYINT(1) NOT NULL DEFAULT 1);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS skills(uuid VARCHAR(64) NOT NULL PRIMARY KEY, mining DOUBLE NOT NULL DEFAULT 0, smithing DOUBLE NOT NULL DEFAULT 0, woodcutting DOUBLE NOT NULL DEFAULT 0, firemaking DOUBLE NOT NULL DEFAULT 0, fishing DOUBLE NOT NULL DEFAULT 0, cooking DOUBLE NOT NULL DEFAULT 0, strength DOUBLE NOT NULL DEFAULT 0, ranged DOUBLE NOT NULL DEFAULT 0, witchcraft DOUBLE NOT NULL DEFAULT 0, defense DOUBLE NOT NULL DEFAULT 0, hitpoints DOUBLE NOT NULL DEFAULT 0, larceny DOUBLE NOT NULL DEFAULT 0);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS vanilladata(uuid VARCHAR(64) NOT NULL PRIMARY KEY, x DOUBLE NOT NULL DEFAULT 0, y DOUBLE NOT NULL DEFAULT 0, z DOUBLE NOT NULL DEFAULT 0, pitch FLOAT NOT NULL DEFAULT 0, yaw FLOAT NOT NULL DEFAULT 0, health DOUBLE NOT NULL DEFAULT 1, foodlevel INT NOT NULL DEFAULT 20, air INT NOT NULL DEFAULT 10, fireticks INT NOT NULL DEFAULT 0, falldistance FLOAT NOT NULL DEFAULT 0, world VARCHAR(64) NOT NULL DEFAULT \"world\");");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS inventory(uuid VARCHAR(64) NOT NULL, id INT NOT NULL, slot INT NOT NULL, amount INT NOT NULL);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS flags(uuid VARCHAR(64) NOT NULL, flag VARCHAR(255) NOT NULL);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS bank(uuid VARCHAR(64) NOT NULL, district VARCHAR(64) NOT NULL, id INT NOT NULL, slot INT NOT NULL, amount INT NOT NULL);");
+			
+		} catch(SQLException exc) {
+			Bukkit.getLogger().log(Level.SEVERE, "SQLException occurred duing DataManager initialization.");
+			exc.printStackTrace();
+		} catch(ClassNotFoundException exc) {
+			Bukkit.getLogger().log(Level.SEVERE, "ClassNotFoundException occurred duing DataManager initialization (Invalid MySQL driver class?)");
+			exc.printStackTrace();
+		}
 	}
 	
 	/*Methods*/

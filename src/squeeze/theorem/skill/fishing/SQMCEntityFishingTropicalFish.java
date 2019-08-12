@@ -27,22 +27,15 @@ public class SQMCEntityFishingTropicalFish extends SQMCEntityFish {
 	}
 
 	@Override
-	public LivingEntity spawn(Location loc) {
-		
-		Entity entity = super.spawn(loc);
+	public void onSpawn(LivingEntity entity) {
 		TropicalFish tropicalFish = (TropicalFish) entity;
-		
 		Random RNG = new Random();
 		int roll1 = RNG.nextInt(DyeColor.values().length);
 		int roll2 = RNG.nextInt(DyeColor.values().length);
 		int roll3 = RNG.nextInt(DyeColor.values().length);
-		
 		tropicalFish.setBodyColor(DyeColor.values()[roll1]);
 		tropicalFish.setPatternColor(DyeColor.values()[roll2]);
 		tropicalFish.setPattern(Pattern.values()[roll3]);
-		
-		return tropicalFish;
-		
 	}
 
 }

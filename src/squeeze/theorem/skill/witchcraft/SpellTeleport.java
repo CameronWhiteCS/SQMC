@@ -1,5 +1,6 @@
 package squeeze.theorem.skill.witchcraft;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -22,7 +23,7 @@ public class SpellTeleport extends Spell {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
-
+		Bukkit.broadcastMessage("1");
 		// Location loc, double radius, double height, double step, Particle particle
 		
 		//Cooldown check

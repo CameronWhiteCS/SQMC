@@ -29,13 +29,6 @@ public class UnionBoss extends NPC implements EyeTracking, Boundable {
 	public DialogueNode getDialogueNode(Player player) {
 		return null;
 	}
-	
-	@Override
-	public LivingEntity spawn(Location loc) {
-		Villager v = (Villager) super.spawn(loc);
-		v.setProfession(Profession.CLERIC);
-		return v;
-	}
 
 	@Override
 	public double getWanderRadius() {

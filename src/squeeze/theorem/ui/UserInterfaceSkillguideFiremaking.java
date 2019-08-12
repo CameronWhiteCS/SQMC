@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.skill.SQMCEntityFire;
 
@@ -16,7 +17,7 @@ public class UserInterfaceSkillguideFiremaking extends ChestInterface {
 	public UserInterfaceSkillguideFiremaking(String title) {
 		super(title);
 		
-		for (SQMCEntityFire fire : SQMCEntity.getFires()) {
+		for (SQMCEntityFire fire : EntityManager.getInstance().getFires()) {
 
 			addComponent(new UIComponent() {
 

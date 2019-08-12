@@ -16,6 +16,7 @@ import squeeze.theorem.combat.CombatManager;
 import squeeze.theorem.command.SQMCCommand;
 import squeeze.theorem.config.ConfigManager;
 import squeeze.theorem.data.DataManager;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.mechanics.Cooldown;
@@ -23,10 +24,9 @@ import squeeze.theorem.mechanics.DeathMechanics;
 import squeeze.theorem.mechanics.NoStack;
 import squeeze.theorem.mechanics.TimeMechanics;
 import squeeze.theorem.quest.Quest;
-import squeeze.theorem.recipe.RecipeMechanics;
+import squeeze.theorem.recipe.RecipeManager;
 import squeeze.theorem.recipe.SQMCRecipe;
 import squeeze.theorem.region.Region;
-import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.InterfaceManager;
 
@@ -104,7 +104,7 @@ public class SQMC extends JavaPlugin {
 			if(s instanceof Listener) Bukkit.getPluginManager().registerEvents((Listener) s, this);
 		}
 		
-		Bukkit.getPluginManager().registerEvents(SQMCEntityFire.fireSpruce, this);
+		Bukkit.getPluginManager().registerEvents(EntityManager.getInstance(), this);
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Skill.firemaking, 0, 20);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Skill.cooking, 0, 20);
@@ -141,18 +141,18 @@ public class SQMC extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(SQMCRecipe.WOODEN_SHOVEL, this);
 		Bukkit.getPluginManager().registerEvents(CustomItem.WOODEN_AXE, this); 
 		Bukkit.getPluginManager().registerEvents(InterfaceManager.getInstance(), this);
-		Bukkit.getPluginManager().registerEvents(new CombatManager(), this);
+		Bukkit.getPluginManager().registerEvents(CombatManager.getInstance(), this);
 		Bukkit.getPluginManager().registerEvents(new DeathMechanics(), this);
 		Bukkit.getPluginManager().registerEvents(Region.uppkomst, this);
-		Bukkit.getPluginManager().registerEvents(new RecipeMechanics(), this);
+		Bukkit.getPluginManager().registerEvents(RecipeManager.getInstance(), this);
 		Bukkit.getPluginManager().registerEvents(new NoStack(), this);
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, DataManager.getInstance(), 0, 1);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RecipeMechanics(), 0, 100);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, RecipeManager.getInstance(), 0, 100);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Cooldown.food, 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeMechanics(), 0, 20);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, SQMCEntityFire.fireSpruce, 0, 5);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new CombatManager(), 0, 1);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, EntityManager.getInstance(), 0, 5);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, CombatManager.getInstance(), 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new NoStack(), 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, (CombatItem) CustomItem.LEATHER_BOOTS, 0, 1);
 	}

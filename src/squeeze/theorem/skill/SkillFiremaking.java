@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.event.FireLightEvent;
 import squeeze.theorem.item.CustomItem;
@@ -56,7 +57,7 @@ public class SkillFiremaking extends Skill implements Listener, Runnable {
 			Location loc = evt.getClickedBlock().getLocation();
 			Collection<Entity> entities = loc.getWorld().getNearbyEntities(loc, 2, 2, 2);
 			for(Entity e: entities) {
-				SQMCEntity ce = SQMCEntity.getSQMCEntity(e);
+				SQMCEntity ce = EntityManager.getInstance().getSQMCEntity(e);
 				if(ce != null) {
 					if(ce instanceof SQMCEntityFire) {
 						player.sendMessage(ChatColor.RED + "You can't light a fire that close to another fire.");
@@ -67,7 +68,7 @@ public class SkillFiremaking extends Skill implements Listener, Runnable {
 			}
 			
 			//Find matching fire, the call custom event
-			for (SQMCEntityFire cef : SQMCEntityFire.getFires()) {
+			for (SQMCEntityFire cef : EntityManager.getInstance().getFires()) {
 				if (cef.getCustomItem().equals(offhand)) {
 
 					if(!cef.meetsRequirements(player)) {
@@ -94,7 +95,7 @@ public class SkillFiremaking extends Skill implements Listener, Runnable {
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onLight(FireLightEvent evt) {
 		if(!evt.isCancelled()) {
-			evt.getFire().spawn(evt.getLocation());
+			EntityManager.getInstance().spawn(evt.getFire(), evt.getLocation());
 			DataManager dataManager = DataManager.getInstance();
 			PlayerData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId());
 			dat.awardXP(Skill.firemaking, evt.getXP());
@@ -110,8 +111,8 @@ public class SkillFiremaking extends Skill implements Listener, Runnable {
 		for (World w : Bukkit.getWorlds()) {
 			for (Entity e : w.getEntities()) {
 					
-					if (SQMCEntity.getSQMCEntity(e) == null) continue;
-					SQMCEntity cust = SQMCEntity.getSQMCEntity(e);
+					if (EntityManager.getInstance().getSQMCEntity(e) == null) continue;
+					SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(e);
 					if (cust instanceof SQMCEntityFire) {
 						SQMCEntityFire custFire = (SQMCEntityFire) cust;
 						if (e.getTicksLived() > custFire.getBurnTime()) {

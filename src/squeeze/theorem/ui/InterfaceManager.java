@@ -2,6 +2,7 @@ package squeeze.theorem.ui;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -54,13 +55,17 @@ public class InterfaceManager implements Listener {
 		int pageNumber = sdat.getUIpage();
 		int index = pageNumber * chestInterface.getPageSize() + rawSlot;
 		UIComponent comp = chestInterface.getComponent(index);
-		if(comp != null) comp.onClick(evt);
+		if(comp != null) {
+			comp.onClick(evt);
+			chestInterface = sdat.getChestInterface();
+			if(chestInterface != null) chestInterface.refresh(player);
+		}
 		
 		
 	}
 	
 	/*UPDATING OUT OF DATE INTERFACES*/
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onCraft(SQMCRecipeEvent evt) {
 		Player player = evt.getPlayer();
 		DataManager dataManager = DataManager.getInstance();

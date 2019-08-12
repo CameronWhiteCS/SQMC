@@ -793,25 +793,7 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 		
 		return true;
 	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onCustomRecipe(SQMCRecipeEvent evt) {
-		if(!evt.isCancelled() && evt.getSQMCRecipe().canCraft(evt.getPlayer(), false)) {
-			evt.getSQMCRecipe().craftItem(evt.getPlayer());
-			for (Skill s : evt.getXpRewards().keySet()) {
-				DataManager dataManager = DataManager.getInstance();
-				dataManager.getPlayerData(evt.getPlayer().getUniqueId()).awardXP(s, evt.getXpRewards().get(s));
-				
-			}
-		} else {
-			DataManager dataManager = DataManager.getInstance();
-			SessionData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId()).getSessionData();
-			dat.setRecipe(null);
-		}
 		
-	}
-	
-	
 	/*Open crafting table UI*/
 	@EventHandler(priority=EventPriority.LOW)
 	public void onInteract(PlayerInteractEvent evt) {
@@ -905,7 +887,6 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 			}
 		}
 		
-	
 		if(amountRequired > totalAvailable) return false;
 		
 		return true;

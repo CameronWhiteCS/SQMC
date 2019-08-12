@@ -9,10 +9,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
 
 import squeeze.theorem.entity.DialogueNode;
@@ -53,16 +50,6 @@ public class CaptainFishy extends NPC implements EyeTracking, Pickpocketable {
 		
 		return root;
 		
-	}
-	
-	@Override
-	public LivingEntity spawn(Location loc) {
-		
-		Villager v = (Villager) super.spawn(loc);
-		v.setProfession(Profession.TOOLSMITH);
-		
-		
-		return null;
 	}
 
 	@Override

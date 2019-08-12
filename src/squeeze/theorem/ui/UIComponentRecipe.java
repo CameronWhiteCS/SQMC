@@ -12,37 +12,36 @@ import squeeze.theorem.recipe.SQMCRecipe;
 
 public class UIComponentRecipe implements UIComponent {
 
-	private SQMCRecipe customRecipe;
+	private SQMCRecipe sqmcRecipe;
 	
-	public UIComponentRecipe(SQMCRecipe cr) {
-		setSQMCRecipe(cr);
+	public UIComponentRecipe(SQMCRecipe sqmcRecipe) {
+		this.sqmcRecipe = sqmcRecipe;
 	}
 
 	@Override
 	public ItemStack getItemStack(Player player) {
-		return customRecipe.getUIItemStack(player);
+		return sqmcRecipe.getUIItemStack(player);
 	}
 	
 	@Override
 	public void onClick(InventoryClickEvent evt) {
-		
 		DataManager dataManager = DataManager.getInstance();
 		Player player = (Player) evt.getWhoClicked();
 		PlayerData playerData = dataManager.getPlayerData(player);
 		SessionData sessionData = playerData.getSessionData();
-		if(customRecipe.canCraft(player, true)) {
-			sessionData.setRecipe(customRecipe);
-			player.sendMessage(ChatColor.GREEN + "You are now crafting " + customRecipe.getOutput().getName() + ChatColor.GREEN + ".");
+		if(sqmcRecipe.canCraft(player, true)) {
+			sessionData.setRecipe(sqmcRecipe);
+			player.sendMessage(ChatColor.GREEN + "You are now crafting " + sqmcRecipe.getOutput().getName() + ChatColor.GREEN + ".");
 			player.closeInventory();
 		}
 	}
 
 	public SQMCRecipe getSQMCRecipe() {
-		return customRecipe;
+		return sqmcRecipe;
 	}
 
 	public void setSQMCRecipe(SQMCRecipe customRecipe) {
-		this.customRecipe = customRecipe;
+		this.sqmcRecipe = customRecipe;
 	}
 
 }

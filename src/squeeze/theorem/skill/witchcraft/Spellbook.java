@@ -20,16 +20,13 @@ public class Spellbook extends ChestInterface {
 	
 	/*Fields*/
 	private String name;
-	private int size;
-	private List<UIComponent> spells = new ArrayList<UIComponent>();
 	private String identifier;
 	
 	/*Constructors*/
 	public Spellbook(String name, String identifier, int size) {
 		super(name);
-		setName(name);
-		setSize(size);
-		setIdentifier(identifier);
+		this.name = name;
+		this.identifier = identifier;
 	}
 
 	public String getName() {
@@ -41,7 +38,7 @@ public class Spellbook extends ChestInterface {
 	}
 	
 	public Spellbook addSpell(Spell spell) {
-		this.spells.add(spell);
+		this.components.add(spell);
 		return this;
 	}
 	
@@ -57,40 +54,10 @@ public class Spellbook extends ChestInterface {
 		return spellbooks;
 	}
 
-	@Override
-	public void open(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Inventory getInventory(Player player) {
-		Inventory inv = Bukkit.createInventory(null, getSize(), ChatColor.DARK_PURPLE + getTitle(player));
-		for(UIComponent ui: spells) {
-			inv.addItem(ui.getItemStack(player));
-		}
-		return inv;
-	}
-
-	@Override
-	public List<UIComponent> getComponents() {
-		return this.spells;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
-
 	public static Spellbook fromString(String string) {
-
 		for(Spellbook sp: spellbooks) {
 			if(sp.getIdentifier().equalsIgnoreCase(string)) return sp;
 		}
-		
 		return null;
 	}
 

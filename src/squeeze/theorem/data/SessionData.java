@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 
 import mkremins.fanciful.FancyMessage;
 import squeeze.theorem.entity.DialogueNode;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.DialogueNode.DialogueType;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.recipe.SQMCRecipe;
@@ -54,8 +55,8 @@ public class SessionData {
 		
 		//Name of NPC
 		String name = getNPC().getCustomName();
-		if(SQMCEntity.getSQMCEntity(getNPC()) != null) {
-			name = SQMCEntity.getSQMCEntity(getNPC()).getName();
+		if(EntityManager.getInstance().getSQMCEntity(getNPC()) != null) {
+			name = EntityManager.getInstance().getSQMCEntity(getNPC()).getName();
 		}
 		if(dialogueNode.getType() == DialogueType.NPC) {
 			getPlayerData().getPlayer().sendMessage(ChatColor.GOLD + "[" + ChatColor.BLUE + ChatColor.stripColor(name) + ChatColor.GOLD + "] " + ChatColor.GOLD + dialogueNode.getText());

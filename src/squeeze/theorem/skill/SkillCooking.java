@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.recipe.RecipeType;
 import squeeze.theorem.ui.ChestInterface;
@@ -34,8 +35,8 @@ public class SkillCooking extends Skill implements Listener, Runnable {
 	@EventHandler(priority=EventPriority.LOW)
 	public void onFireClick(PlayerInteractEntityEvent evt) {
 
-		if (SQMCEntity.getSQMCEntity(evt.getRightClicked()) != null && !evt.isCancelled()) {
-			SQMCEntity ce = SQMCEntity.getSQMCEntity(evt.getRightClicked());
+		if (EntityManager.getInstance().getSQMCEntity(evt.getRightClicked()) != null && !evt.isCancelled()) {
+			SQMCEntity ce = EntityManager.getInstance().getSQMCEntity(evt.getRightClicked());
 			if (ce instanceof SQMCEntityFire) {
 
 				ChestInterface.fire.open(evt.getPlayer());

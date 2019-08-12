@@ -28,13 +28,13 @@ import com.xxmicloxx.NoteBlockAPI.model.Song;
 import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
 import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 
-
 import squeeze.theorem.audio.SQMCSong;
 import squeeze.theorem.bank.BankAccount;
 import squeeze.theorem.bank.BankDistrict;
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatMode;
 import squeeze.theorem.combat.CombatStats;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
@@ -589,7 +589,7 @@ public class PlayerData implements CombatStats {
 
 		double maxFire = 0.0;
 		for (Entity e : getPlayer().getNearbyEntities(10, 10, 10)) {
-			SQMCEntity cust = SQMCEntity.getSQMCEntity(e);
+			SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(e);
 			if (cust == null)
 				continue;
 			if (cust instanceof SQMCEntityFire == false)

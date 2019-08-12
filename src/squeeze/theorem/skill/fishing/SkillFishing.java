@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.event.SQMCPlayerFishEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.skill.Skill;
@@ -107,7 +108,7 @@ public class SkillFishing extends Skill implements Listener {
 		item.setItemStack(CustomItem.KELP.getItemStack());
 
 		SQMCEntityFish fish = evt.getSQMCEntityFish();
-		LivingEntity entity = (LivingEntity) fish.spawn(item.getLocation());
+		LivingEntity entity = (LivingEntity) EntityManager.getInstance().spawn(fish, item.getLocation());
 		entity.setHealth(0.5);
 		entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3600, 255));
 		item.addPassenger(entity);

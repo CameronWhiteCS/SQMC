@@ -25,6 +25,7 @@ import squeeze.theorem.animation.Animations;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.Boundable;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
@@ -33,6 +34,12 @@ import squeeze.theorem.skill.witchcraft.Spell;
 
 public class CombatManager implements Listener, Runnable {
 
+	private static CombatManager instance = new CombatManager();
+	
+	private CombatManager() {
+		
+	}
+	
 	/*Static fields*/
 	private static Map<Projectile, Double> strength = new ConcurrentHashMap<Projectile, Double>();
 	private static Map<Projectile, Double> accuracy = new ConcurrentHashMap<Projectile, Double>();
@@ -42,7 +49,7 @@ public class CombatManager implements Listener, Runnable {
 	/*Primary method*/
 	@EventHandler(priority = EventPriority.LOW)
 	public static void onDamage(EntityDamageByEntityEvent evt) {
-				
+		
 		/* Rule out immediately invalid damage events */
 		if(evt.isCancelled()) return;
 		if(evt.getDamager() instanceof Projectile == false && evt.getDamager() instanceof LivingEntity == false) return;
@@ -64,7 +71,7 @@ public class CombatManager implements Listener, Runnable {
 		double defense = getDefense(style, damagee);
 		
 		/* Make people abusing entity mechanics miss */
-		SQMCEntity ce = SQMCEntity.getSQMCEntity(damagee);
+		SQMCEntity ce = EntityManager.getInstance().getSQMCEntity(damagee);
 		/*if (ce != null) {
 			if (ce instanceof Boundable) {
 				Boundable boundable = (Boundable) ce;
@@ -178,7 +185,7 @@ public class CombatManager implements Listener, Runnable {
 				PlayerData dat = dataManager.getPlayerData(damager.getUniqueId());
 				return dat.getAccuracy(style);
 			} else {
-				SQMCEntity cust = SQMCEntity.getSQMCEntity(damager);
+				SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(damager);
 				if (cust == null)
 					return 0.0;
 				if (cust instanceof CombatStats == false)
@@ -212,7 +219,7 @@ public class CombatManager implements Listener, Runnable {
 				return (dat.getStrength(style)) * (evt.getDamage() / genericAttackDamage);
 				
 			} else {
-				SQMCEntity cust = SQMCEntity.getSQMCEntity(damager);
+				SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(damager);
 				if (cust == null)
 					return 0.0;
 				if (cust instanceof CombatStats == false)
@@ -236,7 +243,7 @@ public class CombatManager implements Listener, Runnable {
 			PlayerData dat = dataManager.getPlayerData(damagee.getUniqueId());
 			return dat.getDefense(style);
 		} else {
-			SQMCEntity cust = SQMCEntity.getSQMCEntity(damagee);
+			SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(damagee);
 			if (cust == null)
 				return 0.0;
 			if (cust instanceof CombatStats == false)
@@ -350,5 +357,9 @@ public class CombatManager implements Listener, Runnable {
 		}
 		
 	}
+
 	
+	public static CombatManager getInstance() {
+		return instance;
+	}
 }

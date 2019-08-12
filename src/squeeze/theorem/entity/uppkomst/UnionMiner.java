@@ -21,13 +21,6 @@ public class UnionMiner extends NPC implements EyeTracking, Boundable {
 		super(ChatColor.GREEN + "Union Miner", EntityType.VILLAGER);
 		addLocation(new Location(Bukkit.getWorld("world"), 4422, 37, -8612));
 	}
-
-	@Override
-	public LivingEntity spawn(Location loc) {
-		Villager v = (Villager) super.spawn(loc);
-		v.setProfession(Profession.FARMER);
-		return v;
-	}
 	
 	@Override
 	public DialogueNode getDialogueNode(Player player){

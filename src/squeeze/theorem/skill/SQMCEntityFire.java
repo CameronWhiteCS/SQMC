@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mule;
@@ -16,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.Lootable;
@@ -33,7 +33,7 @@ public class SQMCEntityFire extends SQMCEntity implements Lootable, LevelRequire
 
 	public SQMCEntityFire(String name, CustomItem customItem, int levelRequired, double Xp, long burnTime, double health, double hunger) {
 		super(name, EntityType.MULE);
-		fires.add(this);
+		EntityManager.getInstance().getFires().add(this);
 		requirements.put(Skill.firemaking, levelRequired);
 		setXP(Xp);
 		setBurnTime(burnTime);
@@ -45,9 +45,7 @@ public class SQMCEntityFire extends SQMCEntity implements Lootable, LevelRequire
 	}
 
 	@Override
-	public LivingEntity spawn(Location loc) {
-
-		LivingEntity entity = super.spawn(loc);
+	public void onSpawn(LivingEntity entity) {
 
 		entity.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 3600, 1));
 		entity.setTicksLived(1);
@@ -59,8 +57,6 @@ public class SQMCEntityFire extends SQMCEntity implements Lootable, LevelRequire
 		mule.setAdult();
 		mule.setFireTicks(100000000);
 		
-
-		return mule;
 	}
 
 	public CustomItem getCustomItem() {
@@ -130,10 +126,6 @@ public class SQMCEntityFire extends SQMCEntity implements Lootable, LevelRequire
 	@Override
 	public Map<Skill, Integer> getRequirements(){
 		return requirements;
-	}
-	
-	public static List<SQMCEntityFire> getFires(){
-		return fires;
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatManager;
 import squeeze.theorem.combat.CombatStats;
 import squeeze.theorem.data.DataManager;
+import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 
 public class SpellProjectile extends Spell implements CombatSpell {
@@ -48,7 +49,7 @@ public class SpellProjectile extends Spell implements CombatSpell {
 			DataManager dataManager = DataManager.getInstance();
 			cs = dataManager.getPlayerData(e.getUniqueId());
 		} else {
-			SQMCEntity cust = SQMCEntity.getSQMCEntity(e);
+			SQMCEntity cust = EntityManager.getInstance().getSQMCEntity(e);
 			if (cust == null)
 				return;
 			if (cust instanceof CombatStats == false)

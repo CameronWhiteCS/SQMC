@@ -24,7 +24,7 @@ public class CommandSpellbook extends SQMCCommand {
 		Player player = (Player) sender;
 		DataManager dataManager = DataManager.getInstance();
 		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
-		player.openInventory(dat.getSpellbook().getInventory(player));
+		dat.getSpellbook().open(player);
 		
 	}
 

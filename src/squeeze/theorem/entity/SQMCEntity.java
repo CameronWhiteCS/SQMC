@@ -1,50 +1,10 @@
 package squeeze.theorem.entity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.util.Vector;
 
-import net.minecraft.server.v1_14_R1.EntityLiving;
-import net.minecraft.server.v1_14_R1.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_14_R1.PacketPlayOutSpawnEntityLiving;
-import squeeze.theorem.combat.CombatStats;
-import squeeze.theorem.data.DataManager;
-import squeeze.theorem.data.PlayerData;
-import squeeze.theorem.data.SessionData;
 import squeeze.theorem.entity.DialogueNode.DialogueType;
 import squeeze.theorem.entity.uppkomst.Blacksmith;
 import squeeze.theorem.entity.uppkomst.BotchedExperiment;
@@ -64,23 +24,11 @@ import squeeze.theorem.entity.uppkomst.UppkomstPriestOfMoonti;
 import squeeze.theorem.entity.volcanis.VolcanisPriestOfMoonti;
 import squeeze.theorem.event.PlayerKillSQMCEntityEvent;
 import squeeze.theorem.item.CustomItem;
-import squeeze.theorem.main.SQMC;
-import squeeze.theorem.mechanics.Cooldown;
 import squeeze.theorem.skill.SQMCEntityFire;
-import squeeze.theorem.skill.Skill;
 
-public class SQMCEntity implements Listener, Runnable {
+public class SQMCEntity {
 	
-	/*STATIC FIELDS*/
-	private static List<SQMCEntity> entities = new ArrayList<SQMCEntity>();
-	private static List<Anchorable> anchorables = new ArrayList<Anchorable>();
-	private static List<Location> queuedLocations = new ArrayList<Location>();
-	private static Map<Entity, SQMCEntity> entityMap = new HashMap<Entity, SQMCEntity>();
-	private static Map<Entity, Location> spawnpoints = new HashMap<Entity, Location>();
-	private static Map<Entity, Location> previousLocation = new HashMap<Entity, Location>();
-	private static Map<Entity, Location> currentLocation = new HashMap<Entity, Location>();
-	private static Map<Entity, Long> lastStruck = new ConcurrentHashMap<Entity, Long>(); //TODO: Make it where an entity targeting a player also puts them on this list
-	public static List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
+	/*These exist for the purpose of being accessible when creating dialogue nodes within sub-classes*/
 	protected static DialogueType NPC = DialogueType.NPC;
 	protected static DialogueType PLAYER = DialogueType.PLAYER;
 	
@@ -135,14 +83,10 @@ public class SQMCEntity implements Listener, Runnable {
 	public SQMCEntity(String name, EntityType entityType) {
 		setName(name);
 		setEntityType(entityType);
-		if(this instanceof Anchorable) anchorables.add((Anchorable) this);
-		entities.add(this);
+		EntityManager.getInstance().registerEntity(this);
 	}
 
 	/* Setters and getters */
-	public static List<SQMCEntity> getEntities(){
-		return entities;
-	}
 	
 	public String getPrefix() {
 		return prefix;
@@ -278,411 +222,12 @@ public class SQMCEntity implements Listener, Runnable {
 
 	public void setBoots(CustomItem boots) {
 		this.boots = boots;
-	}
-	
-	public static List<SQMCEntityFire> getFires() {
-		return fires;
-	}
-
-	public static SQMCEntity getSQMCEntity(Entity entity) {
-
-		for(Entity e: entityMap.keySet()) {
-			if(e == entity) return entityMap.get(entity);
-		}
-
-		return null;
-
-	}
-	
-	public static List<Anchorable> getAnchorableEntities() {
-		return anchorables;
-	}
-
-	/* Methods */
-	public LivingEntity spawn(Location loc) {
-		World world = loc.getWorld();
-		LivingEntity entity = (LivingEntity) world.spawnEntity(loc, getEntityType());
-		entity.setCustomName(getDisplayName());
-		entity.setCustomNameVisible(true);
-		entity.setAI(hasAI());
-		entity.setGravity(hasGravity());
-		entity.setInvulnerable(isInvulnerable());
-		entity.setSilent(isSilent());
-		entity.setRemoveWhenFarAway(false);
-		
-		if(getMainhand() != null) entity.getEquipment().setItemInMainHand(getMainhand().getItemStack());
-		if(getOffhand() != null) entity.getEquipment().setItemInOffHand(getOffhand().getItemStack());
-		if(getHelmet() != null) entity.getEquipment().setHelmet(getHelmet().getItemStack());
-		if(getChestplate() != null) entity.getEquipment().setChestplate(getChestplate().getItemStack());
-		if(getLeggings() != null) entity.getEquipment().setLeggings(getLeggings().getItemStack());
-		if(getBoots() != null) entity.getEquipment().setBoots(getBoots().getItemStack());
-		
-		if(getProfession() != null && entity instanceof Villager) {
-			Villager v = (Villager) entity;
-			v.setProfession(getProfession());
-		}
-		
-		if(this instanceof Boundable) {
-			previousLocation.put(entity, entity.getLocation());
-			currentLocation.put(entity, entity.getLocation());
-		}
-		
-		if(entity instanceof Ageable) {
-			Ageable age = (Ageable) entity;
-			if(baby) age.setBaby();
-			if(!baby) age.setAdult();
-		}
-		
-		if(this instanceof CombatStats) {
-			CombatStats cs = (CombatStats) this;
-			entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(cs.getHealth());
-			entity.setHealth(cs.getHealth());
-		}
-		
-		queuedLocations.remove(loc);
-		entityMap.put(entity, this);
-		
-		// Anchorable mechanics
-		if (this instanceof Anchorable) spawnpoints.put(entity, loc);
-
-	
-		return entity;
-
-	}
-
-	// Remove old entities & spawn anchored entities on chunk load
-	@EventHandler
-	public static void onChunkLoad(ChunkLoadEvent evt) {
-		
-		for(Entity e: evt.getChunk().getEntities()) {
-			if(e instanceof LivingEntity && e instanceof Player == false) e.remove();
-		}
-		
-		for (Anchorable anch : getAnchorableEntities()) {
-			SQMCEntity ce = (SQMCEntity) anch;
-			Chunk chunk = evt.getChunk();
-			List<Location> locs = anch.getLocationsWithin(chunk);
-			if (locs.isEmpty())
-				continue;
-
-			for (Location loc : locs) {
-				if(!alreadySpawned(loc) && !queuedLocations.contains(loc)) {
-					ce.spawn(loc);
-					queuedLocations.remove(loc);
-				}
-				
-			}
-
-		}
-	}
-	
-	private static boolean alreadySpawned(Location loc) {
-		
-		return spawnpoints.containsValue(loc);
-		
-	}
-
-	public static Location getLocation(Entity e) {
-		
-		if(spawnpoints.containsKey(e)) return spawnpoints.get(e);
-		
-		return null;
-		
-	}
-
-	// Remove anchored entities on chunk load
-	@EventHandler
-	public static void onChunkUnload(ChunkUnloadEvent evt) {
-
-		Chunk chunk = evt.getChunk();
-		for (Entity e : chunk.getEntities()) {
-
-			SQMCEntity ce = SQMCEntity.getSQMCEntity(e);
-			if (ce == null) continue;
-			entityMap.remove(e);
-			spawnpoints.remove(e);
-			e.remove();
-			
-		}
-
 	}	
-	
-	/*EVENTS*/
-	@EventHandler
-	public void onDrop(PlayerDropItemEvent evt) {
-		Player player = evt.getPlayer();
-		DataManager dataManager = DataManager.getInstance();
-		SessionData sdat = dataManager.getPlayerData(player.getUniqueId()).getSessionData();
-		sdat.endConversation();
-	}
-	
-	@EventHandler
-	public void onPickup(EntityPickupItemEvent evt) {
-		if(evt.getEntity() instanceof Player == false) return;
-		Player player = (Player) evt.getEntity();
-		DataManager dataManager = DataManager.getInstance();
-		SessionData sdat = dataManager.getPlayerData(player.getUniqueId()).getSessionData();
-		sdat.endConversation();
-	}
 	
 	//Intended to be overwritten
 	protected void onDeath(PlayerKillSQMCEntityEvent evt) {
 		
-	}
-	
-	@EventHandler
-	public void onMove(PlayerMoveEvent evt) {
-		eyeTracking(evt);
-		endConversations(evt);
-	}
-	
-	private static void eyeTracking(PlayerMoveEvent evt) {
-		if(evt.isCancelled()) return;
-		Location loc = evt.getTo();
-		Player player = evt.getPlayer();
-		World world = player.getWorld();
-
-		for (Entity e : world.getEntities()) {
-
-			SQMCEntity customEntity = getSQMCEntity(e);
-			if (customEntity == null)
-				continue;
-			if (customEntity instanceof EyeTracking == false)
-				continue;
-			EyeTracking eyeTracking = (EyeTracking) customEntity;
-
-			if (e.getLocation().distance(loc) > eyeTracking.getTrackingDistance())
-				continue;
-
-			Vector v = loc.toVector().subtract(e.getLocation().toVector());
-			Location loc2 = e.getLocation();
-			loc2.setDirection(v);
-			e.teleport(loc2);
-
-		}
-	}
-	
-	@EventHandler
-	public void onInteract(PlayerInteractEntityEvent evt) {
-
-		if (evt.isCancelled()) return;
-		if (evt.getHand().equals(EquipmentSlot.OFF_HAND)) {
-			evt.setCancelled(true);
-			return;
-		}
-
-		
-		SQMCEntity cust = SQMCEntity.getSQMCEntity(evt.getRightClicked());
-		if (cust == null) return;
-		
-		Entity entity = evt.getRightClicked();
-		Player player = evt.getPlayer();
-		DataManager dataManager = DataManager.getInstance();
-		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
-		
-		//Cancel all interactions if entity is invisible
-		if(cust instanceof ConditionallyVisible) {
-			ConditionallyVisible cv = (ConditionallyVisible) cust;
-			if(!cv.isVisible(evt.getPlayer())) {
-				evt.setCancelled(true);
-				return;
-			}
-		}
-		
-		//Interactable
-		interact: {
-			if(cust instanceof Interactable == false) break interact;
-			if(player.isSneaking() == true && cust instanceof Pickpocketable == true) break interact;
-				Interactable dialogue = (Interactable) cust;
-	
-				dat.getSessionData().setNPC(entity);
-	
-				dat.getSessionData().setDialogueNode(dialogue.getDialogueNode(evt.getPlayer()));
-			
-		}
-		
-		//Pickpocketable
-		thiev: {
-			if(cust instanceof Pickpocketable == false) break thiev;
-			if(Cooldown.pickpocketing.isOnCooldown(player.getUniqueId())) break thiev;
-			if(player.isSneaking() == false) break thiev;
-			
-			Pickpocketable pickpocketable = (Pickpocketable) cust;
-			
-			if(!pickpocketable.meetsRequirements(player)) {
-				pickpocketable.sendInsufficientLevelNotice(player, "pickpocket this NPC");
-				break thiev;
-			}
-					
-			if(pickpocketable.didSucceed(player)) {
-				dat.giveItems(pickpocketable.getLoot(player));
-				player.playSound(player.getLocation(), Sound.BLOCK_WOOL_PLACE, 1F, 0F);
-				dat.awardXP(Skill.larceny, pickpocketable.getXP());
-			} else {
-				dat.damage(pickpocketable.getDamageOnFail(player));
-				player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_HURT, 1F, 0F);
-				player.sendMessage(ChatColor.RED + cust.getName() + " yells angirly, saying '" + pickpocketable.getFailMessage() + "'");
-			}
-					
-			Cooldown.pickpocketing.addPlayer(player.getUniqueId(), pickpocketable.getCooldown(player));
-		}
-
-		evt.setCancelled(true);
-
-	}
-	
-	private static void endConversations(PlayerMoveEvent evt) {
-		if(evt.isCancelled()) return;
-		Player player = evt.getPlayer();
-		DataManager dataManager = DataManager.getInstance();
-		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
-		SessionData sessionData = dat.getSessionData();
-		if (sessionData.getNPC() == null || sessionData.getDialogueNode() == null)
-			return;
-
-		if (evt.getTo().distance(sessionData.getNPC().getLocation()) > 7) {
-
-			sessionData.endConversation();
-
-		}
-	}
-	
-	/*RUNNABLE*/
-	public void run() {
-		boundEntities();
-		condtionallyVisible();
-	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onStrike(EntityDamageByEntityEvent evt) {
-		
-		if(evt.isCancelled()) return;
-		
-		if(evt.getDamager() instanceof Player == false || evt.getEntity() instanceof Player) return;
-		
-		lastStruck.put(evt.getEntity(), System.currentTimeMillis());
-		
-	}
-	
-	
-	
-	private static void boundEntities() {
-		
-		for(Entity e: lastStruck.keySet()) {
-			long diff = System.currentTimeMillis() - lastStruck.get(e);
-			if(diff > 60000) lastStruck.remove(e);
-		}
-		
-		for(World w: Bukkit.getWorlds()){
-			for(Entity e: w.getEntities()) {
-						
-				SQMCEntity ce = getSQMCEntity(e);
-				if(ce == null) continue;	
-				
-				if(ce instanceof Boundable == false) continue;
-				Boundable boundable = (Boundable) ce;
-					
-				if(e instanceof Mob == false) return;
-				Mob m = (Mob) e;
-				
-				if(lastStruck.containsKey(e) || m.getTarget() instanceof Player) continue;
-				
-				Location origin = getLocation(e);
-				if(origin == null) continue;
-				
-				double x = e.getLocation().getX();
-				double y = e.getLocation().getY();
-				double z = e.getLocation().getZ();
-				
-				Vector v = new Vector(x, y, z).subtract(new Vector(origin.getX(), origin.getY(), origin.getZ()));
-				if(v.length() > boundable.getWanderRadius()) {
-					
-					e.teleport(previousLocation.get(e));
-					currentLocation.put(e, e.getLocation());
-					
-				} else {
-					
-					previousLocation.put(e, currentLocation.get(e));
-					currentLocation.put(e, e.getLocation());
-					
-				}
-			}
-		}
-	}
-	
-	private static void condtionallyVisible() {
-		
-		
-		for(Player player: Bukkit.getOnlinePlayers()) {
-			World world = player.getWorld();
-			for(Entity e: world.getEntities()) {
-				if(e.getLocation().distance(player.getLocation()) > 64) continue;
-				if(e instanceof LivingEntity == false) return;
-				SQMCEntity ce = getSQMCEntity(e);
-				if(ce == null) continue;
-				if(ce instanceof ConditionallyVisible == false) continue;
-				ConditionallyVisible cv = (ConditionallyVisible) ce;
-				
-				if(cv.isVisible(player) == false) {
-					PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(new int[] {e.getEntityId()});
-					((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-					cv.getViewers().remove(player);
-				} else {
-					
-		
-					if(cv.getViewers().contains(player)) continue;
-					PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving((EntityLiving)((CraftEntity) e).getHandle());
-					((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-					cv.getViewers().add(player);
-					
-				}
-				
-				
-			}
-		}
-		
-	}
-	
-	/* Death of custom entities */	
-	@EventHandler
-	public void onDeath(EntityDeathEvent evt) {
-		respawn(evt);
-	}
-	
-	public static void respawn(EntityDeathEvent evt) {
-		
-		Entity entity = evt.getEntity();
-		SQMCEntity ce = getSQMCEntity(entity);
-		if(ce == null) return;
-		
-		Location loc = getLocation(entity);
-		if(loc == null) return;
-		if(ce instanceof Respawnable == false) return;
-		Respawnable respawnable = (Respawnable) ce;
-		if(ce instanceof Anchorable == false) return;
-		Anchorable anchorable = (Anchorable) ce;
-		queuedLocations.add(loc);
-		
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SQMC.getPlugin(SQMC.class), new Runnable() {
-			public void run() {
-				if(!alreadySpawned(loc) && loc.getChunk().isLoaded() && anchorable.getLocations().contains(loc)) {
-					ce.spawn(loc);
-				}
-				
-			}
-		}, respawnable.getRespawnDelay());	
-		
-		entityMap.remove(evt.getEntity());
-		spawnpoints.remove(evt.getEntity());
-		
-	}
-	
-	@EventHandler
-	public void onTarget(EntityTargetEvent evt) {
-		SQMCEntity ce = SQMCEntity.getSQMCEntity(evt.getEntity());
-		if(ce == null) return;
-		if(ce.isPassive()) evt.setCancelled(true);
-	}
+	}	
 
 	public CustomItem getMainhand() {
 		return mainhand;
@@ -690,6 +235,12 @@ public class SQMCEntity implements Listener, Runnable {
 
 	public void setMainhand(CustomItem mainhand) {
 		this.mainhand = mainhand;
+	}
+
+	//Intended to be overwritten
+	public void onSpawn(LivingEntity entity) {
+
+		
 	}
 	
 }

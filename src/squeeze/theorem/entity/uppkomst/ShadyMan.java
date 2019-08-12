@@ -29,13 +29,6 @@ public class ShadyMan extends NPC implements Boundable, EyeTracking  {
 		return new DialogueNode("...", DialogueType.NPC);
 		
 	}
-
-	@Override
-	public LivingEntity spawn(Location loc) {
-		Villager v = (Villager) super.spawn(loc);
-		v.setProfession(Profession.NITWIT);
-		return v;
-	}
 	
 	@Override
 	public double getWanderRadius() {

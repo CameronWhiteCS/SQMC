@@ -50,11 +50,7 @@ public class UIComponentSettingsMusic implements UIComponent {
 		
 		DataManager dataManager = DataManager.getInstance();
 		PlayerData dat = dataManager.getPlayerData(evt.getWhoClicked().getUniqueId());
-		if(dat.getMusic()) {
-			dat.setMusic(false);
-		} else {
-			dat.setMusic(true);
-		}
+		dat.setMusic(!dat.getMusic());
 		
 	}
 
