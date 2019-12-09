@@ -16,7 +16,7 @@ public interface Anchorable {
 		
 		for(Location loc: getLocations()) {
 			
-			if(loc.getChunk() == c) output.add(loc);
+			if(loc.getChunk().equals(c)) output.add(loc);
 			
 		}
 		

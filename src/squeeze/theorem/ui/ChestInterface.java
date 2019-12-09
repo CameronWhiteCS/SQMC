@@ -76,6 +76,7 @@ public abstract class ChestInterface {
 			
 		if(components.size() > 45) {
 			inv = Bukkit.createInventory(null, 54, ChatColor.DARK_PURPLE + getTitle(player));
+			inv.setItem(45,  SqueezeUtil.generateItem(Material.FIRE_CORAL_BLOCK, 1, ChatColor.RED + "Close Menu"));
 			inv.setItem(52, SqueezeUtil.generateItem(Material.RED_WOOL, 1, ChatColor.RED + "Previous", ChatColor.RED + "<-----"));
 			inv.setItem(53, SqueezeUtil.generateItem(Material.LIME_WOOL, 1, ChatColor.GREEN + "Next", ChatColor.GREEN + "----->"));
 		} else {
@@ -121,9 +122,10 @@ public abstract class ChestInterface {
 	
 	public void refresh(Player player) {
 		DataManager dataManager = DataManager.getInstance();
-		PlayerData playerData = dataManager.getPlayerData(player);
-		SessionData sessionData = playerData.getSessionData();
-		open(player, sessionData.getUIpage());
+		SessionData sdat = dataManager.getPlayerData(player).getSessionData();
+		Inventory inv = player.getOpenInventory().getTopInventory();
+		if(inv != sdat.getInterfaceInventory()) return;
+		inv.setContents(getInventory(player).getContents());
 	}
 	
 	public List<UIComponent> getComponents(){

@@ -117,7 +117,7 @@ public class EntityManager implements Runnable, Listener {
 			v.setProfession(sqmcEntity.getProfession());
 		}
 		
-		if(this instanceof Boundable) {
+		if(sqmcEntity instanceof Boundable) {
 			previousLocation.put(entity, entity.getLocation());
 			currentLocation.put(entity, entity.getLocation());
 		}
@@ -128,8 +128,8 @@ public class EntityManager implements Runnable, Listener {
 			if(!sqmcEntity.isBaby()) age.setAdult();
 		}
 		
-		if(this instanceof CombatStats) {
-			CombatStats cs = (CombatStats) this;
+		if(sqmcEntity instanceof CombatStats) {
+			CombatStats cs = (CombatStats) sqmcEntity;
 			entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(cs.getHealth());
 			entity.setHealth(cs.getHealth());
 		}
@@ -138,7 +138,7 @@ public class EntityManager implements Runnable, Listener {
 		entityMap.put(entity, sqmcEntity);
 		
 		// Anchorable mechanics
-		if (this instanceof Anchorable) spawnpoints.put(entity, loc);
+		if (sqmcEntity instanceof Anchorable) spawnpoints.put(entity, loc);
 
 		sqmcEntity.onSpawn(entity);
 		return entity;

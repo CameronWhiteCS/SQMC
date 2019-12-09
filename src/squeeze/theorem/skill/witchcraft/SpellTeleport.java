@@ -23,9 +23,6 @@ public class SpellTeleport extends Spell {
 	@Override
 	public void onClick(InventoryClickEvent evt) {
 		
-		Bukkit.broadcastMessage("1");
-		// Location loc, double radius, double height, double step, Particle particle
-		
 		//Cooldown check
 		Player player = (Player) evt.getWhoClicked();
 		if(this.getCooldownTimer().isOnCooldown(player.getUniqueId())) {

@@ -1,9 +1,0 @@
-{
-	"name":"Iron sword",
-	"material":"IRON_SWORD",
-	"melee-strength":"4",
-	"melee-accuracy":"62",
-	"requirements":{
-		"strength":"30"
-	}
-}

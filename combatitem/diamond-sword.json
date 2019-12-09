@@ -1,9 +1,0 @@
-{
-	"name":"Diamond sword",
-	"material":"DIAMOND_SWORD",
-	"melee-strength":"6",
-	"melee-accuracy":"16",
-	"requirements":{
-		"strength":"109"
-	}
-}

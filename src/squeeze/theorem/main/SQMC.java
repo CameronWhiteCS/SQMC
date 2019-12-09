@@ -37,24 +37,15 @@ public class SQMC extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		
 		ConfigManager.loadConfig();
-		
 		Region.onEnable();
-		
 		DataManager dataManager = DataManager.getInstance();
 		dataManager.loadAllPlayers();
-		
 		registerSkills();
-		
 		registerQuests();
-		
 		registerMisc();
-
 		enforceVanillaConfiguration();
-		
 		despawnMobs();
-		
 	}
 
 	@Override
