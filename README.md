@@ -1,6 +1,6 @@
 # SQMC
 
-SQMC is an MMORPG plugin and framework designed for the CraftBukkit server and Bukkit API. 
+SQMC is an MMORPG plugin and framework designed for the CraftBukkit using the Bukkit API. 
 
 # Features
 
