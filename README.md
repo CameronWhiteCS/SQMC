@@ -37,4 +37,6 @@ Right now, you have to compile from source with all the necessary depdencies. So
 # TODO
 
 * Modularize and isolate the API from the SQMC game plugin itself
-* 
+* MySQL input sanitization (current queries are wildly unsafe for production, but functional in testing)
+* Rework DataManager and PlayerData classes to include a greater level of modularization
+
