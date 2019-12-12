@@ -50,8 +50,7 @@ public class SessionData {
 		this.dialogueNode = dialogueNode;
 		
 		//Allow for legitimate null asignments
-		if(getNPC() == null) return;
-		if(dialogueNode == null) return;
+		if(getNPC() == null || dialogueNode == null) return;
 		
 		//Name of NPC
 		String name = getNPC().getCustomName();
@@ -73,7 +72,6 @@ public class SessionData {
 			
 		}
 		
-		
 		//Send formatted dialogue options
 		if(dialogueNode.getChildren().size() >= 1 && dialogueNode.getType() == DialogueType.NPC){
 			ArrayList<DialogueNode> nodes = dialogueNode.getChildren();
@@ -94,21 +92,15 @@ public class SessionData {
 	}
 	
 	public void endConversation() {
-		
 		endConversation(ChatColor.RED + "End of conversation.");
-
 	}
 	
 	public void endConversation(String message) {
-		
 		if(getDialogueNode() != null || getNPC() != null) {
-
 			setDialogueNode(null);
 			setNPC(null);
 			getPlayerData().getPlayer().sendMessage(message);
-			
 		}
-
 	}
 	
 	private String replaceVars(String s) {
@@ -153,7 +145,6 @@ public class SessionData {
 
 	public void setCraftingLocation(Location craftingLocation) {
 		this.craftingLocation = craftingLocation;
-		
 	}
 
 	public ChestInterface getChestInterface() {
