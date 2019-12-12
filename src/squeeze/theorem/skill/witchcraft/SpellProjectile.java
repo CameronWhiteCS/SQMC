@@ -12,7 +12,7 @@ import org.bukkit.entity.WitherSkull;
 import org.bukkit.projectiles.ProjectileSource;
 
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityDestroy;
-import squeeze.theorem.animation.Animations;
+import squeeze.theorem.animation.AnimationSphere;
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatManager;
 import squeeze.theorem.combat.CombatStats;
@@ -28,14 +28,14 @@ public class SpellProjectile extends Spell implements CombatSpell {
 	private double damage;
 	private double accuracy;
 
+	private AnimationSphere animation;
+	
 	public SpellProjectile(String name, String desc, Material m) {
 		super(name, desc, m);
 	}
 	
 	public void animate(Location loc) {
-
-		Animations.sphere(loc, getAnimationRadius(), Math.PI/4, getParticle());
-		
+		new AnimationSphere(getParticle(), getAnimationRadius(), Math.PI / 4).animate(loc);
 	}
 
 	@Override

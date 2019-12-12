@@ -1,0 +1,15 @@
+{
+	"name":"Leather helmet",
+	"material":"LEATHER_HELMET",
+	"melee-defense":"10",
+	"ranged-defense":"15",
+	"magic-defense":"5",
+	"ranged-accuracy":"-5",
+	"magic-accuracy":"-15",
+	"requirements":{
+		"defense":"1"
+	},
+	"lore":[
+		"Is this vegan?"
+	]
+}

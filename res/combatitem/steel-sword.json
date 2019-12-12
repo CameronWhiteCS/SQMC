@@ -1,0 +1,12 @@
+{
+	"name":"Steel sword",
+	"material":"IRON_SWORD",
+	"melee-strength":"5",
+	"melee-accuracy":"81",
+	"requirements":{
+		"strength":"40"
+	},
+	"enchantments":{
+		"FLAME":"1"
+	}
+}

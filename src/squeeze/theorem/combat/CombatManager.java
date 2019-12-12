@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -21,10 +20,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import squeeze.theorem.animation.Animations;
+import squeeze.theorem.animation.AnimationSphere;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
-import squeeze.theorem.entity.Boundable;
 import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.item.CombatItem;
@@ -35,6 +33,7 @@ import squeeze.theorem.skill.witchcraft.Spell;
 public class CombatManager implements Listener, Runnable {
 
 	private static CombatManager instance = new CombatManager();
+	private static AnimationSphere blocked = new AnimationSphere(Particle.DAMAGE_INDICATOR, 2, Math.PI / 4);
 	
 	private CombatManager() {
 		
@@ -133,7 +132,7 @@ public class CombatManager implements Listener, Runnable {
 		
 		/* Dodge attacks */
 		if (defenseRoll > accuracyRoll) {
-			if (damagee instanceof Player == false) Animations.sphere(damagee.getLocation(), 2, Math.PI / 4, Particle.DAMAGE_INDICATOR);
+			if (damagee instanceof Player == false) blocked.animate(damagee);
 			evt.setCancelled(true);
 			return;
 		}

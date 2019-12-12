@@ -1,6 +1,5 @@
 package squeeze.theorem.skill.witchcraft;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -8,10 +7,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import squeeze.theorem.animation.Animations;
+import squeeze.theorem.animation.AnimationDoubleHelix;
 
 public class SpellTeleport extends Spell {
 
+	private static AnimationDoubleHelix animation = new AnimationDoubleHelix(Particle.DRAGON_BREATH, 1, Math.PI / 8, 10);
+	
 	private Location destination;
 	
 	public SpellTeleport(String name, String desc, Material m, Location destination) {
@@ -32,12 +33,10 @@ public class SpellTeleport extends Spell {
 		}
 		
 		
-		Animations.doubleHelix(evt.getWhoClicked().getLocation(), 1, 10, Math.PI / 8, Particle.DRAGON_BREATH);
+		animation.animate(evt.getWhoClicked());
 		evt.getWhoClicked().teleport(destination);
-		Animations.doubleHelix(destination, 1, 10, Math.PI / 16, Particle.DRAGON_BREATH);
+		animation.animate(destination);
 		super.cast(evt.getWhoClicked());
-			
-		
 		
 	}
 

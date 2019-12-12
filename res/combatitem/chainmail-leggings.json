@@ -1,0 +1,15 @@
+{
+    "name":"Chainmail leggings",
+    "material":"CHAINMAIL_LEGGINGS",
+    "melee-defense":"23",
+    "ranged-defense":"34.5",
+    "magic-defense":"12.5",
+    "ranged-accuracy":"-12.5",
+    "magic-accuracy":"-34.5",
+    "requirements":{
+        "defense":"20"
+    },
+	"lore":[
+		""
+	]
+}

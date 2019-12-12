@@ -1,0 +1,17 @@
+{
+	"output-id":"225",
+	"output-amount":"1",
+	"inputs":[
+		{
+			"item-id":"214",
+			"amount":"1"
+		}
+	],
+	"requirements":{
+		"cooking":"25"
+	},
+	"xp":{
+		"cooking":"100"
+	},
+	"recipe-type":"COOKING_FIRE"
+}

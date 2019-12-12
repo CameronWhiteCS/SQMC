@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.util.Vector;
 
-import squeeze.theorem.animation.Animations;
+import squeeze.theorem.animation.AnimationSphere;
 import squeeze.theorem.combat.AttackStyle;
 import squeeze.theorem.combat.CombatStats;
 import squeeze.theorem.data.DataManager;
@@ -112,7 +112,7 @@ public class SpellZap extends Spell implements CombatSpell {
 				
 				hit = true;
 				Bukkit.getPluginManager().callEvent(new EntityDamageByEntityEvent(le, (LivingEntity) entity, DamageCause.MAGIC, damage));
-				Animations.sphere(loc, 1, Math.PI/8, particle);
+				new AnimationSphere(particle, 1, Math.PI / 8).animate(loc);
 				break;
 			}
 			

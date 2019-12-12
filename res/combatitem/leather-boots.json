@@ -1,0 +1,15 @@
+{
+	"name":"Leather boots",
+	"material":"LEATHER_BOOTS",
+	"melee-defense":"8",
+	"ranged-defense":"12",
+	"magic-defense":"4",
+	"ranged-accuracy":"-4",
+	"magic-accuracy":"-12",
+	"requirements":{
+		"defense":"1"
+	},
+	"lore":[
+		"Is this vegan?"
+	]
+}

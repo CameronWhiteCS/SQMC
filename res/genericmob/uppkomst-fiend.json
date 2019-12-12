@@ -1,0 +1,20 @@
+{
+	"entity-type":"skeleton",
+	"name":"Fiend",
+	"main-hand":"315",
+	"melee-defense":"24",
+	"ranged-defense":"24",
+	"magic-defense":"24",
+	"melee-strength":"6",
+	"melee-accuracy":"17.5",
+	"wander-radius":"40",
+	"respawn-delay":"600",
+	"locations":[
+		{
+			"world":"world",
+			"x":"4560.5",
+			"y":"40",
+			"z":"-8596.5"
+		}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"name":"Wooden sword",
+	"material":"WOODEN_SWORD",
+	"melee-strength":"1",
+	"melee-accuracy":"31.5",
+	"lore":[
+		"The splinters make it impractical"
+	],
+	"requirements":{
+		"strength":"1"
+	}
+}

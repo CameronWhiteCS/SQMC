@@ -1,0 +1,15 @@
+{
+    "name":"Chainmail helmet",
+    "material":"CHAINMAIL_HELMET",
+    "melee-defense":"16",
+    "ranged-defense":"24",
+    "magic-defense":"8",
+    "ranged-accuracy":"-8",
+    "magic-accuracy":"-24",
+    "requirements":{
+        "defense":"20"
+    },
+	"lore":[
+		""
+	]
+}
