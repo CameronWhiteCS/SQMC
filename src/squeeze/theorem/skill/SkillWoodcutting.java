@@ -1,8 +1,10 @@
 package squeeze.theorem.skill;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -97,9 +99,8 @@ public class SkillWoodcutting extends Skill implements Listener {
 
 					//Calling of custom event
 						
-					ConcurrentHashMap<Location, Material> blocks = new ConcurrentHashMap<Location, Material>();
-					blocks.put(evt.getBlock().getLocation(), evt.getBlock().getType());
-					blocks = getTree(blocks, t);
+	
+					Map<Location, Material> blocks = getTree(evt.getBlock().getLocation(), t);
 						
 					//Call custom event
 						
@@ -117,7 +118,7 @@ public class SkillWoodcutting extends Skill implements Listener {
 	public void onChop(TreeChopEvent evt) {
 		if(!evt.isCancelled()) {
 			
-			ConcurrentHashMap<Location, Material> blocks = evt.getBlocks();
+			Map<Location, Material> blocks = evt.getBlocks();
 			Tree tree = evt.getTree();
 			Player player = evt.getPlayer();
 			DataManager dataManager = DataManager.getInstance();
@@ -165,47 +166,43 @@ public class SkillWoodcutting extends Skill implements Listener {
 		return false;
 	}
 
-	/*
-	 * This is a rather complex recursive method. Basically, once a block being
-	 * broken is determined to definitely be a tree, the block's location and its
-	 * material is used to create a Map entry. That map entry, alongside the Log
-	 * type being used for comparison, is then fed into this function, which, in
-	 * turn, iterates over all its constituent entries to find nearby, unregistered
-	 * tree blocks. The output is a HashMap<Location, Material> representing a tree
-	 * prior to it being destroyed.
+	/**
+	 * Performs a breadth first search to build a tree from a given location and
+	 * material set provided by the tree object.
+	 * 
+	 * @param loc - A location in the tree to be felled/rebuilt. Assumes location is part of a valid tree.
+	 * @param tree - Tree object to use as a material set.
+	 * @return
 	 */
-	public ConcurrentHashMap<Location, Material> getTree(ConcurrentHashMap<Location, Material> locs, Tree tree) {
+	public Map<Location, Material> getTree(Location loc, Tree tree) {
 
-		int size = locs.size();
-
-		for (Location loc : locs.keySet()) {
-			for (int x = -1; x <= 1; x++) {
-				for (int y = -1; y <= 1; y++) {
-					for (int z = -1; z <= 1; z++) {
-						
-						
-						Location newLoc = new Location(loc.getWorld(), loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
-						ArrayList<Material> treeMaterials = tree.getMaterials();
-						Material material = newLoc.getBlock().getType();
-						
-						if (treeMaterials.contains(material) && !locs.contains(newLoc)) {
-							locs.put(newLoc, newLoc.getBlock().getType());
+		HashMap<Location, Material> output = new HashMap<Location, Material>();
+		output.put(loc, loc.getBlock().getType());
+		
+		Queue<Location> queue = new LinkedList<Location>();
+		queue.add(loc);
+		
+		while(!queue.isEmpty()) {
+			Location current = queue.remove();
+			for(int i = -1; i <= 1; i++) {
+				for(int j = -1; j <= 1; j++) {
+					for(int k = -1; k <= 1; k++) {
+						Location temp = new Location(current.getWorld(), current.getX() + i, current.getY() + j, current.getZ() + k);
+						if(!output.containsKey(temp) && tree.getMaterials().contains(temp.getBlock().getType())) {
+							output.put(temp, temp.getBlock().getType());
+							queue.add(temp);
 						}
-
 					}
 				}
 			}
 		}
-
-		if (locs.size() == size) {
-			return locs;
-		} else {
-			return getTree(locs, tree);
-		}
+		
+		
+		return output;
 
 	}
 
-	public void regrowTreeInFuture(ConcurrentHashMap<Location, Material> tree, Tree t) {
+	public void regrowTreeInFuture(Map<Location, Material> tree, Tree t) {
 
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SQMC.getPlugin(SQMC.class), new Runnable() {
 
@@ -222,7 +219,7 @@ public class SkillWoodcutting extends Skill implements Listener {
 
 	}
 
-	public void destroyTree(ConcurrentHashMap<Location, Material> tree) {
+	public void destroyTree(Map<Location, Material> tree) {
 		for (Location loc : tree.keySet()) {
 			loc.getBlock().setType(Material.BARRIER);
 		}

@@ -1,6 +1,6 @@
 package squeeze.theorem.event;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,11 +19,11 @@ public class TreeChopEvent extends Event implements Cancellable {
 	private boolean isCancelled;
 	private Player player;
 	private Tree tree;
-	private ConcurrentHashMap<Location, Material> blocks;
+	private Map<Location, Material> blocks;
 	private CustomItemAxe axe;
 	private double XP;
 	
-	public TreeChopEvent (Player player, Tree tree, ConcurrentHashMap<Location, Material> blocks, CustomItemAxe axe) {
+	public TreeChopEvent (Player player, Tree tree, Map<Location, Material> blocks, CustomItemAxe axe) {
 		setPlayer(player);
 		setTree(tree);
 		setBlocks(blocks);
@@ -63,7 +63,7 @@ public class TreeChopEvent extends Event implements Cancellable {
 		return this.axe;
 	}
 
-	public ConcurrentHashMap<Location, Material> getBlocks() {
+	public Map<Location, Material> getBlocks() {
 		return this.blocks;
 	}
 
@@ -75,7 +75,7 @@ public class TreeChopEvent extends Event implements Cancellable {
 		this.tree = tree;
 	}
 
-	public void setBlocks(ConcurrentHashMap<Location, Material> blocks) {
+	public void setBlocks(Map<Location, Material> blocks) {
 		this.blocks = blocks;
 	}
 
