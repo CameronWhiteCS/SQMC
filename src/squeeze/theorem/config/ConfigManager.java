@@ -13,7 +13,7 @@ import squeeze.theorem.main.SQMC;
 public abstract class ConfigManager {
 
 	/*Constants*/
-	private static final File CONFIG_FILE = new File(SQMC.getPlugin(SQMC.class).getDataFolder() + "config.json");
+	private static final File CONFIG_FILE = new File(SQMC.getPlugin(SQMC.class).getDataFolder() + File.pathSeparator + "config.json");
 	
 	/*Fields*/
 	private static String mysqlHost = "127.0.0.1";
