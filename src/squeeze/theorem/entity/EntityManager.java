@@ -52,23 +52,44 @@ public class EntityManager implements Runnable, Listener {
 
 	private static EntityManager instance = new EntityManager();
 	
+	//Lists for specific SQMCEntity types
 	private List<SQMCEntity> entities = new ArrayList<SQMCEntity>();
 	private List<Anchorable> anchorables = new ArrayList<Anchorable>();
+	private List<Boundable> boundables = new ArrayList<Boundable>();
+	public List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
+	
+	//Maps for managing entities with specific properties
 	private List<Location> queuedLocations = new ArrayList<Location>();
 	private Map<Entity, SQMCEntity> entityMap = new HashMap<Entity, SQMCEntity>();
-	private Map<Entity, Location> spawnpoints = new HashMap<Entity, Location>();
 	private Map<Entity, Location> previousLocation = new HashMap<Entity, Location>();
 	private Map<Entity, Location> currentLocation = new HashMap<Entity, Location>();
 	private Map<Entity, Long> lastStruck = new ConcurrentHashMap<Entity, Long>(); //TODO: Make it where an entity targeting a player also puts them on this list
-	public List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
+	private Map<Entity, Location> anchors = new HashMap<Entity, Location>();
 	
 	private EntityManager() {
 		
 	}
 	
+	/**
+	 * Returns true if the entity corresponding to the provided location is alive
+	 * and not queued to respawn, false if dead or unloaded.
+	 * 
+	 * @param loc Location corresponding to the entity in question
+	 * @return
+	 */
+	private boolean isAlive(Location loc) {
+		return anchors.containsValue(loc);	
+	}
+	
+	private Location getAnchor(Entity e) {
+		if(anchors.containsKey(e)) return anchors.get(e);
+		return null;
+	}
+	
 	public void registerEntity(SQMCEntity entity) {
 		if(entity instanceof Anchorable) anchorables.add((Anchorable) entity);
 		if(entity instanceof SQMCEntityFire) fires.add((SQMCEntityFire) entity);
+		if(entity instanceof Boundable) boundables.add((Boundable) entity);
 		entities.add(entity);
 	}
 	
@@ -85,13 +106,10 @@ public class EntityManager implements Runnable, Listener {
 	}
 	
 	public SQMCEntity getSQMCEntity(Entity entity) {
-
 		for(Entity e: entityMap.keySet()) {
 			if(e == entity) return entityMap.get(entity);
 		}
-
 		return null;
-
 	}
 	
 	public LivingEntity spawn(SQMCEntity sqmcEntity, Location loc) {
@@ -121,6 +139,16 @@ public class EntityManager implements Runnable, Listener {
 			previousLocation.put(entity, entity.getLocation());
 			currentLocation.put(entity, entity.getLocation());
 		}
+	
+		if(sqmcEntity instanceof CombatStats) {
+			CombatStats cs = (CombatStats) sqmcEntity;
+			entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(cs.getHealth());
+			entity.setHealth(cs.getHealth());
+		}
+		
+		if (sqmcEntity instanceof Anchorable) {
+			anchors.put(entity, loc);	
+		}
 		
 		if(entity instanceof Ageable) {
 			Ageable age = (Ageable) entity;
@@ -128,32 +156,12 @@ public class EntityManager implements Runnable, Listener {
 			if(!sqmcEntity.isBaby()) age.setAdult();
 		}
 		
-		if(sqmcEntity instanceof CombatStats) {
-			CombatStats cs = (CombatStats) sqmcEntity;
-			entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(cs.getHealth());
-			entity.setHealth(cs.getHealth());
-		}
-		
 		queuedLocations.remove(loc);
 		entityMap.put(entity, sqmcEntity);
-		
-		// Anchorable mechanics
-		if (sqmcEntity instanceof Anchorable) spawnpoints.put(entity, loc);
 
 		sqmcEntity.onSpawn(entity);
 		return entity;
 
-	}
-	
-	/* Methods */
-	
-	private boolean alreadySpawned(Location loc) {
-		return spawnpoints.containsValue(loc);	
-	}
-
-	public Location getLocation(Entity e) {
-		if(spawnpoints.containsKey(e)) return spawnpoints.get(e);
-		return null;
 	}
 	
 	// Remove anchored entities on chunk load
@@ -165,8 +173,12 @@ public class EntityManager implements Runnable, Listener {
 
 			SQMCEntity ce = getSQMCEntity(e);
 			if (ce == null) continue;
+			queuedLocations.remove(e);
 			entityMap.remove(e);
-			spawnpoints.remove(e);
+			previousLocation.remove(e);
+			currentLocation.remove(e);
+			lastStruck.remove(e);
+			anchors.remove(e);
 			e.remove();
 			
 		}
@@ -293,25 +305,23 @@ public class EntityManager implements Runnable, Listener {
 		SQMCEntity ce = getSQMCEntity(entity);
 		if(ce == null) return;
 		
-		Location loc = getLocation(entity);
-		if(loc == null) return;
+		Location anchor = getAnchor(entity);
+		if(anchor == null) return;
 		if(ce instanceof Respawnable == false) return;
 		Respawnable respawnable = (Respawnable) ce;
-		if(ce instanceof Anchorable == false) return;
-		Anchorable anchorable = (Anchorable) ce;
-		queuedLocations.add(loc);
+		queuedLocations.add(anchor);
 		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SQMC.getPlugin(SQMC.class), new Runnable() {
 			public void run() {
-				if(!alreadySpawned(loc) && loc.getChunk().isLoaded() && anchorable.getLocations().contains(loc)) {
-					spawn(ce, loc);
+				if(!isAlive(anchor) && anchor.getChunk().isLoaded() && respawnable.getLocations().contains(anchor)) {
+					spawn(ce, anchor);
 				}
 				
 			}
 		}, respawnable.getRespawnDelay());	
 		
 		entityMap.remove(evt.getEntity());
-		spawnpoints.remove(evt.getEntity());
+		anchors.remove(evt.getEntity());
 		
 	}
 	
@@ -395,14 +405,14 @@ public class EntityManager implements Runnable, Listener {
 				
 				if(lastStruck.containsKey(e) || m.getTarget() instanceof Player) continue;
 				
-				Location origin = getLocation(e);
-				if(origin == null) continue;
+				Location anchor = getAnchor(e);
+				if(anchor == null) continue;
 				
 				double x = e.getLocation().getX();
 				double y = e.getLocation().getY();
 				double z = e.getLocation().getZ();
 				
-				Vector v = new Vector(x, y, z).subtract(new Vector(origin.getX(), origin.getY(), origin.getZ()));
+				Vector v = new Vector(x, y, z).subtract(new Vector(anchor.getX(), anchor.getY(), anchor.getZ()));
 				if(v.length() > boundable.getWanderRadius()) {
 					
 					e.teleport(previousLocation.get(e));
@@ -443,7 +453,7 @@ public class EntityManager implements Runnable, Listener {
 				continue;
 
 			for (Location loc : locs) {
-				if(!alreadySpawned(loc) && !queuedLocations.contains(loc)) {
+				if(!isAlive(loc) && !queuedLocations.contains(loc)) {
 					spawn(ce, loc);
 					queuedLocations.remove(loc);
 				}

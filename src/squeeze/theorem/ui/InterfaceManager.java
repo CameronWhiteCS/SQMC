@@ -1,5 +1,6 @@
 package squeeze.theorem.ui;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -45,13 +46,17 @@ public class InterfaceManager implements Listener {
 		if(rawSlot == 45) {
 			player.getOpenInventory().close();
 			return;
-		} else if(rawSlot == 52 && sdat.getUIpage() > 0) {
-			sdat.setUIpage(sdat.getUIpage() - 1);
-			chestInterface.open(player, sdat.getUIpage());
+		} else if(rawSlot == 52) {
+			if(sdat.getUIpage() > 0) {
+				sdat.setUIpage(sdat.getUIpage() - 1);
+				chestInterface.open(player, sdat.getUIpage());	
+			}
 			return;
-		} else if(rawSlot == 53 && sdat.getUIpage() != chestInterface.getPageCount() - 1){
-			sdat.setUIpage(sdat.getUIpage() + 1);
-			chestInterface.open(player, sdat.getUIpage());
+		} else if(rawSlot == 53){
+			if(sdat.getUIpage() != chestInterface.getPageCount()) {
+				sdat.setUIpage(sdat.getUIpage() + 1);
+				chestInterface.open(player, sdat.getUIpage());
+			}
 			return;
 		}
 		

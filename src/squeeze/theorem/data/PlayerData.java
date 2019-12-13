@@ -40,6 +40,7 @@ import squeeze.theorem.item.CombatItem;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.main.SQMC;
 import squeeze.theorem.quest.Quest;
+import squeeze.theorem.recipe.SQMCRecipe;
 import squeeze.theorem.region.Region;
 import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
@@ -447,7 +448,11 @@ public class PlayerData implements CombatStats {
 			Team time = board.registerNewTeam("time");
 			time.addEntry(ChatColor.GREEN + "Time: " + ChatColor.RED);
 			objective.getScore(ChatColor.GREEN + "Time: " + ChatColor.RED).setScore(0);
-
+			
+			Team location = board.registerNewTeam("location");
+			location.addEntry(ChatColor.GREEN + "Loc: " + ChatColor.RED);
+			objective.getScore(ChatColor.GREEN + "Loc: " + ChatColor.RED).setScore(0);
+			
 			getPlayer().setScoreboard(board);
 		} catch(Exception exc) {
 			Bukkit.getLogger().log(Level.SEVERE, String.format("[SQMC] Error initializing scoreboard for player %s (uuid='%s').", getPlayer().getName(), getPlayer().getUniqueId()));
@@ -494,6 +499,12 @@ public class PlayerData implements CombatStats {
 		
 		Team time = board.getTeam("time");
 		time.setSuffix(hours + ":" + String.format("%02d", minutes) + " " + suffix);
+		
+		Team location = board.getTeam("location");
+		int x = getPlayer().getLocation().getBlockX();
+		int y = getPlayer().getLocation().getBlockY();
+		int z = getPlayer().getLocation().getBlockZ();
+		location.setSuffix(String.format("(%s, %s, %s)", x, y, z));
 
 	}
 	

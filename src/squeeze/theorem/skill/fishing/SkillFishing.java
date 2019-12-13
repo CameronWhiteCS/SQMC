@@ -51,48 +51,31 @@ public class SkillFishing extends Skill implements Listener {
 			//Bait check
 			
 			//TODO: Offhand support
-			if(!player.getInventory().containsAtLeast(CustomItem.FEATHER.getItemStack(), 1)) {
-				
+			ItemStack offhand = player.getInventory().getItemInOffHand();
+			CustomItem bait = CustomItem.getCustomItem(offhand);
+			if(bait == null || bait != CustomItem.FEATHER || CustomItem.getCount(offhand) < 1) {
 				player.sendMessage(ChatColor.RED + "You need feathers to go fly fishing.");
 				evt.setCancelled(true);
 				return;
 			}
 			
 			//Fishing rod check
-			
-			if(player.getInventory().getItemInMainHand() == null) {
-				
+			ItemStack mainhand = player.getInventory().getItemInMainHand();
+			if(CustomItem.getCustomItem(mainhand) != CustomItem.FISHING_ROD) {
 				player.sendMessage(ChatColor.RED + "You need a fishing rod to go fly fishing.");
-				evt.setCancelled(true);
-				return;
-			}
-			
-			if(player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-				player.sendMessage(ChatColor.RED + "You need a fishing rod to go fly fishing.");
-				evt.setCancelled(true);
-				return;
-			}
-			
-			if(CustomItem.getCustomItem(player.getInventory().getItemInMainHand()) != CustomItem.FISHING_ROD) {
-				player.sendMessage(ChatColor.RED + "You need a fishing rod to go fly fishing");
 				evt.setCancelled(true);
 				return;
 			}
 			
 			//Fire event
-			
 			evt.setExpToDrop(0);
-			
 			Random RNG = new Random();
-			
 			List<SQMCEntityFish> possibleFish = new ArrayList<SQMCEntityFish>();
 			for(SQMCEntityFish f: SQMCEntityFish.getFish()) {
 				if(f.meetsRequirements(player)) possibleFish.add(f);
 			}
-			
 			SQMCEntityFish fish = possibleFish.get(RNG.nextInt(possibleFish.size()));
 			Bukkit.getPluginManager().callEvent(new SQMCPlayerFishEvent(evt, fish));
-			
 		}
 		
 	}

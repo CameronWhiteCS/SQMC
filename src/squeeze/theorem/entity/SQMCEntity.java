@@ -1,6 +1,11 @@
 package squeeze.theorem.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Villager.Profession;
@@ -78,7 +83,8 @@ public class SQMCEntity {
 	private Profession profession;
 	private boolean passive = false;
 	private CustomItem mainhand, offhand, helmet, chestplate, leggings, boots;
-
+	
+	
 	/* Constructors */
 	public SQMCEntity(String name, EntityType entityType) {
 		setName(name);
@@ -86,7 +92,12 @@ public class SQMCEntity {
 		EntityManager.getInstance().registerEntity(this);
 	}
 
+	
 	/* Setters and getters */
+	
+	public void addSpawnPoint(Location loc)	{
+		
+	}
 	
 	public String getPrefix() {
 		return prefix;

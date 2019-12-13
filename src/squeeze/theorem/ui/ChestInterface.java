@@ -108,10 +108,10 @@ public abstract class ChestInterface {
 		DataManager dataManager = DataManager.getInstance();
 		PlayerData dat = dataManager.getPlayerData(player);
 		SessionData sdat = dat.getSessionData();
-		Inventory inv = getInventory(player);
 		sdat.setChestInterface(this);
-		sdat.setInterfaceInventory(inv);
 		sdat.setUIpage(page);
+		Inventory inv = getInventory(player);
+		sdat.setInterfaceInventory(inv);
 		player.openInventory(inv);
 	}
 	

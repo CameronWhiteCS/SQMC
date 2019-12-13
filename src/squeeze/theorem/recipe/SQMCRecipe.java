@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -780,15 +781,15 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 				sendInsufficientLevelNotice(player, "craft that");
 				player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 			}
-			player.closeInventory();
 			return false;
 		}
 		
 		if (!hasRequiredItems(player)) {
 			if(notify) {
-				sendInsufficientLevelNotice(player, "craft that");
+				player.sendMessage(ChatColor.RED + "You don't have enough materials to craft that.");
 				player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 			}
+			return false;
 		}
 		
 		return true;
@@ -817,7 +818,6 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 			int removed = 0;
 	
 			while (amountToRemove > removed) {
-				//Remove non-substitute
 				
 				for(ItemStack i: player.getInventory().getContents()) {
 					CustomItem ci = CustomItem.getCustomItem(i);
@@ -850,17 +850,12 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 		dat.giveItem(getOutput().getItemStack(getAmount()));
 		player.getWorld().playSound(player.getLocation(), getRecipeType().getSound(), getRecipeType().getVolume(), 0);
 	
-	}//END OF METHOD
-	
+	}
 	
 	public boolean hasRequiredItems(Player player) {
-
 		for (CustomItem input : inputs.keySet()) {
-
 			if(!hasRequiredInput(player, input)) return false;
-
 		}
-
 		return true;
 	}
 	
@@ -873,7 +868,9 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 		for(ItemStack i: player.getInventory().getContents()) {
 			CustomItem ci = CustomItem.getCustomItem(i);
 			if(ci == null) continue;
-			if(ci.equals(input)) totalAvailable += i.getAmount();
+			if(ci.equals(input)) {
+				totalAvailable += CustomItem.getCount(i);
+			}
 		}
 		
 		//Add substitute total
@@ -882,14 +879,16 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 				for(ItemStack i: player.getInventory().getContents()) {
 					CustomItem examined = CustomItem.getCustomItem(i);
 					if(examined == null) continue;
-					if(examined.equals(substitute)) totalAvailable += i.getAmount();
+					if(examined.equals(substitute)) totalAvailable += CustomItem.getCount(i);
 				}
 			}
 		}
 		
-		if(amountRequired > totalAvailable) return false;
-		
-		return true;
+		if(amountRequired > totalAvailable) {
+			return false;	
+		} else {
+			return true;	
+		}
 		
 	}
 

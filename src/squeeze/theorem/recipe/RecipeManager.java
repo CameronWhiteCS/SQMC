@@ -39,12 +39,14 @@ public class RecipeManager implements Runnable, Listener {
 	public void onMove(PlayerMoveEvent evt) {
 		if(evt.isCancelled()) return;
 		DataManager dataManager = DataManager.getInstance();
-		Location craftingLocation = dataManager.getPlayerData(evt.getPlayer().getUniqueId()).getSessionData().getCraftingLocation();
+		Location craftingLocation = dataManager.getPlayerData(evt.getPlayer()).getSessionData().getCraftingLocation();
 		if(craftingLocation == null) return;
 		Location to = evt.getTo();
-		if(craftingLocation.distance(to) < 2) return;
-		PlayerData dat = dataManager.getPlayerData(evt.getPlayer().getUniqueId());
-		if(dat.getSessionData().getRecipe() != null) dat.getSessionData().setRecipe(null);
+		if(craftingLocation.distance(to) >= 2) {
+			PlayerData dat = dataManager.getPlayerData(evt.getPlayer());
+			dat.getSessionData().setRecipe(null);
+			dat.getSessionData().setCraftingLocation(null);
+		}
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)

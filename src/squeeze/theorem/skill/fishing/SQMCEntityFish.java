@@ -24,6 +24,7 @@ import squeeze.theorem.skill.Skill;
 public class SQMCEntityFish extends SQMCEntity implements Lootable, LevelRequirements {
 
 	/*Static fields*/
+	private static List<SQMCEntityFish> fish = new ArrayList<SQMCEntityFish>();
 	public static SQMCEntityFishingSalmon salmon = new SQMCEntityFishingSalmon();
 	public static SQMCEntityFishingCod cod = new SQMCEntityFishingCod();
 	public static SQMCEntityFishingTropicalFish tropicalFish = new SQMCEntityFishingTropicalFish();
@@ -31,17 +32,6 @@ public class SQMCEntityFish extends SQMCEntity implements Lootable, LevelRequire
 	public static SQMCEntityFishingSquid squid = new SQMCEntityFishingSquid();
 	public static SQMCEntityFishingTurtle turtle = new SQMCEntityFishingTurtle();
 	public static SQMCEntityFishingSeaCow seaCow = new SQMCEntityFishingSeaCow();
-	private static List<SQMCEntityFish> fish = new ArrayList<SQMCEntityFish>() {
-		private static final long serialVersionUID = -9136756596120624239L;
-			{
-				add(salmon);
-				add(cod);
-				add(tropicalFish);
-				add(pufferFish);
-				add(squid);
-				add(turtle);
-				add(seaCow);
-			}};
 	
 	/*Fields*/
 	private int levelRequired;
@@ -51,7 +41,7 @@ public class SQMCEntityFish extends SQMCEntity implements Lootable, LevelRequire
 	
 	public SQMCEntityFish(String name, EntityType entityType) {
 		super(name, entityType);
-		
+		fish.add(this);
 	}
 	
 	/*Setters and getters*/
@@ -118,7 +108,7 @@ public class SQMCEntityFish extends SQMCEntity implements Lootable, LevelRequire
 		output.setItemMeta(meta);
 		return output;
 	}
-
+	
 	@Override
 	public Map<Skill, Integer> getRequirements() {
 		HashMap<Skill, Integer> output = new HashMap<Skill, Integer>();

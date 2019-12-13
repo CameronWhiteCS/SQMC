@@ -6,6 +6,7 @@ import java.util.List;
 
 import squeeze.theorem.recipe.RecipeType;
 import squeeze.theorem.recipe.SQMCRecipe;
+import squeeze.theorem.recipe.UIComponentRecipe;
 
 public class UserInterfaceGenericCrafting extends ChestInterface {
 	

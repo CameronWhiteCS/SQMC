@@ -1,4 +1,4 @@
-package squeeze.theorem.ui;
+package squeeze.theorem.recipe;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.data.SessionData;
-import squeeze.theorem.recipe.SQMCRecipe;
+import squeeze.theorem.ui.UIComponent;
 
 public class UIComponentRecipe implements UIComponent {
 
@@ -31,9 +31,13 @@ public class UIComponentRecipe implements UIComponent {
 		SessionData sessionData = playerData.getSessionData();
 		if(sqmcRecipe.canCraft(player, true)) {
 			sessionData.setRecipe(sqmcRecipe);
+			sessionData.setCraftingLocation(player.getLocation());
 			player.sendMessage(ChatColor.GREEN + "You are now crafting " + sqmcRecipe.getOutput().getName() + ChatColor.GREEN + ".");
 			player.closeInventory();
+		} else {
+			player.closeInventory();
 		}
+		
 	}
 
 	public SQMCRecipe getSQMCRecipe() {
