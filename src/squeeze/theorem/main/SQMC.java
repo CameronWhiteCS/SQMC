@@ -37,7 +37,7 @@ public class SQMC extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		ConfigManager.loadConfig();
+		ConfigManager.getInstance().loadConfig();
 		Region.onEnable();
 		DataManager dataManager = DataManager.getInstance();
 		dataManager.loadAllPlayers();
@@ -53,7 +53,7 @@ public class SQMC extends JavaPlugin {
 		
 		DataManager dataManager = DataManager.getInstance();
 		dataManager.saveAllPlayers();
-		ConfigManager.saveConfig();
+		ConfigManager.getInstance().saveConfig();
 		executePendingTasks();
 		
 	}
@@ -139,7 +139,7 @@ public class SQMC extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new NoStack(), this);
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, DataManager.getInstance(), 0, 1);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, RecipeManager.getInstance(), 0, 100);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, RecipeManager.getInstance(), 0, ConfigManager.getInstance().getCraftingDelay());
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, Cooldown.food, 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeMechanics(), 0, 20);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, EntityManager.getInstance(), 0, 5);

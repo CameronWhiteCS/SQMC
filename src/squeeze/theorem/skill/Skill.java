@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
-import squeeze.theorem.skill.fishing.SkillFishing;
 import squeeze.theorem.skill.witchcraft.SkillWitchcraft;
 import squeeze.theorem.ui.ChestInterface;
 
@@ -36,6 +35,7 @@ public abstract class Skill {
 	public static SkillDefense defense = new SkillDefense();
 	public static SkillHitpoints hitpoints = new SkillHitpoints();
 	public static SkillLarceny larceny = new SkillLarceny();
+	public static SkillConjuration conjuration = new SkillConjuration();
 	
 	public Skill() {
 		skills.add(this);

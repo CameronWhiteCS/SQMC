@@ -3,6 +3,7 @@ package squeeze.theorem.animation;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.util.Vector;
 
 public abstract class Animation {
 	
@@ -24,29 +25,6 @@ public abstract class Animation {
 	/*Accessors*/
 	public Particle getParticle() {
 		return this.particle;
-	}
-	
-	//TODO: MOVE
-	/**
-	 *  Creates a circle along the XZ axis 
-	 * @param loc Location for this animation to be played
-	 * @param radius Radius of this circle
-	 * @param step Change in angle between points
-	 * @param particle Particle to be used for this animation
-	 */
-	protected static void xzCircle(Location loc, double radius, double step,
-			Particle particle) {
-
-		for (double i = 0; i <= Math.PI * 2; i += step) {
-
-			double x = Math.cos(i) * radius + loc.getX();
-			double y = loc.getY();
-			double z = Math.sin(i) * radius + loc.getZ();
-			
-			loc.getWorld().spawnParticle(particle, new Location(loc.getWorld(), x, y, z), 0);
-
-		}
-
 	}
 	
 }

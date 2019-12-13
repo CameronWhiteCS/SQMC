@@ -1,11 +1,7 @@
 package squeeze.theorem.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Villager.Profession;
@@ -30,12 +26,18 @@ import squeeze.theorem.entity.volcanis.VolcanisPriestOfMoonti;
 import squeeze.theorem.event.PlayerKillSQMCEntityEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.skill.SQMCEntityFire;
+import squeeze.theorem.skill.conjuration.SaddledHorse;
+import squeeze.theorem.skill.conjuration.SaddledPig;
 
 public class SQMCEntity {
 	
 	/*These exist for the purpose of being accessible when creating dialogue nodes within sub-classes*/
 	protected static DialogueType NPC = DialogueType.NPC;
 	protected static DialogueType PLAYER = DialogueType.PLAYER;
+	
+	//Familiars
+	public static SaddledPig saddledPig = new SaddledPig();
+	public static SaddledHorse saddledHorse = new SaddledHorse();
 	
 	//Fires	
 	public static SQMCEntityFire fireSpruce = new SQMCEntityFire("Spruce fire", CustomItem.SPRUCE_LOG, 1, 11.0, 30 * 20L, 1, 1);

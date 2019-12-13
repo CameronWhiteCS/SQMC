@@ -17,6 +17,7 @@ import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -47,6 +48,7 @@ import squeeze.theorem.main.SQMC;
 import squeeze.theorem.mechanics.Cooldown;
 import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
+import squeeze.theorem.skill.conjuration.Familiar;
 
 public class EntityManager implements Runnable, Listener {
 
@@ -56,7 +58,8 @@ public class EntityManager implements Runnable, Listener {
 	private List<SQMCEntity> entities = new ArrayList<SQMCEntity>();
 	private List<Anchorable> anchorables = new ArrayList<Anchorable>();
 	private List<Boundable> boundables = new ArrayList<Boundable>();
-	public List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
+	private List<SQMCEntityFire> fires = new ArrayList<SQMCEntityFire>();
+	private List<Familiar> familiars = new ArrayList<Familiar>();
 	
 	//Maps for managing entities with specific properties
 	private List<Location> queuedLocations = new ArrayList<Location>();
@@ -90,6 +93,7 @@ public class EntityManager implements Runnable, Listener {
 		if(entity instanceof Anchorable) anchorables.add((Anchorable) entity);
 		if(entity instanceof SQMCEntityFire) fires.add((SQMCEntityFire) entity);
 		if(entity instanceof Boundable) boundables.add((Boundable) entity);
+		if(entity instanceof Familiar) familiars.add((Familiar) entity);
 		entities.add(entity);
 	}
 	
@@ -103,6 +107,10 @@ public class EntityManager implements Runnable, Listener {
 	
 	public List<SQMCEntityFire> getFires() {
 		return fires;
+	}
+	
+	public List<Familiar> getFamiliars(){
+		return this.familiars;
 	}
 	
 	public SQMCEntity getSQMCEntity(Entity entity) {
@@ -265,7 +273,9 @@ public class EntityManager implements Runnable, Listener {
 			Cooldown.pickpocketing.addPlayer(player.getUniqueId(), pickpocketable.getCooldown(player));
 		}
 
-		evt.setCancelled(true);
+		if(cust instanceof Familiar == false && entity.getType() != EntityType.PIG) {
+			evt.setCancelled(true);	
+		}
 
 	}
 	

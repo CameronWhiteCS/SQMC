@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.fishing;
+package squeeze.theorem.skill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.event.SQMCPlayerFishEvent;
 import squeeze.theorem.item.CustomItem;
-import squeeze.theorem.skill.Skill;
+import squeeze.theorem.skill.fishing.SQMCEntityFish;
 import squeeze.theorem.ui.ChestInterface;
 
 //TODO Clean up some methods

@@ -226,6 +226,9 @@ public class CustomItem implements Listener {
 	public static final CustomItem SPIDER_EYE = new CustomItem(701, "Spider eye", Material.SPIDER_EYE, "");
 	public static final CustomItem ROTTEN_FLESH = new CustomItem(702, "Rotten flesh", Material.ROTTEN_FLESH, "Could use some salt");
 	
+	/*Conjuration*/
+	public static final CustomItem CARROT_ON_STICK = new CustomItem(801, "Carrot on a stick", Material.CARROT_ON_A_STICK, "So close, yet so far away");
+	
 	/* Constructors */
 	/**
 	 * 

@@ -44,6 +44,7 @@ public abstract class ChestInterface {
 	public static ChestInterface skillguideWitchcraft = new UserInterfaceSkillguideWitchcraft("Witchcraft");
 	public static ChestInterface skillguideWoodcutting = new UserInterfaceSkillguideWoodcutting("Woodcutting");
 	public static ChestInterface skillguideLarceny = new UserInterfaceSkillguideLarceny("Larceny");
+	public static ChestInterface skillguideConjuration = new UserInterfaceSkillguideConjuration("Conjuration");
 	public static ChestInterface bank = new UserInterfaceBank();
 	
 	/*Fields*/

@@ -45,11 +45,11 @@ public class DataManager implements Listener, Runnable {
 	private Map<UUID, PlayerData> prelogin = new ConcurrentHashMap<UUID, PlayerData>();
 	
 	private final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
-	private final String HOST = ConfigManager.getMysqlHost();
-	private final int PORT = ConfigManager.getMysqlPort();
-	private final String USERNAME = ConfigManager.getMysqlUser();
-	private final String PASSWORD = ConfigManager.getMysqlPassword();
-	private final String DATABASE = ConfigManager.getMysqlDatabase();
+	private final String HOST = ConfigManager.getInstance().getMysqlHost();
+	private final int PORT = ConfigManager.getInstance().getMysqlPort();
+	private final String USERNAME = ConfigManager.getInstance().getMysqlUser();
+	private final String PASSWORD = ConfigManager.getInstance().getMysqlPassword();
+	private final String DATABASE = ConfigManager.getInstance().getMysqlDatabase();
 	private final String URL = String.format("jdbc:mysql://%s:%s/%s?useSSL=false", HOST, PORT, DATABASE);
 	
 	/*Creates necessary MySQL tables if not present*/
@@ -59,7 +59,7 @@ public class DataManager implements Listener, Runnable {
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS playerdata (uuid VARCHAR(64) NOT NULL PRIMARY KEY, balance INT NOT NULL DEFAULT 0);");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS settings (uuid VARCHAR(64) NOT NULL PRIMARY KEY, spellbook VARCHAR(64) NOT NULL DEFAULT \"spellbook.default\", combatmode VARCHAR(64) NOT NULL DEFAULT \"aggressive\", hud TINYINT(1) NOT NULL DEFAULT 1, music TINYINT(1) NOT NULL DEFAULT 1, xpbars TINYINT(1) NOT NULL DEFAULT 1);");
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS skills(uuid VARCHAR(64) NOT NULL PRIMARY KEY, mining DOUBLE NOT NULL DEFAULT 0, smithing DOUBLE NOT NULL DEFAULT 0, woodcutting DOUBLE NOT NULL DEFAULT 0, firemaking DOUBLE NOT NULL DEFAULT 0, fishing DOUBLE NOT NULL DEFAULT 0, cooking DOUBLE NOT NULL DEFAULT 0, strength DOUBLE NOT NULL DEFAULT 0, ranged DOUBLE NOT NULL DEFAULT 0, witchcraft DOUBLE NOT NULL DEFAULT 0, defense DOUBLE NOT NULL DEFAULT 0, hitpoints DOUBLE NOT NULL DEFAULT 0, larceny DOUBLE NOT NULL DEFAULT 0);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS skills(uuid VARCHAR(64) NOT NULL PRIMARY KEY, mining DOUBLE NOT NULL DEFAULT 0, smithing DOUBLE NOT NULL DEFAULT 0, woodcutting DOUBLE NOT NULL DEFAULT 0, firemaking DOUBLE NOT NULL DEFAULT 0, fishing DOUBLE NOT NULL DEFAULT 0, cooking DOUBLE NOT NULL DEFAULT 0, strength DOUBLE NOT NULL DEFAULT 0, ranged DOUBLE NOT NULL DEFAULT 0, witchcraft DOUBLE NOT NULL DEFAULT 0, defense DOUBLE NOT NULL DEFAULT 0, hitpoints DOUBLE NOT NULL DEFAULT 0, larceny DOUBLE NOT NULL DEFAULT 0, conjuration DOUBLE NOT NULL DEFAULT 0);");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS vanilladata(uuid VARCHAR(64) NOT NULL PRIMARY KEY, x DOUBLE NOT NULL DEFAULT 0, y DOUBLE NOT NULL DEFAULT 0, z DOUBLE NOT NULL DEFAULT 0, pitch FLOAT NOT NULL DEFAULT 0, yaw FLOAT NOT NULL DEFAULT 0, health DOUBLE NOT NULL DEFAULT 1, foodlevel INT NOT NULL DEFAULT 20, air INT NOT NULL DEFAULT 10, fireticks INT NOT NULL DEFAULT 0, falldistance FLOAT NOT NULL DEFAULT 0, world VARCHAR(64) NOT NULL DEFAULT \"world\");");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS inventory(uuid VARCHAR(64) NOT NULL, id INT NOT NULL, slot INT NOT NULL, amount INT NOT NULL);");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS flags(uuid VARCHAR(64) NOT NULL, flag VARCHAR(255) NOT NULL);");
@@ -273,7 +273,7 @@ public class DataManager implements Listener, Runnable {
 			statement.executeUpdate(query);
 			
 			/*Skills*/
-			query = "INSERT IGNORE INTO skills(uuid, mining, smithing, woodcutting, firemaking, fishing, cooking, strength, ranged, witchcraft, defense, hitpoints, larceny) VALUES('$UUID', $MINING, $SMITHING, $WOODCUTTING, $FIREMAKING, $FISHING, $COOKING, $STRENGTH, $RANGED, $WITCHCRAFT, $DEFENSE, $HITPOINTS, $LARCENY);";
+			query = "INSERT IGNORE INTO skills(uuid, mining, smithing, woodcutting, firemaking, fishing, cooking, strength, ranged, witchcraft, defense, hitpoints, larceny, conjuration) VALUES('$UUID', $MINING, $SMITHING, $WOODCUTTING, $FIREMAKING, $FISHING, $COOKING, $STRENGTH, $RANGED, $WITCHCRAFT, $DEFENSE, $HITPOINTS, $LARCENY, $CONJURATION);";
 			for(Skill s: Skill.getSkills()) {
 				String st = "$" + s.getName().toUpperCase();
 				query = query.replace(st, dat.getXP(s) + "");

@@ -18,34 +18,24 @@ public interface LevelRequirements {
 	}
 	
 	public default ArrayList<String> getLevelRequirementLore(Player player){
-	
 		ArrayList<String> lore = new ArrayList<String>();
-		
 		for(Skill s: getRequirements().keySet()) {
-			
 			lore.add(getLevelRequirementLore(player, s));
-			
 		}
-		
 		return lore;
-		
 	}
 	
 	public default String getLevelRequirementLore(Player player, Skill skill){
-		
 		DataManager dataManager = DataManager.getInstance();
 		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
-			
 		if (dat.getLevel(skill) >= getLevelRequired(skill)) {
 			return ChatColor.GREEN + "Level " + getLevelRequired(skill) + " " + skill.getProperName() + " \u2713";
 		} else {
 			return ChatColor.RED + "Level " + getLevelRequired(skill) + " " + skill.getProperName() + " \u2715";
 		}
-		
 	}
 	
 	public default boolean meetsRequirements(Player player) {
-		
 		DataManager dataManager = DataManager.getInstance();
 		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		for(Skill s: getRequirements().keySet()) {
@@ -53,7 +43,6 @@ public interface LevelRequirements {
 				return false;
 			}
 		}
-		
 		return true;
 	}
 	

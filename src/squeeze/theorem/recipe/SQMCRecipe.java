@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -29,7 +28,6 @@ import org.json.JSONObject;
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.data.SessionData;
-import squeeze.theorem.event.SQMCRecipeEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.main.SQMC;
 import squeeze.theorem.skill.LevelRequirements;
@@ -40,8 +38,9 @@ import squeeze.theorem.skill.cooking.recipe.RecipeCookedSalmon;
 import squeeze.theorem.skill.cooking.recipe.RecipeCookedSquid;
 import squeeze.theorem.skill.cooking.recipe.RecipeCookedTropicalFish;
 import squeeze.theorem.ui.ChestInterface;
+import squeeze.theorem.ui.UIComponent;
 
-public class SQMCRecipe implements Listener, LevelRequirements {
+public class SQMCRecipe implements Listener, LevelRequirements, UIComponent  {
 
 	/* Static fields */
 
@@ -696,7 +695,25 @@ public class SQMCRecipe implements Listener, LevelRequirements {
 		return this.recipeType;
 	}
 
-	public ItemStack getUIItemStack(Player player) {
+	@Override
+	public void onClick(InventoryClickEvent evt) {
+		DataManager dataManager = DataManager.getInstance();
+		Player player = (Player) evt.getWhoClicked();
+		PlayerData playerData = dataManager.getPlayerData(player);
+		SessionData sessionData = playerData.getSessionData();
+		if(canCraft(player, true)) {
+			sessionData.setRecipe(this);
+			sessionData.setCraftingLocation(player.getLocation());
+			player.sendMessage(ChatColor.GREEN + "You are now crafting " + getOutput().getName() + ChatColor.GREEN + ".");
+			player.closeInventory();
+		} else {
+			player.closeInventory();
+		}
+		
+	}
+	
+	@Override
+	public ItemStack getItemStack(Player player) {
 		ItemStack output = new ItemStack(getOutput().getItemStack().getType());
 		
 		for(Enchantment e: getOutput().getEnchantments().keySet()) {
