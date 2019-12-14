@@ -16,19 +16,23 @@ import squeeze.theorem.item.CustomItem;
 
 public class NoStack implements Runnable, Listener {
 
+	private static NoStack instance = new NoStack();
+	
+	private NoStack() {
+		
+	}
+	
 	@Override
 	public void run() {
-
-		
 		for(Player player: Bukkit.getOnlinePlayers()) {
 			noStack(player);
 			infStack(player);
 		}
-
 	}
 	
+	
 	/*NoStack methods*/
-	private static void noStack(Player player) {
+	private void noStack(Player player) {
 		//List of overflow items
 		List<ItemStack> toGive = new ArrayList<ItemStack>();
 		
@@ -59,7 +63,7 @@ public class NoStack implements Runnable, Listener {
 		
 	}
 	
-	private static void giveItem(ItemStack stack, Player player) {
+	private void giveItem(ItemStack stack, Player player) {
 		
 		for(int i = 0; i <= 35; i++) {
 			
@@ -76,7 +80,7 @@ public class NoStack implements Runnable, Listener {
 	}
 	
 	/*InfStack methods*/
-	private static void infStack(Player player) {
+	private void infStack(Player player) {
 		Inventory inv = player.getInventory();
 		for (int i = 0; i <= 40; i++) {
 			ItemStack stack = inv.getItem(i);
@@ -91,7 +95,7 @@ public class NoStack implements Runnable, Listener {
 		}
 	}
 
-	private static int getStacks(CustomItem customItem, Inventory inv) {
+	private int getStacks(CustomItem customItem, Inventory inv) {
 		int output = 0;
 		for (int i = 0; i <= 40; i++) {
 			CustomItem ci = CustomItem.getCustomItem(inv.getItem(i));
@@ -100,7 +104,7 @@ public class NoStack implements Runnable, Listener {
 		return output;
 	}
 	
-	private static int getTotalCount(CustomItem customItem, Inventory inv) {
+	private int getTotalCount(CustomItem customItem, Inventory inv) {
 		int output = 0;
 		for (int i = 0; i <= 40; i++) {
 			CustomItem ci = CustomItem.getCustomItem(inv.getItem(i));
@@ -110,7 +114,7 @@ public class NoStack implements Runnable, Listener {
 		return output;
 	}
 	
-	private static void removeAll(CustomItem customItem, Inventory inv) {
+	private void removeAll(CustomItem customItem, Inventory inv) {
 		for(int i = 0; i <= 40; i++) {
 			CustomItem ci = CustomItem.getCustomItem(inv.getItem(i));
 			if(ci != customItem) continue;
@@ -120,13 +124,15 @@ public class NoStack implements Runnable, Listener {
 
 	/*Events*/
 	@EventHandler
-	private static void onPickup(EntityPickupItemEvent evt) {
-		
+	private void onPickup(EntityPickupItemEvent evt) {
 		if(evt.getEntity() instanceof Player == false) return;
-		
 		Player player = (Player) evt.getEntity();
 		if(player.getInventory().firstEmpty() == -1) evt.setCancelled(true);
 		
+	}
+	
+	public static NoStack getInstance() {
+		return instance;
 	}
 
 }

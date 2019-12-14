@@ -73,7 +73,7 @@ public class SkillWitchcraft extends Skill implements Listener, Runnable {
 		if(evt.isCancelled()) return;
 		if(evt.getDamager() instanceof Snowball == false) return;
 		Projectile proj = (Projectile) evt.getDamager();
-		Spell spell = CombatManager.getSpell(proj);
+		Spell spell = CombatManager.getInstance().getSpell(proj);
 		if(spell == null) return;
 		if(spell instanceof SpellProjectile) {
 			((SpellProjectile) spell).onHit(proj, evt.getEntity());
@@ -91,7 +91,7 @@ public class SkillWitchcraft extends Skill implements Listener, Runnable {
 		
 		for(World w: Bukkit.getWorlds()) {
 			for(Projectile proj: w.getEntitiesByClass(Projectile.class)) {
-				Spell spell = CombatManager.getSpell(proj);
+				Spell spell = CombatManager.getInstance().getSpell(proj);
 				if(spell == null) continue;
 				if(spell instanceof SpellProjectile == false) continue;
 				((SpellProjectile) spell).animate(proj.getLocation());

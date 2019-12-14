@@ -16,6 +16,7 @@ import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
 import squeeze.theorem.recipe.RecipeType;
+import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 import squeeze.theorem.ui.ChestInterface;
 
 public class SkillCooking extends Skill implements Listener, Runnable {

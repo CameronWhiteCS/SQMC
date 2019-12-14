@@ -1,4 +1,4 @@
-package squeeze.theorem.skill;
+package squeeze.theorem.skill.woodcutting;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,6 +26,7 @@ import squeeze.theorem.event.TreeChopEvent;
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemAxe;
 import squeeze.theorem.main.SQMC;
+import squeeze.theorem.skill.Skill;
 import squeeze.theorem.ui.ChestInterface;
 
 public class SkillWoodcutting extends Skill implements Listener {
@@ -182,7 +183,7 @@ public class SkillWoodcutting extends Skill implements Listener {
 		Queue<Location> queue = new LinkedList<Location>();
 		queue.add(loc);
 		
-		while(!queue.isEmpty()) {
+		while(!queue.isEmpty() && queue.size() < 1000) {
 			Location current = queue.remove();
 			for(int i = -1; i <= 1; i++) {
 				for(int j = -1; j <= 1; j++) {

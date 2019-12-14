@@ -7,7 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import squeeze.theorem.skill.SQMCEntityFire;
+import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 
 public class FireLightEvent extends Event implements Cancellable {
 

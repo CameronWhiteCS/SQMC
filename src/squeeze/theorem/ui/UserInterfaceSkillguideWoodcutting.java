@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemAxe;
-import squeeze.theorem.skill.Tree;
+import squeeze.theorem.skill.woodcutting.Tree;
 
 public class UserInterfaceSkillguideWoodcutting extends ChestInterface {
 

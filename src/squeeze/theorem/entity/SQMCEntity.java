@@ -25,9 +25,9 @@ import squeeze.theorem.entity.uppkomst.UppkomstPriestOfMoonti;
 import squeeze.theorem.entity.volcanis.VolcanisPriestOfMoonti;
 import squeeze.theorem.event.PlayerKillSQMCEntityEvent;
 import squeeze.theorem.item.CustomItem;
-import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.conjuration.SaddledHorse;
 import squeeze.theorem.skill.conjuration.SaddledPig;
+import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 
 public class SQMCEntity {
 	

@@ -42,8 +42,8 @@ import squeeze.theorem.main.SQMC;
 import squeeze.theorem.quest.Quest;
 import squeeze.theorem.recipe.SQMCRecipe;
 import squeeze.theorem.region.Region;
-import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
+import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 import squeeze.theorem.skill.witchcraft.Spellbook;
 
 public class PlayerData implements CombatStats {

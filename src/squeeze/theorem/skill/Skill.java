@@ -15,7 +15,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.data.DataManager;
 import squeeze.theorem.data.PlayerData;
+import squeeze.theorem.skill.firemaking.SkillFiremaking;
+import squeeze.theorem.skill.mining.SkillMining;
 import squeeze.theorem.skill.witchcraft.SkillWitchcraft;
+import squeeze.theorem.skill.woodcutting.SkillWoodcutting;
 import squeeze.theorem.ui.ChestInterface;
 
 public abstract class Skill {

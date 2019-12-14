@@ -1,4 +1,4 @@
-package squeeze.theorem.skill.cooking.recipe;
+package squeeze.theorem.skill.cooking;
 
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.recipe.RecipeType;

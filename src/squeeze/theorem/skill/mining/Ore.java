@@ -1,16 +1,24 @@
-package squeeze.theorem.skill;
+package squeeze.theorem.skill.mining;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.item.CustomItem;
+import squeeze.theorem.skill.LevelRequirements;
+import squeeze.theorem.skill.Resource;
+import squeeze.theorem.skill.Skill;
+import squeeze.theorem.ui.UIComponent;
 
 //TODO: Implement ore failure rates
-public class Ore implements Resource{
+public class Ore implements Resource, LevelRequirements, UIComponent {
 	
 	private static ArrayList<Ore> ores = new ArrayList<Ore>();
 	public static ArrayList<Ore> getOres(){
@@ -128,10 +136,41 @@ public class Ore implements Resource{
 		
 	}
 
+	public static Ore getOreByMaterial(Material m) {
+		for(Ore o: ores) {
+			if(o.getMaterial() == m)
+				return o;
+		}
+		return null;
+	}
+	
 	@Override
 	public int getLevelRequired(Skill s) {
 		return requirements.get(s);
 	}
-	
+
+	@Override
+	public ItemStack getItemStack(Player player) {
+		ItemStack stack = new ItemStack(this.material);
+		ItemMeta meta = stack.getItemMeta();
+		meta.setDisplayName(ChatColor.GOLD + this.name);
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "=======");
+		lore.addAll(this.getLevelRequirementLore(player));
+		lore.add(ChatColor.GRAY + "=======");
+		lore.add(ChatColor.DARK_PURPLE + "Tier: " + this.tier);
+		lore.add(ChatColor.DARK_PURPLE + "XP: " + this.XP);
+		lore.add(ChatColor.DARK_PURPLE + "Success rate: " + this.successRate + "%");
+		lore.add(ChatColor.DARK_PURPLE + "Respawn time: " + this.respawnDelay / 20 + "s");
+		lore.add(ChatColor.DARK_PURPLE + "Vein: " + this.vein);
+		meta.setLore(lore);
+		stack.setItemMeta(meta);
+		return stack;
+	}
+
+	@Override
+	public void onClick(InventoryClickEvent evt) {
+
+	}
 	
 }

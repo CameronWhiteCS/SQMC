@@ -60,9 +60,9 @@ public class SpellProjectile extends Spell implements CombatSpell {
 		WitherSkull skull = projectileSource.launchProjectile(WitherSkull.class);
 		skull.setIsIncendiary(false);
 		skull.setVelocity(e.getLocation().getDirection().multiply(0.5));
-		CombatManager.setAccuracy(skull, cs.getAccuracy(AttackStyle.MAGIC) + getAccuracy());
-		CombatManager.setStrength(skull, cs.getStrength(AttackStyle.MAGIC) + getDamage());
-		CombatManager.setSpell(skull, this);
+		CombatManager.getInstance().setAccuracy(skull, cs.getAccuracy(AttackStyle.MAGIC) + getAccuracy());
+		CombatManager.getInstance().setStrength(skull, cs.getStrength(AttackStyle.MAGIC) + getDamage());
+		CombatManager.getInstance().setSpell(skull, this);
 
 		
 		PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(new int[] {skull.getEntityId()});

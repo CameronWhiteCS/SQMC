@@ -1,6 +1,6 @@
 package squeeze.theorem.event;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import squeeze.theorem.item.CustomItemPickaxe;
-import squeeze.theorem.skill.Ore;
+import squeeze.theorem.skill.mining.Ore;
 
 public class OreMineEvent extends Event implements Cancellable {
 
@@ -20,11 +20,11 @@ public class OreMineEvent extends Event implements Cancellable {
 	private Player player;
 	private Ore ore;
 	private CustomItemPickaxe pickaxe;
-	private ConcurrentHashMap<Location, Material> blocks;
+	private Map<Location, Material> blocks;
 	private double XP;
 	
 	
-	public OreMineEvent(Player player, Ore ore, ConcurrentHashMap<Location, Material> blocks, CustomItemPickaxe pickaxe) {
+	public OreMineEvent(Player player, Ore ore, Map<Location, Material> blocks, CustomItemPickaxe pickaxe) {
 		setPlayer(player);
 		setOre(ore);
 		setPickaxe(pickaxe);
@@ -76,11 +76,11 @@ public class OreMineEvent extends Event implements Cancellable {
 		this.pickaxe = pickaxe;
 	}
 
-	public ConcurrentHashMap<Location, Material> getBlocks() {
+	public Map<Location, Material> getBlocks() {
 		return this.blocks;
 	}
 
-	public void setBlocks(ConcurrentHashMap<Location, Material> blocks) {
+	public void setBlocks(Map<Location, Material> blocks) {
 		this.blocks = blocks;
 	}
 

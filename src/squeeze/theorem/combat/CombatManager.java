@@ -33,21 +33,21 @@ import squeeze.theorem.skill.witchcraft.Spell;
 public class CombatManager implements Listener, Runnable {
 
 	private static CombatManager instance = new CombatManager();
-	private static AnimationSphere blocked = new AnimationSphere(Particle.DAMAGE_INDICATOR, 2, Math.PI / 4);
+	private AnimationSphere blocked = new AnimationSphere(Particle.DAMAGE_INDICATOR, 2, Math.PI / 4);
 	
 	private CombatManager() {
 		
 	}
 	
 	/*Static fields*/
-	private static Map<Projectile, Double> strength = new ConcurrentHashMap<Projectile, Double>();
-	private static Map<Projectile, Double> accuracy = new ConcurrentHashMap<Projectile, Double>();
-	private static Map<Projectile, Double> multiplier = new ConcurrentHashMap<Projectile, Double>();
-	private static Map<Projectile, Spell> spell = new ConcurrentHashMap<Projectile, Spell>();
+	private Map<Projectile, Double> strength = new ConcurrentHashMap<Projectile, Double>();
+	private Map<Projectile, Double> accuracy = new ConcurrentHashMap<Projectile, Double>();
+	private Map<Projectile, Double> multiplier = new ConcurrentHashMap<Projectile, Double>();
+	private Map<Projectile, Spell> spell = new ConcurrentHashMap<Projectile, Spell>();
 	
 	/*Primary method*/
 	@EventHandler(priority = EventPriority.LOW)
-	public static void onDamage(EntityDamageByEntityEvent evt) {
+	public void onDamage(EntityDamageByEntityEvent evt) {
 		
 		/* Rule out immediately invalid damage events */
 		if(evt.isCancelled()) return;
@@ -175,7 +175,7 @@ public class CombatManager implements Listener, Runnable {
 	}
 	
 	/*Calculation methods*/
-	private static double getAccuracy(AttackStyle style, Entity damager, Entity damagee, Projectile projectile) {
+	private double getAccuracy(AttackStyle style, Entity damager, Entity damagee, Projectile projectile) {
 
 		if (projectile == null) {
 
@@ -201,7 +201,7 @@ public class CombatManager implements Listener, Runnable {
 
 	}
 
-	private static double getDamage(AttackStyle style, Entity damager, Entity damagee, Projectile projectile, EntityDamageByEntityEvent evt) {
+	private double getDamage(AttackStyle style, Entity damager, Entity damagee, Projectile projectile, EntityDamageByEntityEvent evt) {
 
 		if(evt.getCause() == DamageCause.ENTITY_SWEEP_ATTACK) return 1;
 		
@@ -235,7 +235,7 @@ public class CombatManager implements Listener, Runnable {
 
 	}
 
-	private static double getDefense(AttackStyle style, Entity damagee) {
+	private double getDefense(AttackStyle style, Entity damagee) {
 
 		if (damagee instanceof Player) {
 			DataManager dataManager = DataManager.getInstance();
@@ -253,7 +253,7 @@ public class CombatManager implements Listener, Runnable {
 
 	}
 
-	private static Projectile getProjectile(EntityDamageByEntityEvent evt) {
+	private Projectile getProjectile(EntityDamageByEntityEvent evt) {
 
 		if (evt.getDamager() instanceof Projectile)
 			return (Projectile) evt.getDamager();
@@ -261,7 +261,7 @@ public class CombatManager implements Listener, Runnable {
 		return null;
 	}
 
-	private static Entity getDamager(EntityDamageByEntityEvent evt) {
+	private Entity getDamager(EntityDamageByEntityEvent evt) {
 
 		if (evt.getDamager() instanceof Projectile) {
 
@@ -277,7 +277,7 @@ public class CombatManager implements Listener, Runnable {
 		return evt.getDamager();
 	}
 
-	private static AttackStyle getAttackStyle(EntityDamageByEntityEvent evt) {
+	private AttackStyle getAttackStyle(EntityDamageByEntityEvent evt) {
 
 		if(evt.getCause() == DamageCause.MAGIC || evt.getDamager() instanceof WitherSkull) return AttackStyle.MAGIC;
 		
@@ -288,25 +288,25 @@ public class CombatManager implements Listener, Runnable {
 	}
 	
 	/*Projectile manipulation methods*/
-	public static void setAccuracy(Projectile proj, double value) {
+	public void setAccuracy(Projectile proj, double value) {
 		accuracy.put(proj, value);
 	}
 
-	public static double getAccuracy(Projectile proj) {
+	public double getAccuracy(Projectile proj) {
 		if (accuracy.containsKey(proj)) return accuracy.get(proj);
 		return 0;
 	}
 
-	public static void setStrength(Projectile proj, double value) {
+	public void setStrength(Projectile proj, double value) {
 		strength.put(proj, value);
 	}
 
-	public static double getStrength(Projectile proj) {
+	public double getStrength(Projectile proj) {
 		if (strength.containsKey(proj)) return strength.get(proj);
 		return 0;
 	}
 
-	public static void addMultiplier(Projectile proj, Double value) {
+	public void addMultiplier(Projectile proj, Double value) {
 		if(multiplier.containsKey(proj)) {
 			multiplier.put(proj, multiplier.get(proj) * value);
 		} else {
@@ -314,17 +314,17 @@ public class CombatManager implements Listener, Runnable {
 		}
 	}
 	
-	public static double getMultiplier(Projectile proj) {
+	public double getMultiplier(Projectile proj) {
 		if(proj == null) return 1;
 		if (multiplier.containsKey(proj)) return multiplier.get(proj);
 		return 1;
 	}
 	
-	public static void setSpell(Projectile proj, Spell value) {
+	public void setSpell(Projectile proj, Spell value) {
 		spell.put(proj, value);
 	}
 
-	public static Spell getSpell(Projectile proj) {
+	public Spell getSpell(Projectile proj) {
 		if (spell.containsKey(proj)) return spell.get(proj);
 		return null;
 	}

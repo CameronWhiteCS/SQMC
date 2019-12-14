@@ -93,8 +93,9 @@ public class CombatItem extends CustomItem implements CombatStats, LevelRequirem
 		return wand;
 	}
 
-	public void setWand(boolean wand) {
+	public CombatItem setWand(boolean wand) {
 		this.wand = wand;
+		return this;
 	}
 	
 	public boolean isTwoHanded() {

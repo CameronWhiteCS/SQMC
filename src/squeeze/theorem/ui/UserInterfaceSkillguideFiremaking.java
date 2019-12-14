@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.entity.EntityManager;
 import squeeze.theorem.entity.SQMCEntity;
-import squeeze.theorem.skill.SQMCEntityFire;
+import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 
 public class UserInterfaceSkillguideFiremaking extends ChestInterface {
 

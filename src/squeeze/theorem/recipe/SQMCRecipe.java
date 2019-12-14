@@ -32,11 +32,11 @@ import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.main.SQMC;
 import squeeze.theorem.skill.LevelRequirements;
 import squeeze.theorem.skill.Skill;
-import squeeze.theorem.skill.cooking.recipe.RecipeCookedCod;
-import squeeze.theorem.skill.cooking.recipe.RecipeCookedPufferfish;
-import squeeze.theorem.skill.cooking.recipe.RecipeCookedSalmon;
-import squeeze.theorem.skill.cooking.recipe.RecipeCookedSquid;
-import squeeze.theorem.skill.cooking.recipe.RecipeCookedTropicalFish;
+import squeeze.theorem.skill.cooking.RecipeCookedCod;
+import squeeze.theorem.skill.cooking.RecipeCookedPufferfish;
+import squeeze.theorem.skill.cooking.RecipeCookedSalmon;
+import squeeze.theorem.skill.cooking.RecipeCookedSquid;
+import squeeze.theorem.skill.cooking.RecipeCookedTropicalFish;
 import squeeze.theorem.ui.ChestInterface;
 import squeeze.theorem.ui.UIComponent;
 
@@ -73,485 +73,92 @@ public class SQMCRecipe implements Listener, LevelRequirements, UIComponent  {
 		}});
 		
 	}};
-
-	/*Tier 1 smithing recipes*/
 	
-	public static SQMCRecipe WOODEN_SHOVEL = fromFile("wooden-shovel");
-	public static SQMCRecipe WOODEN_HOE = fromFile("wooden-hoe");
-	public static SQMCRecipe WOODEN_SWORD = fromFile("wooden-sword");
-	public static final SQMCRecipe WOODEN_AXE = fromFile("wooden-axe");
-	public static final SQMCRecipe WOODEN_PICKAXE = fromFile("wooden-pickaxe");
-	
-	
-	public static SQMCRecipe LEATHER_BOOTS = fromFile("leather-boots");
-	public static SQMCRecipe LEATHER_HELMET = fromFile("leather-helmet");
-	public static SQMCRecipe LEATHER_LEGGINGS = fromFile("leather-leggings");
-	public static SQMCRecipe LEATHER_CHESTPLATE = fromFile("leather-chestplate");
-
-	
-	/*Tier 2 smithing recipes*/
-	
-	public static SQMCRecipe COBBLESTONE_SHOVEL = fromFile("cobblestone-shovel");
-	public static SQMCRecipe COBBLESTONE_HOE = fromFile("cobblestone-hoe");
-	public static SQMCRecipe COBBLESTONE_SWORD = fromFile("cobblestone-sword");
-	public static final SQMCRecipe COBBLESTONE_AXE = fromFile("cobblestone-axe");
-	public static final SQMCRecipe COBBLESTONE_PICKAXE = fromFile("cobblestone-pickaxe");
-	
-	public static SQMCRecipe HARD_LEATHER_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.HARD_LEATHER_BOOTS)
-			.addRequirement(Skill.smithing, 16)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 4)
-			.addInput(CustomItem.IRON_NUGGET, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe HARD_LEATHER_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.HARD_LEATHER_HELMET)
-			.addRequirement(Skill.smithing, 17)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 5)
-			.addInput(CustomItem.IRON_NUGGET, 5)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe HARD_LEATHER_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.HARD_LEATHER_LEGGINGS)
-			.addRequirement(Skill.smithing, 18)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 7)
-			.addInput(CustomItem.IRON_NUGGET, 7)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe HARD_LEATHER_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.HARD_LEATHER_CHESTPLATE)
-			.addRequirement(Skill.smithing, 19)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.LEATHER, 8)
-			.addInput(CustomItem.IRON_NUGGET, 8)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-
-	/*Tier 3 smithing recipes*/
-	
-	public static final SQMCRecipe STONE_PICKAXE = new SQMCRecipe()
-			.setOutput(CustomItem.STONE_PICKAXE)
-			.addRequirement(Skill.smithing, 21)
-			.setXP(Skill.smithing, 2.0)
-			.addInput(CustomItem.STONE, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static final SQMCRecipe STONE_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.STONE_SWORD)
-			.addRequirement(Skill.smithing, 22)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STONE, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STONE_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.STONE_AXE)
-			.addRequirement(Skill.smithing, 23)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STONE, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STONE_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.STONE_SHOVEL)
-			.addRequirement(Skill.smithing, 24)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STONE, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STONE_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.STONE_HOE)
-			.addRequirement(Skill.smithing, 25)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STONE, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe CHAINMAIL_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.CHAINMAIL_BOOTS)
-			.addRequirement(Skill.smithing, 26)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_NUGGET, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe CHAINMAIL_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.CHAINMAIL_HELMET)
-			.addRequirement(Skill.smithing, 27)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_NUGGET, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe CHAINMAIL_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.CHAINMAIL_LEGGINGS)
-			.addRequirement(Skill.smithing, 28)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_NUGGET, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe CHAINMAIL_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.CHAINMAIL_CHESTPLATE)
-			.addRequirement(Skill.smithing, 29)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_NUGGET, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	/*Tier 4 smithing recipes*/
-	
-	public static final SQMCRecipe IRON_PICKAXE = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_PICKAXE)
-			.addRequirement(Skill.smithing, 31)
-			.setXP(Skill.smithing, 2.0)
-			.addInput(CustomItem.IRON_INGOT, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static final SQMCRecipe IRON_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_SWORD)
-			.addRequirement(Skill.smithing, 32)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRON_INGOT, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRON_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_AXE)
-			.addRequirement(Skill.smithing, 33)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRON_INGOT, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRON_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_SHOVEL)
-			.addRequirement(Skill.smithing, 34)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRON_INGOT, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRON_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_HOE)
-			.addRequirement(Skill.smithing, 35)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRON_INGOT, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRON_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_BOOTS)
-			.addRequirement(Skill.smithing, 36)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRON_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_HELMET)
-			.addRequirement(Skill.smithing, 37)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRON_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_LEGGINGS)
-			.addRequirement(Skill.smithing, 38)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRON_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_CHESTPLATE)
-			.addRequirement(Skill.smithing, 39)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRON_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	/*Tier 5 smithing recipes */
-	
-	public static final SQMCRecipe STEEL_PICKAXE = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_PICKAXE)
-			.addRequirement(Skill.smithing, 41)
-			.setXP(Skill.smithing, 2.0)
-			.addInput(CustomItem.STEEL_INGOT, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static final SQMCRecipe STEEL_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_SWORD)
-			.addRequirement(Skill.smithing, 42)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STEEL_INGOT, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STEEL_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_AXE)
-			.addRequirement(Skill.smithing, 43)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STEEL_INGOT, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STEEL_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_SHOVEL)
-			.addRequirement(Skill.smithing, 44)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STEEL_INGOT, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STEEL_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_HOE)
-			.addRequirement(Skill.smithing, 45)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.STEEL_INGOT, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STEEL_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_BOOTS)
-			.addRequirement(Skill.smithing, 46)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.STEEL_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STEEL_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_HELMET)
-			.addRequirement(Skill.smithing, 47)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.STEEL_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STEEL_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_LEGGINGS)
-			.addRequirement(Skill.smithing, 48)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.STEEL_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe STEEL_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_CHESTPLATE)
-			.addRequirement(Skill.smithing, 49)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.STEEL_INGOT, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	/*Tier 6*/
-	
-	public static final SQMCRecipe DIAMOND_PICKAXE = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_PICKAXE)
-			.addRequirement(Skill.smithing, 51)
-			.setXP(Skill.smithing, 2.0)
-			.addInput(CustomItem.DIAMOND, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static final SQMCRecipe DIAMOND_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_SWORD)
-			.addRequirement(Skill.smithing, 52)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.DIAMOND, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe DIAMOND_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_AXE)
-			.addRequirement(Skill.smithing, 53)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.DIAMOND, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe DIAMOND_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_SHOVEL)
-			.addRequirement(Skill.smithing, 54)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.DIAMOND, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe DIAMOND_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_HOE)
-			.addRequirement(Skill.smithing, 55)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.DIAMOND, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe DIAMOND_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_BOOTS)
-			.addRequirement(Skill.smithing, 56)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.DIAMOND, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe DIAMOND_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_HELMET)
-			.addRequirement(Skill.smithing, 57)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.DIAMOND, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe DIAMOND_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_LEGGINGS)
-			.addRequirement(Skill.smithing, 58)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.DIAMOND, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe DIAMOND_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.DIAMOND_CHESTPLATE)
-			.addRequirement(Skill.smithing, 59)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.DIAMOND, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	/*Tier 7*/
-	
-	public static final SQMCRecipe IRIDESCENT_PICKAXE = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_PICKAXE)
-			.addRequirement(Skill.smithing, 61)
-			.setXP(Skill.smithing, 2.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static final SQMCRecipe IRIDESCENT_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_SWORD)
-			.addRequirement(Skill.smithing, 62)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRIDESCENT_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_AXE)
-			.addRequirement(Skill.smithing, 63)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRIDESCENT_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_SHOVEL)
-			.addRequirement(Skill.smithing, 64)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRIDESCENT_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_HOE)
-			.addRequirement(Skill.smithing, 65)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRIDESCENT_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_BOOTS)
-			.addRequirement(Skill.smithing, 66)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRIDESCENT_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_HELMET)
-			.addRequirement(Skill.smithing, 67)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRIDESCENT_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_LEGGINGS)
-			.addRequirement(Skill.smithing, 68)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe IRIDESCENT_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.IRIDESCENT_CHESTPLATE)
-			.addRequirement(Skill.smithing, 69)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.IRIDESCENT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	/*Tier 8*/
-	
-	public static final SQMCRecipe RADIANT_PICKAXE = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_PICKAXE)
-			.addRequirement(Skill.smithing, 71)
-			.setXP(Skill.smithing, 2.0)
-			.addInput(CustomItem.RADIANT_GEM, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static final SQMCRecipe RADIANT_SWORD = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_SWORD)
-			.addRequirement(Skill.smithing, 72)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.RADIANT_GEM, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe RADIANT_AXE = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_AXE)
-			.addRequirement(Skill.smithing, 73)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.RADIANT_GEM, 3)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe RADIANT_SHOVEL = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_SHOVEL)
-			.addRequirement(Skill.smithing, 74)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.RADIANT_GEM, 1)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe RADIANT_HOE = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_HOE)
-			.addRequirement(Skill.smithing, 75)
-			.setXP(Skill.smithing, 4.0)
-			.addInput(CustomItem.RADIANT_GEM, 2)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe RADIANT_BOOTS = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_BOOTS)
-			.addRequirement(Skill.smithing, 76)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.RADIANT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe RADIANT_HELMET = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_HELMET)
-			.addRequirement(Skill.smithing, 77)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.RADIANT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe RADIANT_LEGGINGS = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_LEGGINGS)
-			.addRequirement(Skill.smithing, 78)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.RADIANT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
-	
-	public static SQMCRecipe RADIANT_CHESTPLATE = new SQMCRecipe()
-			.setOutput(CustomItem.RADIANT_CHESTPLATE)
-			.addRequirement(Skill.smithing, 79)
-			.setXP(Skill.smithing, 16.0)
-			.addInput(CustomItem.RADIANT_GEM, 4)
-			.setRecipeType(RecipeType.SMITHING_ANVIL);
+	public static final SQMCRecipe WOODEN_SHOVEL = fromFile("smithing/wooden-shovel");
+	public static final SQMCRecipe WOODEN_HOE = fromFile("smithing/wooden-hoe");
+	public static final SQMCRecipe WOODEN_SWORD = fromFile("smithing/wooden-sword");
+	public static final SQMCRecipe WOODEN_AXE = fromFile("smithing/wooden-axe");
+	public static final SQMCRecipe WOODEN_PICKAXE = fromFile("smithing/wooden-pickaxe");
+	public static final SQMCRecipe LEATHER_BOOTS = fromFile("smithing/leather-boots");
+	public static final SQMCRecipe LEATHER_HELMET = fromFile("smithing/leather-helmet");
+	public static final SQMCRecipe LEATHER_LEGGINGS = fromFile("smithing/leather-leggings");
+	public static final SQMCRecipe LEATHER_CHESTPLATE = fromFile("smithing/leather-chestplate");
+	
+	public static final SQMCRecipe COBBLESTONE_SHOVEL = fromFile("smithing/cobblestone-shovel");
+	public static final SQMCRecipe COBBLESTONE_HOE = fromFile("smithing/cobblestone-hoe");
+	public static final SQMCRecipe COBBLESTONE_SWORD = fromFile("smithing/cobblestone-sword");
+	public static final SQMCRecipe COBBLESTONE_AXE = fromFile("smithing/cobblestone-axe");
+	public static final SQMCRecipe COBBLESTONE_PICKAXE = fromFile("smithing/cobblestone-pickaxe");
+	public static final SQMCRecipe HARD_LEATHER_BOOTS = fromFile("smithing/hard-leather-boots");
+	public static final SQMCRecipe HARD_LEATHER_HELMET = fromFile("smithing/hard-leather-helmet");
+	public static final SQMCRecipe HARD_LEATHER_LEGGINGS = fromFile("smithing/hard-leather-leggings");
+	public static final SQMCRecipe HARD_LEATHER_CHESTPLATE = fromFile("smithing/hard-leather-chestplate");
+	
+	public static final SQMCRecipe STONE_SHOVEL = fromFile("smithing/stone-shovel");
+	public static final SQMCRecipe STONE_HOE = fromFile("smithing/stone-hoe");
+	public static final SQMCRecipe STONE_SWORD = fromFile("smithing/stone-sword");
+	public static final SQMCRecipe STONE_AXE = fromFile("smithing/stone-axe");
+	public static final SQMCRecipe STONE_PICKAXE = fromFile("smithing/stone-pickaxe");
+	public static final SQMCRecipe CHAINMAIL_BOOTS = fromFile("smithing/chainmail-boots");
+	public static final SQMCRecipe CHAINMAIL_HELMET = fromFile("smithing/chainmail-helmet");
+	public static final SQMCRecipe CHAINMAIL_LEGGINGS = fromFile("smithing/chainmail-leggings");
+	public static final SQMCRecipe CHAINMAIL_CHESTPLATE = fromFile("smithing/chainmail-chestplate");
+	
+	public static final SQMCRecipe IRON_SHOVEL = fromFile("smithing/iron-shovel");
+	public static final SQMCRecipe IRON_HOE = fromFile("smithing/iron-hoe");
+	public static final SQMCRecipe IRON_SWORD = fromFile("smithing/iron-sword");
+	public static final SQMCRecipe IRON_AXE = fromFile("smithing/iron-axe");
+	public static final SQMCRecipe IRON_PICKAXE = fromFile("smithing/iron-pickaxe");
+	public static final SQMCRecipe IRON_BOOTS = fromFile("smithing/iron-boots");
+	public static final SQMCRecipe IRON_HELMET = fromFile("smithing/iron-helmet");
+	public static final SQMCRecipe IRON_LEGGINGS = fromFile("smithing/iron-leggings");
+	public static final SQMCRecipe IRON_CHESTPLATE = fromFile("smithing/iron-chestplate");
+	
+	public static final SQMCRecipe STEEL_SHOVEL = fromFile("smithing/steel-shovel");
+	public static final SQMCRecipe STEEL_HOE = fromFile("smithing/steel-hoe");
+	public static final SQMCRecipe STEEL_SWORD = fromFile("smithing/steel-sword");
+	public static final SQMCRecipe STEEL_AXE = fromFile("smithing/steel-axe");
+	public static final SQMCRecipe STEEL_PICKAXE = fromFile("smithing/steel-pickaxe");
+	public static final SQMCRecipe STEEL_BOOTS = fromFile("smithing/steel-boots");
+	public static final SQMCRecipe STEEL_HELMET = fromFile("smithing/steel-helmet");
+	public static final SQMCRecipe STEEL_LEGGINGS = fromFile("smithing/steel-leggings");
+	public static final SQMCRecipe STEEL_CHESTPLATE = fromFile("smithing/steel-chestplate");
+	
+	public static final SQMCRecipe DIAMOND_SHOVEL = fromFile("smithing/diamond-shovel");
+	public static final SQMCRecipe DIAMOND_HOE = fromFile("smithing/diamond-hoe");
+	public static final SQMCRecipe DIAMOND_SWORD = fromFile("smithing/diamond-sword");
+	public static final SQMCRecipe DIAMOND_AXE = fromFile("smithing/diamond-axe");
+	public static final SQMCRecipe DIAMOND_PICKAXE = fromFile("smithing/diamond-pickaxe");
+	public static final SQMCRecipe DIAMOND_BOOTS = fromFile("smithing/diamond-boots");
+	public static final SQMCRecipe DIAMOND_HELMET = fromFile("smithing/diamond-helmet");
+	public static final SQMCRecipe DIAMOND_LEGGINGS = fromFile("smithing/diamond-leggings");
+	public static final SQMCRecipe DIAMOND_CHESTPLATE = fromFile("smithing/diamond-chestplate");
+	
+	public static final SQMCRecipe IRIDESCENT_SHOVEL = fromFile("smithing/iridescent-shovel");
+	public static final SQMCRecipe IRIDESCENT_HOE = fromFile("smithing/iridescent-hoe");
+	public static final SQMCRecipe IRIDESCENT_SWORD = fromFile("smithing/iridescent-sword");
+	public static final SQMCRecipe IRIDESCENT_AXE = fromFile("smithing/iridescent-axe");
+	public static final SQMCRecipe IRIDESCENT_PICKAXE = fromFile("smithing/iridescent-pickaxe");
+	public static final SQMCRecipe IRIDESCENT_BOOTS = fromFile("smithing/iridescent-boots");
+	public static final SQMCRecipe IRIDESCENT_HELMET = fromFile("smithing/iridescent-helmet");
+	public static final SQMCRecipe IRIDESCENT_LEGGINGS = fromFile("smithing/iridescent-leggings");
+	public static final SQMCRecipe IRIDESCENT_CHESTPLATE = fromFile("smithing/iridescent-chestplate");
+	
+	public static final SQMCRecipe RADIANT_SHOVEL = fromFile("smithing/radiant-shovel");
+	public static final SQMCRecipe RADIANT_HOE = fromFile("smithing/radiant-hoe");
+	public static final SQMCRecipe RADIANT_SWORD = fromFile("smithing/radiant-sword");
+	public static final SQMCRecipe RADIANT_AXE = fromFile("smithing/radiant-axe");
+	public static final SQMCRecipe RADIANT_PICKAXE = fromFile("smithing/radiant-pickaxe");
+	public static final SQMCRecipe RADIANT_BOOTS = fromFile("smithing/radiant-boots");
+	public static final SQMCRecipe RADIANT_HELMET = fromFile("smithing/radiant-helmet");
+	public static final SQMCRecipe RADIANT_LEGGINGS = fromFile("smithing/radiant-leggings");
+	public static final SQMCRecipe RADIANT_CHESTPLATE = fromFile("smithing/radiant-chestplate");
 	
 	/*Smelting recipes*/
-	public static SQMCRecipe STONE = new SQMCRecipe()
-			.setOutput(CustomItem.STONE)
-			.addRequirement(Skill.smithing, 1)
-			.setXP(Skill.smithing, 5.0)
-			.addInput(CustomItem.COBBLESTONE)
-			.addInput(CustomItem.COAL)
-			.setRecipeType(RecipeType.SMITHING_FURNACE);
-	
-	public static SQMCRecipe IRON_NUGGET = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_NUGGET)
-			.addRequirement(Skill.smithing, 15)
-			.setXP(Skill.smithing, 5.0)
-			.addInput(CustomItem.IRON_ORE, 9)
-			.addInput(CustomItem.COAL, 5)
-			.setRecipeType(RecipeType.SMITHING_FURNACE);
-	
-	public static SQMCRecipe IRON_INGOT = new SQMCRecipe()
-			.setOutput(CustomItem.IRON_INGOT)
-			.addRequirement(Skill.smithing, 30)
-			.setXP(Skill.smithing, 5.0)
-			.addInput(CustomItem.IRON_NUGGET, 9)
-			.addInput(CustomItem.COAL, 5)
-			.setRecipeType(RecipeType.SMITHING_FURNACE);
-	
-	public static SQMCRecipe STEEL_INGOT = new SQMCRecipe()
-			.setOutput(CustomItem.STEEL_INGOT)
-			.addRequirement(Skill.smithing, 40)
-			.setXP(Skill.smithing, 5.0)
-			.addInput(CustomItem.IRON_INGOT, 9)
-			.addInput(CustomItem.COAL, 5)
-			.addInput(CustomItem.CALCIUM_CARBONATE)
-			.setRecipeType(RecipeType.SMITHING_FURNACE);
+	public static SQMCRecipe STONE = fromFile("smithing/stone");
+	public static SQMCRecipe IRON_NUGGET = fromFile("smithing/iron-nugget");
+	public static SQMCRecipe IRON_INGOT = fromFile("smithing/iron-ingot");
+	public static SQMCRecipe STEEL_INGOT = fromFile("smithing/steel-ingot");
 	
 	/*Crafting table recipes*/
 	public static SQMCRecipe OAK_PLANKS = new SQMCRecipe()

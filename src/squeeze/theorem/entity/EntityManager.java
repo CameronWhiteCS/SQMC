@@ -46,9 +46,9 @@ import squeeze.theorem.data.PlayerData;
 import squeeze.theorem.data.SessionData;
 import squeeze.theorem.main.SQMC;
 import squeeze.theorem.mechanics.Cooldown;
-import squeeze.theorem.skill.SQMCEntityFire;
 import squeeze.theorem.skill.Skill;
 import squeeze.theorem.skill.conjuration.Familiar;
+import squeeze.theorem.skill.firemaking.SQMCEntityFire;
 
 public class EntityManager implements Runnable, Listener {
 
@@ -84,12 +84,21 @@ public class EntityManager implements Runnable, Listener {
 		return anchors.containsValue(loc);	
 	}
 	
+	/**
+	 * Returns the spawnpoint of the input entity, if there is one.
+	 * @param e
+	 * @return
+	 */
 	private Location getAnchor(Entity e) {
 		if(anchors.containsKey(e)) return anchors.get(e);
 		return null;
 	}
 	
-	public void registerEntity(SQMCEntity entity) {
+	/**
+	 * Allows the EntityManager to begin tracking the input entity
+	 * @param entity
+	 */
+	protected void registerEntity(SQMCEntity entity) {
 		if(entity instanceof Anchorable) anchorables.add((Anchorable) entity);
 		if(entity instanceof SQMCEntityFire) fires.add((SQMCEntityFire) entity);
 		if(entity instanceof Boundable) boundables.add((Boundable) entity);
@@ -97,22 +106,44 @@ public class EntityManager implements Runnable, Listener {
 		entities.add(entity);
 	}
 	
+	/**
+	 * 
+	 * @return A list of all registered instances of SQMCEntity 
+	 */
 	public List<SQMCEntity> getEntities(){
 		return entities;
 	}
 	
+	/**
+	 * 
+	 * @return A list of all registered instances of SQMCEntity that use the
+	 *         Anchorable interface
+	 */
 	public List<Anchorable> getAnchorables() {
 		return anchorables;
 	}
 	
+	/**
+	 * 
+	 * @return A list of all registered instances of SQMCEntityFire
+	 */
 	public List<SQMCEntityFire> getFires() {
 		return fires;
 	}
 	
+	/**
+	 * 
+	 * @return @return A list of all registered instances of Familiar
+	 */
 	public List<Familiar> getFamiliars(){
 		return this.familiars;
 	}
 	
+	/**
+	 * 
+	 * @param entity The entity to be identified
+	 * @return The SQMCEntity corresponding to the input entity, if there is one.
+	 */
 	public SQMCEntity getSQMCEntity(Entity entity) {
 		for(Entity e: entityMap.keySet()) {
 			if(e == entity) return entityMap.get(entity);
@@ -120,7 +151,14 @@ public class EntityManager implements Runnable, Listener {
 		return null;
 	}
 	
+	/**
+	 * Spawns a LivingEntity matching the input SQMCEntity at the provided location
+	 * @param sqmcEntity
+	 * @param loc
+	 * @return The LivingEntity spawned at the input location
+	 */
 	public LivingEntity spawn(SQMCEntity sqmcEntity, Location loc) {
+		//Spawn Entity into game world and apply attributes
 		World world = loc.getWorld();
 		LivingEntity entity = (LivingEntity) world.spawnEntity(loc, sqmcEntity.getEntityType());
 		entity.setCustomName(sqmcEntity.getDisplayName());
@@ -131,6 +169,7 @@ public class EntityManager implements Runnable, Listener {
 		entity.setSilent(sqmcEntity.isSilent());
 		entity.setRemoveWhenFarAway(false);
 		
+		//Apply equipment
 		if(sqmcEntity.getMainhand() != null) entity.getEquipment().setItemInMainHand(sqmcEntity.getMainhand().getItemStack());
 		if(sqmcEntity.getOffhand() != null) entity.getEquipment().setItemInOffHand(sqmcEntity.getOffhand().getItemStack());
 		if(sqmcEntity.getHelmet() != null) entity.getEquipment().setHelmet(sqmcEntity.getHelmet().getItemStack());
@@ -138,6 +177,7 @@ public class EntityManager implements Runnable, Listener {
 		if(sqmcEntity.getLeggings() != null) entity.getEquipment().setLeggings(sqmcEntity.getLeggings().getItemStack());
 		if(sqmcEntity.getBoots() != null) entity.getEquipment().setBoots(sqmcEntity.getBoots().getItemStack());
 		
+		//Apply interface-specific attributes
 		if(sqmcEntity.getProfession() != null && entity instanceof Villager) {
 			Villager v = (Villager) entity;
 			v.setProfession(sqmcEntity.getProfession());
@@ -172,13 +212,11 @@ public class EntityManager implements Runnable, Listener {
 
 	}
 	
-	// Remove anchored entities on chunk load
+	/*EVENTS*/
 	@EventHandler
-	public void onChunkUnload(ChunkUnloadEvent evt) {
-
+	private void onChunkUnload(ChunkUnloadEvent evt) {
 		Chunk chunk = evt.getChunk();
 		for (Entity e : chunk.getEntities()) {
-
 			SQMCEntity ce = getSQMCEntity(e);
 			if (ce == null) continue;
 			queuedLocations.remove(e);
@@ -188,14 +226,11 @@ public class EntityManager implements Runnable, Listener {
 			lastStruck.remove(e);
 			anchors.remove(e);
 			e.remove();
-			
 		}
-
 	}
 	
-	/*EVENTS*/
 	@EventHandler
-	public void onDrop(PlayerDropItemEvent evt) {
+	private void onDrop(PlayerDropItemEvent evt) {
 		Player player = evt.getPlayer();
 		DataManager dataManager = DataManager.getInstance();
 		SessionData sdat = dataManager.getPlayerData(player.getUniqueId()).getSessionData();
@@ -203,13 +238,13 @@ public class EntityManager implements Runnable, Listener {
 	}
 	
 	@EventHandler
-	public void onMove(PlayerMoveEvent evt) {
+	private void onMove(PlayerMoveEvent evt) {
 		eyeTracking(evt);
 		endConversations(evt);
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEntityEvent evt) {
+	private void onInteract(PlayerInteractEntityEvent evt) {
 
 		if (evt.isCancelled()) return;
 		if (evt.getHand().equals(EquipmentSlot.OFF_HAND)) {
@@ -217,14 +252,13 @@ public class EntityManager implements Runnable, Listener {
 			return;
 		}
 
-		
 		SQMCEntity cust = getSQMCEntity(evt.getRightClicked());
 		if (cust == null) return;
 		
 		Entity entity = evt.getRightClicked();
 		Player player = evt.getPlayer();
 		DataManager dataManager = DataManager.getInstance();
-		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
+		PlayerData dat = dataManager.getPlayerData(player);
 		
 		//Cancel all interactions if entity is invisible
 		if(cust instanceof ConditionallyVisible) {
@@ -239,12 +273,9 @@ public class EntityManager implements Runnable, Listener {
 		interact: {
 			if(cust instanceof Interactable == false) break interact;
 			if(player.isSneaking() == true && cust instanceof Pickpocketable == true) break interact;
-				Interactable dialogue = (Interactable) cust;
-	
-				dat.getSessionData().setNPC(entity);
-	
-				dat.getSessionData().setDialogueNode(dialogue.getDialogueNode(evt.getPlayer()));
-			
+			Interactable dialogue = (Interactable) cust;
+			dat.getSessionData().setNPC(entity);
+			dat.getSessionData().setDialogueNode(dialogue.getDialogueNode(evt.getPlayer()));
 		}
 		
 		//Pickpocketable
@@ -279,19 +310,19 @@ public class EntityManager implements Runnable, Listener {
 
 	}
 	
-	private static void endConversations(PlayerMoveEvent evt) {
+	private void endConversations(PlayerMoveEvent evt) {
 		if(evt.isCancelled()) return;
 		Player player = evt.getPlayer();
 		DataManager dataManager = DataManager.getInstance();
 		PlayerData dat = dataManager.getPlayerData(player.getUniqueId());
 		SessionData sessionData = dat.getSessionData();
-		if (sessionData.getNPC() == null || sessionData.getDialogueNode() == null)
-			return;
-
+		
+		if (sessionData.getNPC() == null || sessionData.getDialogueNode() == null) {
+			return;	
+		}
+		
 		if (evt.getTo().distance(sessionData.getNPC().getLocation()) > 7) {
-
 			sessionData.endConversation();
-
 		}
 	}
 	
@@ -310,17 +341,14 @@ public class EntityManager implements Runnable, Listener {
 	}
 	
 	public void respawn(EntityDeathEvent evt) {
-		
 		Entity entity = evt.getEntity();
 		SQMCEntity ce = getSQMCEntity(entity);
 		if(ce == null) return;
-		
 		Location anchor = getAnchor(entity);
 		if(anchor == null) return;
 		if(ce instanceof Respawnable == false) return;
 		Respawnable respawnable = (Respawnable) ce;
 		queuedLocations.add(anchor);
-		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SQMC.getPlugin(SQMC.class), new Runnable() {
 			public void run() {
 				if(!isAlive(anchor) && anchor.getChunk().isLoaded() && respawnable.getLocations().contains(anchor)) {
@@ -329,53 +357,37 @@ public class EntityManager implements Runnable, Listener {
 				
 			}
 		}, respawnable.getRespawnDelay());	
-		
 		entityMap.remove(evt.getEntity());
 		anchors.remove(evt.getEntity());
-		
 	}
 	
 	private void condtionallyVisible() {
-		
-		
 		for(Player player: Bukkit.getOnlinePlayers()) {
 			World world = player.getWorld();
-			for(Entity e: world.getEntities()) {
+			for(Entity e: entityMap.keySet()) {
 				if(e.getLocation().distance(player.getLocation()) > 64) continue;
-				if(e instanceof LivingEntity == false) return;
 				SQMCEntity ce = getSQMCEntity(e);
-				if(ce == null) continue;
 				if(ce instanceof ConditionallyVisible == false) continue;
 				ConditionallyVisible cv = (ConditionallyVisible) ce;
-				
 				if(cv.isVisible(player) == false) {
 					PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(new int[] {e.getEntityId()});
 					((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 					cv.getViewers().remove(player);
 				} else {
-					
-		
 					if(cv.getViewers().contains(player)) continue;
 					PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving((EntityLiving)((CraftEntity) e).getHandle());
 					((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 					cv.getViewers().add(player);
-					
 				}
-				
-				
 			}
 		}
-		
 	}
 	
 	private void eyeTracking(PlayerMoveEvent evt) {
 		if(evt.isCancelled()) return;
 		Location loc = evt.getTo();
 		Player player = evt.getPlayer();
-		World world = player.getWorld();
-
-		for (Entity e : world.getEntities()) {
-
+		for (Entity e : entityMap.keySet()) {
 			SQMCEntity customEntity = getSQMCEntity(e);
 			if (customEntity == null)
 				continue;
@@ -385,12 +397,10 @@ public class EntityManager implements Runnable, Listener {
 
 			if (e.getLocation().distance(loc) > eyeTracking.getTrackingDistance())
 				continue;
-
 			Vector v = loc.toVector().subtract(e.getLocation().toVector());
 			Location loc2 = e.getLocation();
 			loc2.setDirection(v);
 			e.teleport(loc2);
-
 		}
 	}
 	
@@ -401,40 +411,44 @@ public class EntityManager implements Runnable, Listener {
 			if(diff > 60000) lastStruck.remove(e);
 		}
 		
-		for(World w: Bukkit.getWorlds()){
-			for(Entity e: w.getEntities()) {
-						
-				SQMCEntity ce = getSQMCEntity(e);
-				if(ce == null) continue;	
-				
-				if(ce instanceof Boundable == false) continue;
-				Boundable boundable = (Boundable) ce;
-					
-				if(e instanceof Mob == false) return;
-				Mob m = (Mob) e;
-				
-				if(lastStruck.containsKey(e) || m.getTarget() instanceof Player) continue;
-				
-				Location anchor = getAnchor(e);
-				if(anchor == null) continue;
-				
-				double x = e.getLocation().getX();
-				double y = e.getLocation().getY();
-				double z = e.getLocation().getZ();
-				
-				Vector v = new Vector(x, y, z).subtract(new Vector(anchor.getX(), anchor.getY(), anchor.getZ()));
-				if(v.length() > boundable.getWanderRadius()) {
-					
-					e.teleport(previousLocation.get(e));
-					currentLocation.put(e, e.getLocation());
-					
-				} else {
-					
-					previousLocation.put(e, currentLocation.get(e));
-					currentLocation.put(e, e.getLocation());
-					
-				}
+		for (Entity e : entityMap.keySet()) {
+
+			SQMCEntity ce = getSQMCEntity(e);
+			if (ce == null)
+				continue;
+
+			if (ce instanceof Boundable == false)
+				continue;
+			Boundable boundable = (Boundable) ce;
+
+			if (e instanceof Mob == false)
+				return;
+			Mob m = (Mob) e;
+
+			if (lastStruck.containsKey(e) || m.getTarget() instanceof Player)
+				continue;
+
+			Location anchor = getAnchor(e);
+			if (anchor == null)
+				continue;
+
+			double x = e.getLocation().getX();
+			double y = e.getLocation().getY();
+			double z = e.getLocation().getZ();
+
+			Vector v = new Vector(x, y, z).subtract(new Vector(anchor.getX(), anchor.getY(), anchor.getZ()));
+			if (v.length() > boundable.getWanderRadius()) {
+
+				e.teleport(previousLocation.get(e));
+				currentLocation.put(e, e.getLocation());
+
+			} else {
+
+				previousLocation.put(e, currentLocation.get(e));
+				currentLocation.put(e, e.getLocation());
+
 			}
+
 		}
 	}
 	

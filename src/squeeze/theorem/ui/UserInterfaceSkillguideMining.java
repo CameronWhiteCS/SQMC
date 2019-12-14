@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import squeeze.theorem.item.CustomItem;
 import squeeze.theorem.item.CustomItemPickaxe;
-import squeeze.theorem.skill.Ore;
+import squeeze.theorem.skill.mining.Ore;
 
 public class UserInterfaceSkillguideMining extends ChestInterface {
 
@@ -18,32 +18,7 @@ public class UserInterfaceSkillguideMining extends ChestInterface {
 		super(title);
 	
 		for(Ore ore: Ore.getOres()) {
-			addComponent(new UIComponent() {
-
-				@Override
-				public ItemStack getItemStack(Player player) {
-					ItemStack stack = new ItemStack(ore.getMaterial());
-					ItemMeta meta = stack.getItemMeta();
-					meta.setDisplayName(ChatColor.GOLD + ore.getName());
-					ArrayList<String> lore = new ArrayList<String>();
-					lore.add(ChatColor.GRAY + "=======");
-					lore.addAll(ore.getLevelRequirementLore(player));
-					lore.add(ChatColor.GRAY + "=======");
-					lore.add(ChatColor.DARK_PURPLE + "Tier: " + ore.getTier());
-					lore.add(ChatColor.DARK_PURPLE + "XP: " + ore.getXP());
-					lore.add(ChatColor.DARK_PURPLE + "Success rate: " + ore.getSuccessRate() + "%");
-					lore.add(ChatColor.DARK_PURPLE + "Respawn time: " + ore.getRespawnDelay() / 20 + "s");
-					lore.add(ChatColor.DARK_PURPLE + "Vein: " + ore.isVein());
-					
-					meta.setLore(lore);
-					stack.setItemMeta(meta);
-					return stack;
-				}
-
-				@Override
-				public void onClick(InventoryClickEvent evt) {}
-				
-			});
+			addComponent(ore);
 		}
 		
 		for(CustomItem ci: CustomItem.getItems()) {

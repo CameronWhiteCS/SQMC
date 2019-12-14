@@ -33,7 +33,7 @@ public class SkillRanged extends Skill implements Listener {
 	}
 
 	@EventHandler
-	public static void onBowShoot(EntityShootBowEvent evt) {
+	public void onBowShoot(EntityShootBowEvent evt) {
 		Entity entity = evt.getEntity();
 		if(evt.getProjectile() instanceof Arrow == false) return;
 		double accuracy = 0.0;
@@ -55,14 +55,14 @@ public class SkillRanged extends Skill implements Listener {
 			
 		}
 		
-		CombatManager.setAccuracy((Projectile) evt.getProjectile(), accuracy);
-		CombatManager.setStrength((Projectile) evt.getProjectile(), strength);
-		CombatManager.addMultiplier((Projectile) evt.getProjectile(), (double) evt.getForce());
+		CombatManager.getInstance().setAccuracy((Projectile) evt.getProjectile(), accuracy);
+		CombatManager.getInstance().setStrength((Projectile) evt.getProjectile(), strength);
+		CombatManager.getInstance().addMultiplier((Projectile) evt.getProjectile(), (double) evt.getForce());
 		
 	}
 	
 	@EventHandler
-	public static void onBowShoot(ProjectileLaunchEvent evt) {
+	public void onBowShoot(ProjectileLaunchEvent evt) {
 		if(evt.getEntity() instanceof Trident == false) return;
 		if(evt.getEntity().getShooter() instanceof Entity == false) return;
 		
@@ -87,8 +87,8 @@ public class SkillRanged extends Skill implements Listener {
 			
 		}
 
-		CombatManager.setAccuracy(evt.getEntity(), accuracy);
-		CombatManager.setStrength(evt.getEntity(), strength);
+		CombatManager.getInstance().setAccuracy(evt.getEntity(), accuracy);
+		CombatManager.getInstance().setStrength(evt.getEntity(), strength);
 	
 		
 	}

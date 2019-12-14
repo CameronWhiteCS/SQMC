@@ -210,14 +210,14 @@ public class CustomItem implements Listener {
 	public static final CustomItem BLUE_ORCHID = new CustomItem(422, "Blue orchid", Material.BLUE_ORCHID, "");
 	
 	/*Magic armor and weapons*/
-	public static final CustomItem SPRUCE_WAND = new CombatItem(501, "Spruce wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0);
-	public static final CustomItem BIRCH_WAND = new CombatItem(502, "Birch wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0);
+	public static final CustomItem SPRUCE_WAND = new CombatItem(501, "Spruce wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).setWand(true);
+	public static final CustomItem BIRCH_WAND = new CombatItem(502, "Birch wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).setWand(true);
 	public static final CustomItem OAK_WAND = CombatItem.fromFileName(503, "oak-wand");
-	public static final CustomItem JUNGLE_WAND = new CombatItem(504, "Jungle wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0);
-	public static final CustomItem ACACIA_WAND = new CombatItem(505, "Acacia wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0);
-	public static final CustomItem DARK_OAK_WAND = new CombatItem(506, "Dark oak wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0);
+	public static final CustomItem JUNGLE_WAND = new CombatItem(504, "Jungle wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).setWand(true);
+	public static final CustomItem ACACIA_WAND = new CombatItem(505, "Acacia wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).setWand(true);
+	public static final CustomItem DARK_OAK_WAND = new CombatItem(506, "Dark oak wand", Material.STICK, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).setWand(true);
 	//new wood type when it's released
-	public static final CustomItem INFERNAL_WAND = new CombatItem(508, "Infernal wand", Material.BLAZE_ROD, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).addEnchantment(Enchantment.ARROW_FIRE);
+	public static final CustomItem INFERNAL_WAND = new CombatItem(508, "Infernal wand", Material.BLAZE_ROD, "").setAccuracy(AttackStyle.MAGIC, 1.0).setStrength(AttackStyle.MAGIC, 1.0).setWand(true).addEnchantment(Enchantment.ARROW_FIRE);
 	
 	/*Misc/Quest items -- block I*/
 	public static final CustomItem TORCH = new CustomItem(601, "Torch", Material.TORCH, "");
